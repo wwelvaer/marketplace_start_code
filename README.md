@@ -3,16 +3,19 @@
 ## Angular installation
 1. For angular and node: https://angular.io/guide/setup-local
 2. Clone the repository: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
-3. cd repositoryName
-
 
 ## database
 
 1. Install MySQLWorkbench
-2. Open the `nodejs_backend/Marketplace_start_data_01_2022.sql` file
-3. Put `use databaseName;`before the sql query
-4. Run the query
-5. Change the credentials `user`, `password`, and `DB` in `nodejs_backend/app/config/db.config.js` via vscode: https://code.visualstudio.com/
+2. Install VPN and connect to ugent: https://helpdesk.ugent.be/vpn/en/
+3. Connect to the MySQL server with
+  - Hostname = ‘ugmarket.ugent.be’
+  - port = ‘13306’.
+  - your username and password
+5. Open the `nodejs_backend/Marketplace_start_data_01_2022.sql` file
+6. Put `use databaseName;`before the sql query
+7. Run the query
+8. Change the credentials `user`, `password`, and `DB` in `nodejs_backend/app/config/db.config.js` via vscode: https://code.visualstudio.com/
 
 ## Backend server
 
