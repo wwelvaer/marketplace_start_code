@@ -6,7 +6,7 @@
 3. cd repositoryName
 
 
-##database
+## database
 
 1. Install MySQLWorkbench
 2. Open the `nodejs_backend/Marketplace_start_data_01_2022.sql` file
