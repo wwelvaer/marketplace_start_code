@@ -22,30 +22,6 @@
 DROP TABLE IF EXISTS `booking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `booking` (
-  `bookingID` int NOT NULL AUTO_INCREMENT,
-  `numberOfAssets` int DEFAULT NULL,
-  `pricePerAsset` double DEFAULT NULL,
-  `listingID` int DEFAULT NULL,
-  `bookerID` int DEFAULT NULL,
-  `status` enum('payed','reserved','cancelled') DEFAULT NULL,
-  PRIMARY KEY (`bookingID`),
-  KEY `listingID` (`listingID`),
-  KEY `bookerID` (`bookerID`),
-  CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`listingID`) REFERENCES `listing` (`listingID`),
-  CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`bookerID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `booking`
---
-
-LOCK TABLES `booking` WRITE;
-/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (1,2,19,1,2,'payed'),(2,3,20,2,2,'cancelled'),(3,2,40,1,1,'cancelled'),(4,5,12.99,4,1,'cancelled'),(5,4,12.99,4,2,'cancelled'),(6,4,12.99,4,1,'cancelled'),(7,15,12.99,4,1,'payed'),(8,4,30,3,4,'reserved');
-/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `category`
