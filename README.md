@@ -3,8 +3,6 @@
 ## Angular installation
 1. For angular and node: https://angular.io/guide/setup-local
 2. Clone the repository: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
-3. cd repositoryName
-
 
 ## database
 
