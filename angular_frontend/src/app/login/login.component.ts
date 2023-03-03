@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DbConnectionService } from '../services/db-connection.service';
 import { User, UserService } from '../services/user.service';
 import {Location} from '@angular/common';
@@ -11,17 +11,17 @@ import {Location} from '@angular/common';
 })
 export class LoginComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   error: string = ""
 
   constructor(private db: DbConnectionService,
     private user: UserService,
     private location: Location) {
     // initialize form fields
-    this.form = new FormGroup({
-      login: new FormControl(),
-      password: new FormControl(),
-      keepSignedIn: new FormControl()
+    this.form = new UntypedFormGroup({
+      login: new UntypedFormControl(),
+      password: new UntypedFormControl(),
+      keepSignedIn: new UntypedFormControl()
     });
   }
 

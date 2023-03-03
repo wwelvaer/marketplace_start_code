@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DbConnectionService } from '../services/db-connection.service';
 
 @Component({
@@ -11,8 +11,8 @@ export class TaxonomyComponent implements OnInit {
 
   taxonomy = {};
   company: string;
-  taxonomyForm: FormGroup;
-  propertyValuesFormArray: FormArray;
+  taxonomyForm: UntypedFormGroup;
+  propertyValuesFormArray: UntypedFormArray;
   companies: any;
   selectedCompanyName = "";
   constraints: any;
@@ -20,7 +20,7 @@ export class TaxonomyComponent implements OnInit {
 
   constructor(
     private db: DbConnectionService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.taxonomyForm = this.formBuilder.group({
       dimensionValue: this.formBuilder.array([])
@@ -32,7 +32,7 @@ export class TaxonomyComponent implements OnInit {
 
     this.fetchCompany();
 
-    this.propertyValuesFormArray = this.taxonomyForm.get('dimensionValue') as FormArray;
+    this.propertyValuesFormArray = this.taxonomyForm.get('dimensionValue') as UntypedFormArray;
 
     // this.db.getSelectedCompany().then(data =>
     //   {this.company = Object.values(data)[0]})
@@ -59,7 +59,7 @@ export class TaxonomyComponent implements OnInit {
             this.taxonomy[x.dimension]['orderNr'] = x.orderNrDimension
           }
           if (x.selected) {
-            this.propertyValuesFormArray.push(new FormControl(x.dimensionValue));
+            this.propertyValuesFormArray.push(new UntypedFormControl(x.dimensionValue));
           }
         })
 
@@ -132,7 +132,7 @@ export class TaxonomyComponent implements OnInit {
 
   onCheckboxChange(e, value: any, dimension) {
     if (e.target.checked) {
-      this.propertyValuesFormArray.push(new FormControl(e.target.value));
+      this.propertyValuesFormArray.push(new UntypedFormControl(e.target.value));
       this.db.createProperty(this.company, e.target.value)
       value.selected = 1
     } else {

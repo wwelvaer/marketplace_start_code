@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
@@ -13,7 +13,7 @@ import { UserService } from '../services/user.service';
 export class ProfileComponent implements OnInit {
 
   error: string;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   fileName: string;
   imgSrc: string;
@@ -27,15 +27,15 @@ export class ProfileComponent implements OnInit {
       if (!user.isLoggedIn())
         this.route.navigateByUrl("/login")
       // initialize form fields
-      this.form = new FormGroup({
-        firstName: new FormControl(),
-        lastName: new FormControl(),
-        email: new FormControl(),
-        userName: new FormControl(),
-        gender: new FormControl(),
-        address: new FormControl(),
-        birthDate: new FormControl(),
-        phoneNumber: new FormControl(),
+      this.form = new UntypedFormGroup({
+        firstName: new UntypedFormControl(),
+        lastName: new UntypedFormControl(),
+        email: new UntypedFormControl(),
+        userName: new UntypedFormControl(),
+        gender: new UntypedFormControl(),
+        address: new UntypedFormControl(),
+        birthDate: new UntypedFormControl(),
+        phoneNumber: new UntypedFormControl(),
       });
     }
 

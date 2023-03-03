@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
@@ -14,7 +14,7 @@ import { TransactiondetailComponent } from './transactiondetail/transactiondetai
 export class TransactionsComponent implements OnInit {
 
   hasCancelled: boolean = false;
-  form: FormGroup;
+  form: UntypedFormGroup;
   transactions: [];
   rating: number = 0; // selected rating for review
   selectedTransactionForReview: number = -1;
@@ -26,8 +26,8 @@ export class TransactionsComponent implements OnInit {
     private route: ActivatedRoute,
     public image: ImageService,
     public router: Router) {
-    this.form = new FormGroup({
-      comment: new FormControl('')
+    this.form = new UntypedFormGroup({
+      comment: new UntypedFormControl('')
     });
   }
 

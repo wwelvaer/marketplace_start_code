@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DbConnectionService } from 'src/app/services/db-connection.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   error: string = ""
 
   constructor(private db: DbConnectionService,
@@ -21,10 +21,10 @@ export class ChangePasswordComponent implements OnInit {
     if (!user.isLoggedIn())
       this.route.navigateByUrl("/login")
     // initialize form fields
-    this.form = new FormGroup({
-      oldPassword: new FormControl(),
-      newPassword: new FormControl(),
-      repeatPassword: new FormControl()
+    this.form = new UntypedFormGroup({
+      oldPassword: new UntypedFormControl(),
+      newPassword: new UntypedFormControl(),
+      repeatPassword: new UntypedFormControl()
     });
   }
 

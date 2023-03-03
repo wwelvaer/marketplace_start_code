@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
@@ -64,7 +64,7 @@ export class ListingsComponent implements OnInit {
     }];
 
   // review
-  form: FormGroup;
+  form: UntypedFormGroup;
   rating: number = 0; // selected rating for review
   hoverRating: number = 0; // rating shown when hovering
 
@@ -95,8 +95,8 @@ export class ListingsComponent implements OnInit {
     public router: Router,
     private propertyService: PropertyService,
   ) {
-    this.form = new FormGroup({
-      comment: new FormControl('')
+    this.form = new UntypedFormGroup({
+      comment: new UntypedFormControl('')
     });
   }
 

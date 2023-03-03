@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from 'src/app/services/db-connection.service';
 import { ImageService } from 'src/app/services/image.service';
@@ -16,7 +16,7 @@ export class CreateEditListingComponent implements OnInit {
   imgSrc: string;
   imgError: string;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   error: string
   listingId: number = -1;
   categories = [];
@@ -30,13 +30,13 @@ export class CreateEditListingComponent implements OnInit {
     if (!this.user.isLoggedIn())
         this.router.navigateByUrl("/login")
     // initialize form fields
-    this.form = new FormGroup({
-      name: new FormControl(),
-      description: new FormControl(),
-      availableAssets: new FormControl(),
-      date: new FormControl(),
-      price: new FormControl(),
-      location: new FormControl(),
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl(),
+      description: new UntypedFormControl(),
+      availableAssets: new UntypedFormControl(),
+      date: new UntypedFormControl(),
+      price: new UntypedFormControl(),
+      location: new UntypedFormControl(),
     })
    }
 

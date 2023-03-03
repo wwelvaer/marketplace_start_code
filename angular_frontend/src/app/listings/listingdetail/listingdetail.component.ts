@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from 'src/app/services/db-connection.service';
 import { UserService } from 'src/app/services/user.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ImageService } from 'src/app/services/image.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class ListingDetailComponent implements OnInit {
 
   listing: object;
   error: string;
-  form:FormGroup;
+  form:UntypedFormGroup;
   transactions = [];
   reviews = [];
   avgScore: number = 0;
@@ -27,8 +27,8 @@ export class ListingDetailComponent implements OnInit {
     private router: Router,
     public image: ImageService) {
       // initialize form field
-      this.form = new FormGroup({
-        numberOfAssets: new FormControl()
+      this.form = new UntypedFormGroup({
+        numberOfAssets: new UntypedFormControl()
       });
     }
 
