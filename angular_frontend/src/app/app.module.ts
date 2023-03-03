@@ -11,17 +11,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ListingsComponent } from './listings/listings.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatCardModule} from '@angular/material/card';
-import { MatInputModule} from "@angular/material/input";
-import {MatFormFieldModule} from "@angular/material/form-field";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatNativeDateModule } from '@angular/material/core';
-import { DetailComponent } from './listings/detail/detail.component';
-import { FormComponent } from './listings/form/form.component';
+import { ListingDetailComponent } from './listings/listingdetail/listingdetail.component';
+import { CreateEditListingComponent } from './listings/createeditlisting/createeditlisting.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 import { CategoriesComponent } from './categories/categories.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactiondetailComponent } from './transactions/transactiondetail/transactiondetail.component';
+import { TaxonomyComponent } from './taxonomy/taxonomy.component';
+import { TaxonomyModule } from './taxonomy/taxonomy.module';
 
 @NgModule({
   declarations: [
@@ -30,10 +34,14 @@ import {MatIconModule} from '@angular/material/icon';
     SignupComponent,
     ProfileComponent,
     ListingsComponent,
-    DetailComponent,
-    FormComponent,
+    ListingDetailComponent,
+    CreateEditListingComponent,
     ChangePasswordComponent,
     CategoriesComponent,
+    TransactionsComponent,
+    TransactiondetailComponent,
+    TransactiondetailComponent,
+    TaxonomyComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +56,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatInputModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    TaxonomyModule
   ],
   providers: [CookieService,
     MatDatepickerModule,

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Notification = sequelize.define("notification", {
+    const Notification = sequelize.define("Notification", {
       notificationID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.DATE
       }
     }, {
-        timestamps: false,
+        timestamps: true,
         freezeTableName: true,
     });
     

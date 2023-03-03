@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Listing = sequelize.define("listing", {
+    const Listing = sequelize.define("Listing", {
       listingID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -42,9 +42,13 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.ENUM('active', 'cancelled'),
         allowNull: false,
         default: 'active'
+      },
+      company: {
+        type: Sequelize.STRING,
+        allowNull: false,
       }
     }, {
-      timestamps: false,
+      timestamps: true,
       freezeTableName: true,
     });
   

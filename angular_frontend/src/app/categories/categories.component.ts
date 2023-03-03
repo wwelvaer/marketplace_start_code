@@ -36,9 +36,7 @@ export class CategoriesComponent implements OnInit {
   addOption(categoryIndex: number){
     this.loading = true;
     let f = {name: this.newOptionName[categoryIndex]}
-    // db field `type` is category name (Other = null)
-    if (this.categories[categoryIndex][0] !== "Other")
-      f['type'] = this.categories[categoryIndex][0]
+    f['type'] = this.categories[categoryIndex][0]
     this.db.createCategory(f).then(_ => {
       // update categories
       this.fetchCategories();
@@ -57,6 +55,7 @@ export class CategoriesComponent implements OnInit {
 
   removeOption(categoryIndex: number, optionIndex: number){
     this.loading = true;
+    console.log(this.categories[categoryIndex][1][optionIndex]);
     this.db.deleteCategory(this.categories[categoryIndex][1][optionIndex]).then(_ => {
       // update categories
       this.fetchCategories();

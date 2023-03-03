@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { DbConnectionService } from './db-connection.service';
+import { DbConnectionService } from '../services/db-connection.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Review = sequelize.define("review", {
+    const Review = sequelize.define("Review", {
       reviewID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.ENUM('user', 'listing')
       }
     }, {
-      timestamps: false,
+      timestamps: true,
       freezeTableName: true,
     });
     return Review;

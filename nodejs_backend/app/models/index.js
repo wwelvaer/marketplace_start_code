@@ -26,19 +26,26 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // load models
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
-db.listing = require("../models/listing.model.js")(sequelize, Sequelize);
-db.transaction = require("../models/transaction.model.js")(sequelize, Sequelize);
-db.category = require("../models/category.model.js")(sequelize, Sequelize);
-db.notification = require("../models/notification.model.js")(sequelize, Sequelize);
-db.review = require("../models/review.model.js")(sequelize, Sequelize);
+db.User = require("../models/user.model.js")(sequelize, Sequelize);
+db.Listing = require("../models/listing.model.js")(sequelize, Sequelize);
+db.Transaction = require("../models/transaction.model.js")(sequelize, Sequelize);
+db.Category = require("../models/category.model.js")(sequelize, Sequelize);
+db.Notification = require("../models/notification.model.js")(sequelize, Sequelize);
+db.Review = require("../models/review.model.js")(sequelize, Sequelize);
+db.Company = require("../models/company.model.js")(sequelize, Sequelize);
+db.PropertyCompany = require("../models/PropertyCompany.model.js")(sequelize, Sequelize);
+db.Registration = require("../models/registration.model.js")(sequelize, Sequelize);
 
 // add foreign keys
-db.listing.belongsTo(db.user, {foreignKey: 'userID'})
-db.transaction.belongsTo(db.listing, {foreignKey: 'listingID'})
-db.transaction.belongsTo(db.user, {foreignKey: 'customerID'})
-db.notification.belongsTo(db.user, {foreignKey: 'userID'})
-db.notification.belongsTo(db.transaction, {foreignKey: 'transactionID'})
-db.review.belongsTo(db.transaction, {foreignKey: 'transactionID'})
+db.Listing.belongsTo(db.User, {foreignKey: 'userID'})
+db.Transaction.belongsTo(db.Listing, {foreignKey: 'listingID'})
+db.Transaction.belongsTo(db.User, {foreignKey: 'customerID'})
+db.Notification.belongsTo(db.User, {foreignKey: 'userID'})
+db.Notification.belongsTo(db.Transaction, {foreignKey: 'transactionID'})
+db.Review.belongsTo(db.Transaction, {foreignKey: 'transactionID'})
+db.PropertyCompany.belongsTo(db.Company, {foreignKey: 'company'})
+db.Listing.belongsTo(db.Company, {foreignKey: 'company'})
+db.Registration.belongsTo(db.Company, {foreignKey: 'company'})
+db.Registration.belongsTo(db.User, {foreignKey: 'userID'})
 
 module.exports = db;

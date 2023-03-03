@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Category = sequelize.define("category", {
+    const Category = sequelize.define("Category", {
       name: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
     }, {
-      timestamps: false,
+      timestamps: true,
       freezeTableName: true,
     });
   

@@ -1,0 +1,147 @@
+<div style="margin: 10px;">
+  <div class="row">
+    <!-- Right Col (All main info)-->
+    <div class="col">
+      <div class="container">
+
+        <!-- Row containing search bar and order preference -->
+        <div class="row">
+          <!-- Row containing amount of results and page nagivation -->
+          <div class="row">
+
+            <!-- Show cancelled listings checkbox -->
+            <div class="col-auto" *ngIf="hasCancelled">
+              <div class="card">
+                <div class="card-body" style="padding:10px">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkActive"
+                      [(ngModel)]="activeListings">
+                    <label class="form-check-label" for="checkActive">
+                      Only show active transactions
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row containing listings -->
+            <div class="row">
+              <!-- Listings -->
+              <div class="card" *ngFor="let t of transactions" style="margin-bottom: 5px;">
+
+                <!-- Listing -->
+                <div class="row no-gutters">
+
+                  <!-- Image -->
+                  <div class="col-auto" style="cursor:pointer;"
+                    [routerLink]="['/transactions', 'details', t.listingID]">
+                    <img class="card-img-left"
+                      [src]="t.Listing.picture ? t.Listing.picture : image.getPlaceholderImage()"
+                      style="width: 318px;height: 200;" [alt]="t.Listing.name">
+                  </div>
+
+                  <!-- Listing info -->
+                  <div class="col">
+                    <div class="card-body">
+                      <div class="row no-gutters">
+
+                        <!-- Details -->
+                        <div class="col" style="cursor:pointer;"
+                          [routerLink]="['/transactions', 'details', t.listingID]">
+
+                          <!-- Title -->
+                          <h5 class="card-title">{{t.Listing.name}}
+                            <b *ngIf="t.status ==='cancelled'" style="color: red;"> (CANCELLED) </b>
+                          </h5>
+
+                          <!-- Transaction Details -->
+                          <div>
+                            <div>Time: <b>{{t.time.split('T').join(' ').split(':').slice(0, -1).join(':')}}</b></div>
+                            <div>Number of Assets: <b>{{t.numberOfAssets}}</b></div>
+                            <div>Price: <b>€{{t.pricePerAsset * t.numberOfAssets}}</b></div>
+                            <div>Status: <b>{{t.status}}</b></div>
+                          </div>
+
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="col-auto" *ngIf="t.status !== 'cancelled'">
+                          <div class="btn-group" role="group">
+
+                            <!-- Cancel Transaction-->
+                            <button class="btn btn-danger" (click)="cancelTransaction(t.transactionID)">
+                              CANCEL
+                            </button>
+
+                            <!-- Review listing -->
+                            <button
+                              *ngIf="selectedTransactionForReview !== t.transactionID && properties['ReviewSystem'].includes('By Provider')"
+                              class="btn btn-success"
+                              (click)="selectedTransactionForReview = t.transactionID;form.reset();rating=0;hoverRating=0">
+                              Review
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Review form (only for transactions) -->
+                <div *ngIf="selectedTransactionForReview === t.transactionID" style="margin:10px">
+                  <form [formGroup]="form" (ngSubmit)="postReview()">
+
+                    <!-- Title + Rating -->
+                    <h4>
+                      Review:
+                      <!-- Rating -->
+                      <ngb-rating max=5 [(rate)]="rating" (hover)="hoverRating = $event" (leave)="hoverRating = 0">
+                        <ng-template let-fill="fill" let-index="index">
+                          <span
+                            [style]="'font-size: 50px;color: ' + (index < hoverRating && index >= rating ? '#FAB81E': index < hoverRating ? 'orange' : index >= rating ? 'gray' : '#FFC300')">
+                            &#9733;
+                          </span>
+                        </ng-template>
+                      </ngb-rating>
+                    </h4>
+
+                    <!-- Comment -->
+                    <div class="form-group">
+                      <label for="textareaComment">
+                        Comment (optional)
+                      </label>
+                      <textarea class="form-control" id="textareaComment" placeholder="Enter comment" rows="3"
+                        formControlName="comment">
+                      </textarea>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="btn-group" role="group">
+
+                      <!-- Cancel reviewing -->
+                      <button type="button" class="btn btn-danger" (click)="selectedTransactionForReview = -1">
+                        Cancel Review
+                      </button>
+
+                      <!-- Post review -->
+                      <button class="btn btn-success" [disabled]="rating === 0">
+                        Post Review
+                      </button>
+
+                    </div>
+
+                  </form>
+                </div>
+
+              </div>
+
+              <!-- No results -->
+              <div *ngIf="transactions!== undefined && transactions.length === 0">
+                <b>No Transactions Found</b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <app-transactiondetail></app-transactiondetail>

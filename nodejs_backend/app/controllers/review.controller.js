@@ -1,9 +1,9 @@
 const db = require("../models");
 const sequelize = require('sequelize');
-const Review = db.review;
-const Transaction = db.transaction;
-const Listing = db.listing;
-const User = db.user;
+const Review = db.Review;
+const Transaction = db.Transaction;
+const Listing = db.Listing;
+const User = db.User;
 
 /** post a review
  * expected query param:
@@ -16,24 +16,23 @@ exports.postReview = (req, res) => {
     Transaction.findOne({
         where: {
             transactionID: req.query.id,
-            time: sequelize.literal('date_add(`transaction`.`time`, INTERVAL 10 day) <= NOW()')
         },
         include: {
             model: Listing,
             attributes: ['userID']
         }
-    }).then(transaction => {
+    }).then(Transaction => {
         // catch errors
-        if (!transaction)
+        if (!Transaction)
             return res.status(404).send({ message: "Invalid transactionID or transaction is not yet reviewable" });
-        if (req.userId !== transaction.listing.userID && req.userId !== transaction.customerID)
+        if (req.userId !== Transaction.Listing.userID && req.userId !== Transaction.customerID)
             return res.status(401).send({ message: "Only customer and provider of transaction can post a transaction" })
         if (!(req.body.score >1 && req.body.score <= 5))
             return res.status(400).send({ message: "Score must be in range [1,5]" })
         Review.findOne({
             where: {
-                transactionID: transaction.transactionID,
-                reviewType: req.userId === transaction.customerID ? 'listing' : 'user',
+                transactionID: Transaction.transactionID,
+                reviewType: req.userId === Transaction.customerID ? 'listing' : 'user',
             }
         }).then(r => {
             if (r)
@@ -41,10 +40,10 @@ exports.postReview = (req, res) => {
             Review.create({
                 score: req.body.score,
                 comment: req.body.comment,
-                reviewType: req.userId === transaction.customerID ? 'listing' : 'user',
-                transactionID: transaction.transactionID
+                reviewType: req.userId === Transaction.customerID ? 'listing' : 'user',
+                transactionID: Transaction.transactionID
             }).then(() => {
-                res.send({ message: "Review was posted successfully!", listingID: transaction.listingID });
+                res.send({ message: "Review was posted successfully!", listingID: Transaction.listingID });
             }).catch(err => {
                 res.status(500).send({ message: err.message});
             });
@@ -68,9 +67,9 @@ exports.getListingReviews = (req, res) => {
         },
         where: {
             reviewType: 'listing',
-            '$transaction.listingID$': req.query.id
+            '$Transaction.listingID$': req.query.id
         },
-        attributes: ['reviewID', 'score', 'comment', 'transaction.user.userName']
+        attributes: ['reviewID', 'score', 'comment', 'Transaction.User.userName']
     }).then(r => {
         // send data
         return res.status(200).send({reviews: r, score: getAvgScore(r)})
@@ -89,7 +88,7 @@ exports.getUserReviews = (req, res) => {
         },
         where: {
             reviewType: 'user',
-            '$transaction.customerID$': req.query.id
+            '$Transaction.customerID$': req.query.id
         }
     }).then(r => {
         // send data

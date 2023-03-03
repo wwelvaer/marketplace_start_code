@@ -24,6 +24,40 @@ require('./app/routes/transaction.routes')(app);
 require('./app/routes/category.routes')(app);
 require('./app/routes/notification.routes')(app);
 require('./app/routes/review.routes')(app);
+require('./app/routes/taxonomy.routes')(app);
+require('./app/routes/company.routes') (app)
+
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host: 'ugmarket.ugent.be',
+  port: 13306,
+  user: 'tdrave3',
+  password: '9030gent',
+  database: 'Marketplace',
+  timezone: 'CET'
+});
+connection.connect();
+let getTime = () => new Date().toTimeString().split(' ')[0];
+
+// app listens on the home route for incoming POST requests
+app.post('/', (req, res) => {
+    // no query found in body
+    if (!req.body['query'])
+      res.send({ error: 'ERROR: couldn\'t find any query to be executed' });
+    else {
+      // send query to db
+      connection.query(req.body['query'], function (error, results, fields) {
+        // catch errors
+        if (error) {
+          res.send({ error: error['sqlMessage'] })
+          console.log(getTime(), 'Error while executing query \'' + req.body['query'] + '\': ' + error['sqlMessage'])
+        } else {
+          res.send({ data: results });
+          console.log(getTime(), 'Executed query: \'' + req.body['query'] + '\'');
+        }
+      });
+    }
+  })
 
 // listen for requests
 app.listen(PORT, () => {

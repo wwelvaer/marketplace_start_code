@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { query } from '@angular/animations';
 
 
 @Injectable({
@@ -172,7 +173,6 @@ export class DbConnectionService {
    * @returns http response promise
    */
   getListingTransactions(listingID: number, userToken: string){
-    console.log("Ja tot ier")
     return this.http.get(`${this.url}/api/transactions/listing?id=${listingID}`, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
@@ -299,4 +299,53 @@ export class DbConnectionService {
   getUserReviews(userID: number){
     return this.http.get(`${this.url}/api/reviews/user?id=${userID}`).toPromise();
   }
+
+  getTaxonomy() {
+    return this.http.get(`${this.url}/api/taxonomy`).toPromise();
+  }
+
+  getProperties() {
+    return this.http.get(`${this.url}/api/properties`).toPromise();
+  }
+
+  getSelectedCompany() {
+    return this.http.get(`${this.url}/api/company`).toPromise();
+  }
+
+  getCompanies() {
+    return this.http.get(`${this.url}/api/companies`).toPromise();
+  }
+
+  updateSelectedCompany(company) {
+    return this.http.put(`${this.url}/api/company/updateSelected`, { name: company }).toPromise();
+  }
+
+  createProperty(company: string, property: string){
+    // return this.http.post(`${this.url}/api/property/company=${company}`, property).toPromise();
+    return this.http.post(`${this.url}/api/property/create`, { company: company, property: property }).toPromise();
+  }
+
+  deleteProperty(company: string, property: string) {
+    return this.http.delete(`${this.url}/api/property/${property}/${company}`).subscribe(response => {
+      console.log("Record deleted", response);
+    }, error => {
+      console.error("Error deleting record", error);
+    });
+  }
+
+  // deleteProperties(company: string) {
+  //   console.log(company)
+  //   return this.http.post(`${this.url}/api/properties/delete` , {company: company}).toPromise()
+  // }
+
+  async executeQuery(query: string){
+    return this.http.post(this.url, {'query': query}).toPromise().then(r => {
+      if (r["error"]) // error handling
+        return alert(`Error when connecting to database\n${r["error"]}`)
+      return r // forward response
+    });
+  }
+  
 }
+
+

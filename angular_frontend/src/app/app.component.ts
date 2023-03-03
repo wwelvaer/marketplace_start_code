@@ -12,32 +12,36 @@ export class AppComponent {
   title = 'Marketplace';
   notifications: object[] = [];
   timeToRefresh = 5000; // time in ms
+  properties = {}
 
-  constructor(public user: UserService,
+  constructor(
+    public user: UserService,
     private db: DbConnectionService,
     private router: Router){
       this.fetchNotifications();
+
       // repeatedly check for notifications
       setInterval(() => {
         this.fetchNotifications();
-      }, this.timeToRefresh);
-
+      }, this.timeToRefresh);  
+      
   }
 
   // turn notification into message
   getNotificationMessage(notification: object): string{
+    let listingName = notification['Transaction'].Listing.name
     switch (notification['type']) {
       case 'new transaction':
-        return `A new transaction was made on your ${notification['transaction'].listing.name}`
+        return `A new transaction was made on your ${listingName}`
       case 'cancellation':
-        if (notification['transaction'].customerID === this.user.getId())
-          return `Your transaction on ${notification['transaction'].listing.name} has been cancelled`
+        if (notification['Transaction'].customerID === this.user.getId())
+          return `Your transaction on ${listingName} has been cancelled`
         else
-          return `A transaction on your ${notification['transaction'].listing.name} has been cancelled`
+          return `A transaction on your ${listingName} has been cancelled`
       case 'payment confirmation':
-        return `Your payment on ${notification['transaction'].listing.name} has been confirmed`
+        return `Your payment on ${listingName} has been confirmed`
       case 'reviewable':
-        return `You can review your recent transaction of ${notification['transaction'].listing.name}`
+        return `You can review your recent transaction of ${listingName}`
       default:
         break;
     }
@@ -64,7 +68,7 @@ export class AppComponent {
         case 'payment confirmation':
         case 'reviewable':
           // go to my transactions
-          this.router.navigate(['/listings'], {queryParams: { transactions: true }})
+          this.router.navigate(['/transactions'])
           break;
         default:
           break;

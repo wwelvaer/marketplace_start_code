@@ -1,20 +1,16 @@
 const db = require("../models");
-const Category = db.category;
+const Category = db.Category;
 
 // returns all categories
 exports.getCategories = (req, res) => {
     Category.findAll().then(l => {
         let r = {}
-        let other = [];
         l.forEach(x => {
-            if (!x.type)
-               other.push(x.name);
-            else if (x.type in r)
+            if (x.type in r)
                 r[x.type].push(x.name)
             else
                 r[x.type] = [x.name]
         });
-        r['Other'] = other
         res.status(200).send(r)
     }).catch(err => {
         res.status(500).send({ message: err.message });

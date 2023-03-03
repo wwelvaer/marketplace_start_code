@@ -1,9 +1,9 @@
 const db = require("../models");
-const Transaction = db.transaction;
-const Listing = db.listing;
-const User = db.user;
-const Notification = db.notification;
-const Review = db.review;
+const Transaction = db.Transaction;
+const Listing = db.Listing;
+const User = db.User;
+const Notification = db.Notification;
+const Review = db.Review;
 const sequelize = db.sequelize;
 
 /** get all transactions on a given listingid
@@ -16,16 +16,16 @@ exports.getListingTransactions = (req, res) => {
         where: {
             listingID: req.query.id
         },
-    }).then(listing => {
+    }).then(Listing => {
         // catch errors
-        if (!listing)
+        if (!Listing)
             return res.status(404).send({ message: "Invalid listingID" });
-        if (listing.userID !== req.userId)
+        if (Listing.userID !== req.userId)
             return res.status(401).send({ message: "Unauthorized to view another user's transactions on his listings"});
         // find all transactions
         Transaction.findAll({
             where: {
-                listingID: listing.listingID
+                listingID: Listing.listingID
             },
             // include userdata (when user has no firstName and lastName use email as name)
             include: {model: User, attributes: ['userID', [db.sequelize.literal("CASE WHEN firstName = '' AND lastName = '' THEN email ELSE CONCAT(firstName, ' ', lastName) END"), 'name']]},
@@ -80,34 +80,34 @@ exports.createTransaction = (req, res) => {
         where: {
             listingID: req.body.listingID
         }
-    }).then(listing => {
+    }).then(Listing => {
         // catch errors
-        if (!listing)
+        if (!Listing)
             return res.status(404).send({ message: "Invalid listingID" });
         if (!req.body.numberOfAssets)
             return res.status(400).send({ message: "Number of assets not given" });
-        if (listing.availableAssets && listing.availableAssets < req.body.numberOfAssets)
+        if (Listing.availableAssets && Listing.availableAssets < req.body.numberOfAssets)
             return res.status(400).send({ message: "Not enough assets available" });
-        if (req.userId === listing.userID)
+        if (req.userId === Listing.userID)
             return res.status(401).send({ message: "Can't make a transaction on your own listing" })
-        if (listing.status === 'cancelled')
+        if (Listing.status === 'cancelled')
             return res.status(400).send({ message : "Can't make a transaction on a cancelled listing" })
         // create transaction
         Transaction.create({
             numberOfAssets: req.body.numberOfAssets,
-            pricePerAsset: listing.price,
+            pricePerAsset: Listing.price,
             customerID: req.userId, // get user from webtoken
             status: 'reserved',
-            listingID: listing.listingID,
+            listingID: Listing.listingID,
             time: sequelize.literal('NOW()')
         }).then(t => {
             // update listing's available assets
-            if (listing.availableAssets)
-                listing.availableAssets -= t.numberOfAssets;
+            if (Listing.availableAssets)
+                Listing.availableAssets -= t.numberOfAssets;
             Notification.create({
                 transactionID: t.transactionID,
                 viewed: false,
-                userID: listing.userID,
+                userID: Listing.userID,
                 type: 'new transaction'
             })
             Notification.create({
@@ -117,7 +117,7 @@ exports.createTransaction = (req, res) => {
                 type: 'reviewable',
                 activeAt: sequelize.literal('NOW() + INTERVAL 10 day')
             })
-            listing.save().then(() => {
+            Listing.save().then(() => {
                 res.send({ message: "Transaction was created successfully!", customerID: t.customerID });
             })
         })
@@ -139,35 +139,35 @@ exports.cancelTransaction = (req, res) => {
         },
         // include userID extracted from listing
         include: {model: Listing, attributes: ['userID']},
-    }).then(transaction => {
+    }).then(Transaction => {
         // catch errors
-        if (!transaction)
+        if (!Transaction)
             return res.status(404).send({ message: "Invalid transactionID" });
         // compare user from webtoken with data
-        if (req.userId !== transaction.customerID && req.userId !== transaction.listing.userID) 
+        if (req.userId !== Transaction.customerID && req.userId !== Transaction.listing.userID) 
             return res.status(401).send({ message: "Unauthorized to cancel transaction"});
         // find listing
         Listing.findOne({
             where: {
-                listingID: transaction.listingID
+                listingID: Transaction.listingID
             }
-        }).then(listing => {
+        }).then(Listing => {
             // catch error
-            if (!listing)
+            if (!Listing)
                 return res.status(404).send({ message: "Transaction has invalid listingID" });
             // update listing's available assets
-            if (listing.availableAssets)
-                listing.availableAssets += transaction.numberOfAssets;
-            listing.save().then(_ => {
+            if (Listing.availableAssets)
+                Listing.availableAssets += Transaction.numberOfAssets;
+            Listing.save().then(_ => {
                 // update transaction status
-                transaction.status = 'cancelled';
+                Transaction.status = 'cancelled';
                 Notification.create({
-                    transactionID: transaction.transactionID,
+                    transactionID: Transaction.transactionID,
                     viewed: false,
-                    userID: req.userId === listing.userID ? transaction.customerID : listing.userID,
+                    userID: req.userId === Listing.userID ? Transaction.customerID : Listing.userID,
                     type: 'cancellation'
                 }).then(() => 
-                    transaction.save().then(_ => {
+                    Transaction.save().then(_ => {
                         res.send({ message: "Transaction was cancelled successfully!" });
                     })
                 )
@@ -189,22 +189,22 @@ exports.confirmPayment = (req, res) => {
         },
         // include userID extracted from listing
         include: {model: Listing, attributes: ['userID']},
-    }).then(transaction => {
+    }).then(Transaction => {
         // catch errors
-        if (!transaction)
+        if (!Transaction)
             return res.status(404).send({ message: "Invalid transactionID" });
         // compare user from webtoken with data 
-        if (req.userId !== transaction.listing.userID)
+        if (req.userId !== Transaction.Listing.userID)
             return res.status(401).send({ message: "Unauthorized to confirm payment"});
         // update transaction's status
-        transaction.status = 'payed';
+        Transaction.status = 'payed';
         Notification.create({
-            transactionID: transaction.transactionID,
+            transactionID: Transaction.transactionID,
             viewed: false,
-            userID: transaction.customerID,
+            userID: Transaction.customerID,
             type: 'payment confirmation'
         })
-        transaction.save().then(_ => {
+        Transaction.save().then(_ => {
             res.send({ message: "Payment was confirmed successfully!" });
         }) 
     })

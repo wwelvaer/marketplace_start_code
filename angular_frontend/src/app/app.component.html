@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" routerLink="/">
     {{ title }}
@@ -15,20 +14,21 @@
       <!-- Link to listings page -->
       <li class="nav-item">
         <a class="nav-link" routerLink="/listings">
-          Listings
+          Listings 
         </a>
       </li>
 
       <!-- Link to My Listings page -->
       <li class="nav-item" *ngIf="user.isLoggedIn()">
         <a class="nav-link" routerLink="/listings" [queryParams]="{id: user.getId()}">
-          My Listings
+          My Listings 
         </a>
       </li>
 
       <!-- Link to My Transactions page-->
       <li class="nav-item" *ngIf="user.isLoggedIn()">
-        <a class="nav-link" routerLink="/listings" [queryParams]="{transactions: true}">
+        <!-- <a class="nav-link" routerLink="/listings" [queryParams]="{transactions: true}"> -->
+        <a class="nav-link" routerLink="/transactions">
           My Transactions
         </a>
       </li>
@@ -56,11 +56,10 @@
 
     <!-- Right side Navbar (user logged in) -->
     <ul class="navbar-nav my-2 my-lg-0" *ngIf="user.isLoggedIn()">
-
       <!-- Notification dropdown -->
       <li class="nav-item dropdown">
         <!-- Dropdown Button -->
-        <a class="nav-link" href="#" id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link" id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
           <!-- Bell Icon -->
           <mat-icon> {{'notifications' + (getUnreadNotificationsAmount() > 0 ? '_active': '')}}</mat-icon>
@@ -77,8 +76,8 @@
 
           <!-- Notifications -->
           <a class="dropdown-item" *ngFor="let n of notifications" (click)="clickedNotification(n)" style="width: 300px;white-space: pre-wrap;">
-            <div *ngIf="n.viewed">{{getNotificationMessage(n)}}</div>
-            <b *ngIf="!n.viewed">{{getNotificationMessage(n)}}</b>
+            <div *ngIf="n.viewed">- {{getNotificationMessage(n)}}</div>
+            <b *ngIf="!n.viewed">- {{getNotificationMessage(n)}}</b>
           </a>
 
           <!-- No Notification -->
@@ -107,12 +106,12 @@
       </li>
 
       <!-- Link to create listing page -->
-      <button class="btn btn-success" [routerLink]="['/listings', 'form']">+ Create Listing</button>
+      <button class="btn btn-success" [routerLink]="['/listings', 'createEditListing']">+ Create Listing</button>
 
     </ul>
   </div>
 </nav>
 
-<router-outlet></router-outlet>
+<router-outlet ></router-outlet>
 
 &nbsp;

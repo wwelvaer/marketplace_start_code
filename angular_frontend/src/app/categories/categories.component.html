@@ -15,7 +15,7 @@
                   <input type="text" class="form-control" [placeholder]="category[0]" readonly>
 
                   <!-- Remove Category Button-->
-                  <div class="input-group-append" *ngIf="category[0] !== 'Other'">
+                  <div class="input-group-append">
                     <button class="btn btn-danger" (click)="removeCategory(i)">
                       Remove
                     </button>

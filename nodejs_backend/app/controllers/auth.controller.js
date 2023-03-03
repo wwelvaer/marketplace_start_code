@@ -1,11 +1,11 @@
 const db = require("../models");
 const config = require("../config/auth.config");
-const User = db.user;
+const User = db.User;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-/** creates user
+/** creates User
  * expected params in body (not required):
  * @param firstName
  * @param lastName
@@ -30,7 +30,7 @@ exports.signup = (req, res) => {
     birthDate: req.body.birthDate,
     phoneNumber: req.body.phoneNumber
   })
-    .then(user => {
+    .then(User => {
       res.send({ message: "User was registered successfully!" });
     })
     .catch(err => {
@@ -52,20 +52,20 @@ exports.signin = (req, res) => {
       userName: req.body.login
     }
   })
-    .then(user => {
-      if (!user)
+    .then(User => {
+      if (!User)
         return res.status(404).send({ message: "User with given email / userName not found" });
       //check password
-      if (!bcrypt.compareSync(req.body.password,user.authID))
+      if (!bcrypt.compareSync(req.body.password,User.authID))
         return res.status(401).send({accessToken: null,message: "Invalid Password"});
       //create webtoken
-      var token = jwt.sign({ id: user.userID }, config.KEY, {
+      var token = jwt.sign({ id: User.userID }, config.KEY, {
         expiresIn: 86400 // 24 hours
       });
       //send userdata
       res.status(200).send({
-        id: user.userID,
-        userName: user.userName,
+        id: User.userID,
+        userName: User.userName,
         accessToken: token
       });
     })

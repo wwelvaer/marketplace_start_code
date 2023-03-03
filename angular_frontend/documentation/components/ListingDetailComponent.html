@@ -1,0 +1,1592 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>marketplace documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">marketplace documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  ListingDetailComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/listings/listingdetail/listingdetail.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-detail</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./listingdetail.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./listingdetail.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#avgScore" >avgScore</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#image" >image</a>
+                            </li>
+                            <li>
+                                <a href="#listing" >listing</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                <a href="#reviews" >reviews</a>
+                            </li>
+                            <li>
+                                <a href="#selectedTab" >selectedTab</a>
+                            </li>
+                            <li>
+                                <a href="#transactions" >transactions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelListing" >cancelListing</a>
+                            </li>
+                            <li>
+                                <a href="#cancelTransaction" >cancelTransaction</a>
+                            </li>
+                            <li>
+                                <a href="#confirmPayment" >confirmPayment</a>
+                            </li>
+                            <li>
+                                <a href="#createTransaction" >createTransaction</a>
+                            </li>
+                            <li>
+                                <a href="#loadReviews" >loadReviews</a>
+                            </li>
+                            <li>
+                                <a href="#loadTransactions" >loadTransactions</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onFinishLoading" >onFinishLoading</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, db: <a href="../injectables/DbConnectionService.html" target="_self">DbConnectionService</a>, user: <a href="../injectables/UserService.html" target="_self">UserService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, image: <a href="../injectables/ImageService.html" target="_self">ImageService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:22</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>db</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DbConnectionService.html" target="_self" >DbConnectionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>user</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>image</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ImageService.html" target="_self" >ImageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelListing"></a>
+                    <span class="name">
+                        <span ><b>cancelListing</b></span>
+                        <a href="#cancelListing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelListing(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:104</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelTransaction"></a>
+                    <span class="name">
+                        <span ><b>cancelTransaction</b></span>
+                        <a href="#cancelTransaction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelTransaction(transactionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:125</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transactionId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmPayment"></a>
+                    <span class="name">
+                        <span ><b>confirmPayment</b></span>
+                        <a href="#confirmPayment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmPayment(transactionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:133</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transactionId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createTransaction"></a>
+                    <span class="name">
+                        <span ><b>createTransaction</b></span>
+                        <a href="#createTransaction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createTransaction()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:113</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadReviews"></a>
+                    <span class="name">
+                        <span ><b>loadReviews</b></span>
+                        <a href="#loadReviews"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadReviews()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadTransactions"></a>
+                    <span class="name">
+                        <span ><b>loadTransactions</b></span>
+                        <a href="#loadTransactions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadTransactions()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:86</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFinishLoading"></a>
+                    <span class="name">
+                        <span ><b>onFinishLoading</b></span>
+                        <a href="#onFinishLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFinishLoading()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:65</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="avgScore"></a>
+                    <span class="name">
+                        <span ><b>avgScore</b></span>
+                        <a href="#avgScore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="image"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>image</b></span>
+                        <a href="#image"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ImageService.html" target="_self" >ImageService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listing"></a>
+                    <span class="name">
+                        <span ><b>listing</b></span>
+                        <a href="#listing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reviews"></a>
+                    <span class="name">
+                        <span ><b>reviews</b></span>
+                        <a href="#reviews"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedTab"></a>
+                    <span class="name">
+                        <span ><b>selectedTab</b></span>
+                        <a href="#selectedTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="transactions"></a>
+                    <span class="name">
+                        <span ><b>transactions</b></span>
+                        <a href="#transactions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/listings/listingdetail/listingdetail.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { DbConnectionService } from &#x27;src/app/services/db-connection.service&#x27;;
+import { UserService } from &#x27;src/app/services/user.service&#x27;;
+import { FormControl, FormGroup } from &#x27;@angular/forms&#x27;;
+import { ImageService } from &#x27;src/app/services/image.service&#x27;;
+
+@Component({
+  selector: &#x27;app-detail&#x27;,
+  templateUrl: &#x27;./listingdetail.component.html&#x27;,
+  styleUrls: [&#x27;./listingdetail.component.scss&#x27;]
+})
+export class ListingDetailComponent implements OnInit {
+
+  listing: object;
+  error: string;
+  form:FormGroup;
+  transactions &#x3D; [];
+  reviews &#x3D; [];
+  avgScore: number &#x3D; 0;
+  selectedTab &#x3D; &quot;&quot;; // [&quot;info&quot;, &quot;reviews&quot;, &quot;transactions&quot;]
+  loading &#x3D; 0; // #asynchronous tasks running
+
+  constructor(private route: ActivatedRoute,
+    private db : DbConnectionService,
+    private user: UserService,
+    private router: Router,
+    public image: ImageService) {
+      // initialize form field
+      this.form &#x3D; new FormGroup({
+        numberOfAssets: new FormControl()
+      });
+    }
+
+  ngOnInit(): void {
+    // get url query params
+    this.route.params.subscribe(params &#x3D;&gt; {
+      this.error &#x3D; &quot;&quot;;
+      // when detail-type is given in url
+      if (params.type &amp;&amp; [&quot;info&quot;, &quot;reviews&quot;, &quot;transactions&quot;].includes(params.type))
+        this.selectedTab &#x3D; params.type;
+      // get listingdata
+      this.db.getListing(params.id)
+        .then(l &#x3D;&gt; {
+          this.db.getCategories().then(c &#x3D;&gt; {
+            let categories &#x3D; [];
+            Object.entries(c).forEach(([k, v]) &#x3D;&gt; {
+              let v2 &#x3D; v.filter(x &#x3D;&gt; l[&quot;categories&quot;].includes(x));
+              if (v2.length &gt; 0)
+                categories.push([k, v2])
+            })
+            this.listing &#x3D; l;
+            this.listing[&#x27;categories&#x27;] &#x3D; categories;
+            this.loadReviews();
+            // if listing if made by logged in user show transactions
+            if (this.listing[&#x27;userID&#x27;] &#x3D;&#x3D;&#x3D; this.user.getId())
+              this.loadTransactions();
+          })
+        })
+        .catch(err &#x3D;&gt; this.error &#x3D; err.error.message);
+    })
+  }
+
+  // when type was given, scroll to given type when all data is loaded
+  onFinishLoading() {
+    this.loading -&#x3D; 1;
+    if (this.loading !&#x3D;&#x3D; 0) return;
+    if (this.selectedTab)
+      setTimeout(() &#x3D;&gt; document.getElementById(this.selectedTab).scrollIntoView(), 50); // give time for transactions table to build
+    else
+      this.selectedTab &#x3D; &#x27;info&#x27;;
+  }
+
+  // get reviews
+  loadReviews(){
+    this.loading +&#x3D; 1;
+    this.db.getListingReviews(this.listing[&#x27;listingID&#x27;]).then(r &#x3D;&gt; {
+      this.avgScore &#x3D; r[&#x27;score&#x27;];
+      this.reviews &#x3D; r[&#x27;reviews&#x27;];
+      this.onFinishLoading();
+      console.log(this.reviews)
+    }).catch(err &#x3D;&gt; this.error &#x3D; err.error.message)
+  }
+
+  // get transactions
+  loadTransactions(){
+    this.loading +&#x3D; 1;
+    this.db.getListingTransactions(this.listing[&#x27;listingID&#x27;], this.user.getLoginToken())
+      .then(b &#x3D;&gt; {
+        this.transactions &#x3D; b[&#x27;transactions&#x27;]
+        this.transactions.forEach(t &#x3D;&gt; {
+          this.db.getUserReviews(t[&#x27;customerID&#x27;]).then(r &#x3D;&gt; {
+            t[&#x27;userReviews&#x27;] &#x3D; r[&#x27;reviews&#x27;]
+            t[&#x27;userScore&#x27;] &#x3D; r[&#x27;score&#x27;]
+          });
+        })
+        this.onFinishLoading();
+      }).catch(err &#x3D;&gt; {
+        this.error &#x3D; err.error.message
+      })
+  }
+
+  // delete listing
+  cancelListing(id: number){
+    this.db.cancelListing(id, this.user.getLoginToken()).then(_ &#x3D;&gt; {
+      this.listing[&#x27;status&#x27;] &#x3D; &#x27;cancelled&#x27;
+      // update transaction data
+      this.loadTransactions();
+    })
+  }
+
+  // create transaction
+  createTransaction(){
+    // get form value
+    let v &#x3D; this.form.getRawValue()
+    // add listingID to form values
+    v[&#x27;listingID&#x27;] &#x3D; this.listing[&#x27;listingID&#x27;];
+    this.db.createTransaction(this.user.getLoginToken(), v).then(_ &#x3D;&gt; {
+      // go to transactions
+      this.router.navigate([&#x27;/transactions&#x27;])
+    })
+  }
+
+  // cancel transaction
+  cancelTransaction(transactionId: number){
+    this.db.cancelTransaction(transactionId, this.user.getLoginToken()).then(r &#x3D;&gt; {
+      // update transaction data
+      this.loadTransactions();
+    }).catch(r &#x3D;&gt; this.error &#x3D; r.error.message)
+  }
+
+  // confirm transaction payment
+  confirmPayment(transactionId: number){
+    this.db.confirmPayment(transactionId, this.user.getLoginToken()).then(r &#x3D;&gt; {
+      // update transaction data
+      this.loadTransactions();
+    }).catch(r &#x3D;&gt; this.error &#x3D; r.error.message)
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!-- Only display listing when data is fetched and no error has occurred --&gt;
+&lt;div *ngIf&#x3D;&quot;listing &amp;&amp; !error&quot; class&#x3D;&quot;d-flex justify-content-center&quot; style&#x3D;&quot;margin: 10px;&quot;&gt;
+  &lt;div class&#x3D;&quot;container&quot;&gt;
+
+    &lt;!-- Row containing listing name + action buttons --&gt;
+    &lt;div class&#x3D;&quot;row&quot;&gt;
+
+      &lt;!-- Listing name --&gt;
+      &lt;div class&#x3D;&quot;col&quot;&gt;
+        &lt;h1&gt;
+          {{ listing.name }}
+          &lt;b *ngIf&#x3D;&quot;listing.status &#x3D;&#x3D;&#x3D;&#x27;cancelled&#x27;&quot; style&#x3D;&quot;color: red;&quot;&gt; (CANCELLED)&lt;/b&gt;
+          &lt;b *ngIf&#x3D;&quot;listing.availableAssets &#x3D;&#x3D;&#x3D; 0&quot; style&#x3D;&quot;color: red;&quot;&gt; (SOLD OUT)&lt;/b&gt;
+        &lt;/h1&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Action buttons --&gt;
+      &lt;div class&#x3D;&quot;col-auto&quot; *ngIf&#x3D;&quot;user.getId() &#x3D;&#x3D;&#x3D; listing.userID &amp;&amp; listing.status !&#x3D;&#x3D; &#x27;cancelled&#x27;&quot;&gt;
+        &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot;&gt;
+
+          &lt;!-- Edit Listing --&gt;
+          &lt;button
+            class&#x3D;&quot;btn btn-lg btn-success&quot;
+            routerLink&#x3D;&quot;/listings/createEditListing&quot;
+            [queryParams]&#x3D;&quot;{edit: listing.listingID}&quot;&gt;
+              EDIT
+          &lt;/button&gt;
+
+          &lt;!-- Cancel Listing --&gt;
+          &lt;button
+            class&#x3D;&quot;btn btn-lg btn-danger&quot;
+            (click)&#x3D;&quot;cancelListing(listing.listingID)&quot;&gt;
+              CANCEL
+          &lt;/button&gt;
+
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+
+    &lt;!-- Row containing Image + Window to make transaction --&gt;
+    &lt;div class&#x3D;&quot;row&quot;&gt;
+
+      &lt;!-- Image --&gt;
+      &lt;div class&#x3D;&quot;col-8&quot;&gt;
+        &lt;img
+          style&#x3D;&quot;width: 100%;border-radius: 5px;&quot;
+          [src]&#x3D;&quot;listing.picture ? listing.picture : image.getPlaceholderImage()&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Window to make transaction --&gt;
+      &lt;div class&#x3D;&quot;col&quot;&gt;
+
+        &lt;!-- Asking price --&gt;
+        &lt;h2&gt;Asking Price:&lt;b&gt; €{{listing.price}}&lt;/b&gt;&lt;/h2&gt;
+
+        &lt;!-- Make Transaction (only when user is logged in, isn&#x27;t the owner of the listing and the listing is still available)--&gt;
+        &lt;div class&#x3D;&quot;card&quot;
+          *ngIf&#x3D;&quot;user.isLoggedIn() &amp;&amp; listing.userID !&#x3D;&#x3D; user.getId() &amp;&amp; listing.availableAssets !&#x3D;&#x3D; 0 &amp;&amp; listing.status !&#x3D;&#x3D; &#x27;cancelled&#x27;&quot;&gt;
+          &lt;div class&#x3D;&quot;card-body&quot;&gt;
+            &lt;form [formGroup]&#x3D;&quot;form&quot; (ngSubmit)&#x3D;&quot;createTransaction()&quot;&gt;
+
+              &lt;!-- Number of Assets Input --&gt;
+              &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                &lt;label for&#x3D;&quot;inputNumberOfAssets&quot;&gt;
+                  Number Of Assets
+                &lt;/label&gt;
+                &lt;input
+                  type&#x3D;&quot;number&quot;
+                  min&#x3D;1
+                  class&#x3D;&quot;form-control&quot;
+                  id&#x3D;&quot;inputNumberOfAssets&quot;
+                  placeholder&#x3D;&quot;Enter Number Of Assets&quot;
+                  formControlName&#x3D;&quot;numberOfAssets&quot;&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Make transaction --&gt;
+              &lt;button
+                type&#x3D;&quot;submit&quot;
+                class&#x3D;&quot;btn btn-primary btn-block&quot;
+                [disabled]&#x3D;&quot;!form.getRawValue().numberOfAssets&quot;&gt;
+                Make Transaction
+              &lt;/button&gt;
+
+            &lt;/form&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+
+    &lt;!-- Radio buttons for listing detail tabs --&gt;
+    &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; style&#x3D;&quot;margin-left: 15px;margin-top: 20px;&quot;&gt;
+
+      &lt;!-- Info --&gt;
+      &lt;button
+        [class]&#x3D;&quot;&#x27;detail-tab-radio-button--info&#x27; + (selectedTab &#x3D;&#x3D;&#x3D; &#x27;info&#x27; ? &#x27;-selected&#x27; : &#x27;&#x27;)&quot;
+        (click)&#x3D;&quot;selectedTab &#x3D; &#x27;info&#x27;&quot;&gt;
+          Info
+      &lt;/button&gt;
+
+      &lt;!-- Reviews --&gt;
+      &lt;button
+        [class]&#x3D;&quot;&#x27;detail-tab-radio-button--success&#x27; + (selectedTab &#x3D;&#x3D;&#x3D; &#x27;reviews&#x27; ? &#x27;-selected&#x27; : &#x27;&#x27;)&quot;
+        (click)&#x3D;&quot;selectedTab &#x3D; &#x27;reviews&#x27;&quot;&gt;
+          Reviews
+
+          &lt;!-- star rating system --&gt;
+          &lt;ngb-rating max&#x3D;5 [(rate)]&#x3D;&quot;avgScore&quot; readonly&#x3D;&quot;true&quot; *ngIf&#x3D;&quot;avgScore !&#x3D;&#x3D; 0&quot;&gt;
+            &lt;ng-template let-fill&#x3D;&quot;fill&quot; let-index&#x3D;&quot;index&quot;&gt;
+              &lt;span [class]&#x3D;&quot;&#x27;rating-star-back&#x27; + (fill &#x3D;&#x3D;&#x3D; 100 ? &#x27;-filled&#x27; : &#x27;&#x27;)&quot;&gt;
+                &lt;span class&#x3D;&quot;rating-star-front&quot; [style]&#x3D;&quot;&#x27;width:&#x27; + fill + &#x27;%&#x27;&quot;&gt;
+                  &amp;#9733;
+                &lt;/span&gt;
+                &amp;#9733;
+              &lt;/span&gt;
+            &lt;/ng-template&gt;
+          &lt;/ngb-rating&gt;
+
+          ({{reviews.length}})
+      &lt;/button&gt;
+
+      &lt;!-- Transactions (only when user is owner of listing) --&gt;
+      &lt;button
+        *ngIf&#x3D;&quot;listing.userID &#x3D;&#x3D;&#x3D; user.getId()&quot;
+        [class]&#x3D;&quot;&#x27;detail-tab-radio-button--warning&#x27; + (selectedTab &#x3D;&#x3D;&#x3D; &#x27;transactions&#x27; ? &#x27;-selected&#x27; : &#x27;&#x27;)&quot;
+        (click)&#x3D;&quot;selectedTab &#x3D; &#x27;transactions&#x27;&quot;&gt;
+          Transactions
+      &lt;/button&gt;
+
+    &lt;/div&gt;
+
+    &lt;!-- Detail window --&gt;
+    &lt;div [class]&#x3D;&quot;&#x27;detail-window--&#x27; + selectedTab&quot; id&#x3D;&quot;details&quot;&gt;
+
+      &lt;!-- Info Tab --&gt;
+      &lt;div *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; &#x27;info&#x27;&quot; id&#x3D;&#x27;info&#x27;&gt;
+
+        &lt;!-- Description --&gt;
+        &lt;b *ngIf&#x3D;&quot;listing.description&quot;&gt;Description:&lt;/b&gt;
+        &lt;p *ngIf&#x3D;&quot;listing.description&quot;&gt;
+          {{listing.description}}
+        &lt;/p&gt;
+
+        &lt;!-- Available Assets --&gt;
+        &lt;p *ngIf&#x3D;&quot;listing.availableAssets || listing.availableAssets &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+          &lt;b&gt;Available Assets: &lt;/b&gt;{{listing.availableAssets}}
+        &lt;/p&gt;
+
+        &lt;!-- Date --&gt;
+        &lt;p *ngIf&#x3D;&quot;listing.date&quot;&gt;
+          &lt;b&gt;Date: &lt;/b&gt;{{listing.date}}
+        &lt;/p&gt;
+
+        &lt;!-- Location --&gt;
+        &lt;p *ngIf&#x3D;&quot;listing.location&quot;&gt;
+          &lt;b&gt;Location: &lt;/b&gt;{{listing.location}}
+        &lt;/p&gt;
+
+        &lt;!-- Seller --&gt;
+        &lt;p&gt;
+          &lt;b&gt;Seller: &lt;/b&gt;{{listing.userName}}
+        &lt;/p&gt;
+
+        &lt;!-- Categories --&gt;
+        &lt;p *ngFor&#x3D;&quot;let c of listing.categories&quot;&gt;
+          &lt;b&gt;{{c[0]}}:&lt;/b&gt; {{c[1].join(&quot;, &quot;)}}
+        &lt;/p&gt;
+
+      &lt;/div&gt;
+
+      &lt;!-- Reviews Tab --&gt;
+      &lt;div *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; &#x27;reviews&#x27;&quot; id&#x3D;&#x27;reviews&#x27;&gt;
+
+        &lt;!-- Reviews --&gt;
+        &lt;div *ngIf&#x3D;&quot;reviews.length &gt; 0&quot;&gt;
+
+          &lt;!-- Each Review --&gt;
+          &lt;div *ngFor&#x3D;&quot;let review of reviews&quot;&gt;
+
+            &lt;!-- User Image--&gt;
+            &lt;img
+              style&#x3D;&quot;border-radius: 50%; height: 30px; width: 30px&quot;
+              [src]&#x3D;&quot;review.Transaction.User.profilePicture ? review.Transaction.User.profilePicture: image.getUserPlaceholderImage()&quot;&gt;
+
+            &lt;!-- User Name --&gt;
+            {{review.Transaction.User.userName}}
+
+            &lt;!-- Rating --&gt;
+            &lt;ngb-rating max&#x3D;5 [(rate)]&#x3D;&quot;review.score&quot; readonly&#x3D;&quot;true&quot;&gt;
+              &lt;ng-template let-fill&#x3D;&quot;fill&quot; let-index&#x3D;&quot;index&quot;&gt;
+                &lt;span [class]&#x3D;&quot;&#x27;rating-star-back&#x27; + (fill &#x3D;&#x3D;&#x3D; 100 ? &#x27;-filled&#x27; : &#x27;&#x27;)&quot;&gt;
+                  &amp;#9733;
+                &lt;/span&gt;
+              &lt;/ng-template&gt;
+            &lt;/ngb-rating&gt;
+
+            &lt;!-- Review Comment --&gt;
+            &lt;p *ngIf&#x3D;&quot;review.comment&quot; style&#x3D;&quot;margin-left: 10px;&quot;&gt;
+              {{review.comment}}
+            &lt;/p&gt;
+
+            &lt;hr&gt;
+
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+
+        &lt;!-- No Reviews --&gt;
+        &lt;div *ngIf&#x3D;&quot;reviews.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+          No one has reviewed this listing yet
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;!-- Transactions Tab--&gt;
+      &lt;div *ngIf&#x3D;&quot;selectedTab &#x3D;&#x3D;&#x3D; &#x27;transactions&#x27;&quot; id&#x3D;&#x27;transactions&#x27;&gt;
+
+        &lt;!-- Transactions--&gt;
+        &lt;div *ngIf&#x3D;&quot;transactions.length &gt; 0&quot;&gt;
+          &lt;table class&#x3D;&quot;table&quot;&gt;
+            &lt;thead class&#x3D;&quot;thead-light&quot;&gt;
+              &lt;!-- Table headers --&gt;
+              &lt;tr&gt;
+                &lt;th scope&#x3D;&quot;col&quot;&gt;Time&lt;/th&gt;
+                &lt;th scope&#x3D;&quot;col&quot;&gt;Customer&lt;/th&gt;
+                &lt;th scope&#x3D;&quot;col&quot;&gt;# Assets&lt;/th&gt;
+                &lt;th scope&#x3D;&quot;col&quot;&gt;Price&lt;/th&gt;
+                &lt;th scope&#x3D;&quot;col&quot;&gt;Status&lt;/th&gt;
+                &lt;th scope&#x3D;&quot;col&quot;&gt;Actions&lt;/th&gt;
+              &lt;/tr&gt;
+
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+              &lt;tr *ngFor&#x3D;&quot;let b of transactions&quot;&gt;
+
+                &lt;!-- Time --&gt;
+                &lt;td&gt;{{b.time.split(&#x27;T&#x27;).join(&#x27; &#x27;).split(&#x27;:&#x27;).slice(0, -1).join(&#x27;:&#x27;)}}&lt;/td&gt;
+
+                &lt;!-- Customer --&gt;
+                &lt;th scope&#x3D;&quot;row&quot;&gt;
+                  {{b.User.name}}
+
+                  &lt;!-- When user has score (NOT YET IMPLEMENTED)--&gt;
+                  &lt;ngb-rating max&#x3D;5 [(rate)]&#x3D;&quot;b.userScore&quot; readonly&#x3D;&quot;true&quot; *ngIf&#x3D;&quot;b.userScore !&#x3D;&#x3D; 0&quot;&gt;
+                    &lt;ng-template let-fill&#x3D;&quot;fill&quot; let-index&#x3D;&quot;index&quot;&gt;
+                      &lt;span [class]&#x3D;&quot;&#x27;rating-star-back&#x27; + (fill &#x3D;&#x3D;&#x3D; 100 ? &#x27;-filled&#x27; : &#x27;&#x27;)&quot;&gt;
+                        &lt;span class&#x3D;&quot;rating-star-front&quot; [style]&#x3D;&quot;&#x27;width:&#x27; + fill + &#x27;%&#x27;&quot;&gt;
+                          &amp;#9733;
+                        &lt;/span&gt;
+                        &amp;#9733;
+                      &lt;/span&gt;
+                    &lt;/ng-template&gt;
+                  &lt;/ngb-rating&gt;
+                  &lt;span *ngIf&#x3D;&quot;b.userScore &amp;&amp; b.userScore !&#x3D;&#x3D; 0&quot;&gt;({{b.userReviews.length}})&lt;/span&gt;
+
+                &lt;/th&gt;
+
+                &lt;!-- # Assets --&gt;
+                &lt;td&gt;{{b.numberOfAssets}}&lt;/td&gt;
+
+                &lt;!-- Price --&gt;
+                &lt;td&gt;€{{b.numberOfAssets * b.pricePerAsset}}&lt;/td&gt;
+
+                &lt;!-- Status --&gt;
+                &lt;td&gt;{{b.status}}&lt;/td&gt;
+
+                &lt;!-- Actions --&gt;
+                &lt;td&gt;
+                  &lt;div class&#x3D;&quot;btn-group&quot; role&#x3D;&quot;group&quot; *ngIf&#x3D;&quot;b.status !&#x3D;&#x3D; &#x27;cancelled&#x27;&quot;&gt;
+
+                    &lt;!-- Confirm Payment--&gt;
+                    &lt;button
+                      *ngIf&#x3D;&quot;b.status !&#x3D;&#x3D; &#x27;payed&#x27;&quot;
+                      class&#x3D;&quot;btn btn-lg btn-success&quot;
+                      (click)&#x3D;&quot;confirmPayment(b.transactionID)&quot;&gt;
+                        Confirm Payment
+                    &lt;/button&gt;
+
+                    &lt;!-- Cancel Transaction--&gt;
+                    &lt;button
+                      class&#x3D;&quot;btn btn-lg btn-danger&quot;
+                      (click)&#x3D;&quot;cancelTransaction(b.transactionID)&quot;&gt;
+                        Cancel
+                    &lt;/button&gt;
+
+                  &lt;/div&gt;
+                &lt;/td&gt;
+
+              &lt;/tr&gt;
+            &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+
+        &lt;!-- No Transactions --&gt;
+        &lt;div *ngIf&#x3D;&quot;transactions.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+          No one has make a transaction yet
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Errors --&gt;
+&lt;div *ngIf&#x3D;&quot;error&quot; style&#x3D;&quot;margin: 10px;&quot;&gt;
+  &lt;h1&gt;ERROR&lt;/h1&gt;
+  &lt;p&gt;{{error}}&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./listingdetail.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;../../../styles.scss&#x27;;
+@import &#x27;../listings.component.scss&#x27;;
+
+$btn-types: info, success, warning;
+$detail-window-type-colors: (
+  info: #17a2b8,
+  reviews: #28a745,
+  transactions: #ffc107
+);
+
+.detail-tab-radio-button {
+  @extend .btn;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-style: hidden;
+  box-shadow:none !important;
+  outline:0px !important;
+}
+
+@each $btn-type in $btn-types {
+  .detail-tab-radio-button--#{$btn-type}-selected {
+    @extend .detail-tab-radio-button;
+    @extend .btn-#{$btn-type} !optional;
+  }
+  .detail-tab-radio-button--#{$btn-type} {
+    @extend .detail-tab-radio-button;
+    @extend .btn-outline-#{$btn-type} !optional;
+  }
+}
+
+@each $type, $color in $detail-window-type-colors {
+  .detail-window--#{$type} {
+      border-style: solid;
+      border-radius: 12px;
+      border-width: 1px;
+      padding: 10px;
+      border-color: $color;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!-- Only display listing when data is fetched and no error has occurred --><div *ngIf="listing && !error" class="d-flex justify-content-center" style="margin: 10px;">  <div class="container">    <!-- Row containing listing name + action buttons -->    <div class="row">      <!-- Listing name -->      <div class="col">        <h1>          {{ listing.name }}          <b *ngIf="listing.status ===\'cancelled\'" style="color: red;"> (CANCELLED)</b>          <b *ngIf="listing.availableAssets === 0" style="color: red;"> (SOLD OUT)</b>        </h1>      </div>      <!-- Action buttons -->      <div class="col-auto" *ngIf="user.getId() === listing.userID && listing.status !== \'cancelled\'">        <div class="btn-group" role="group">          <!-- Edit Listing -->          <button            class="btn btn-lg btn-success"            routerLink="/listings/createEditListing"            [queryParams]="{edit: listing.listingID}">              EDIT          </button>          <!-- Cancel Listing -->          <button            class="btn btn-lg btn-danger"            (click)="cancelListing(listing.listingID)">              CANCEL          </button>        </div>      </div>    </div>    <!-- Row containing Image + Window to make transaction -->    <div class="row">      <!-- Image -->      <div class="col-8">        <img          style="width: 100%;border-radius: 5px;"          [src]="listing.picture ? listing.picture : image.getPlaceholderImage()">      </div>      <!-- Window to make transaction -->      <div class="col">        <!-- Asking price -->        <h2>Asking Price:<b> €{{listing.price}}</b></h2>        <!-- Make Transaction (only when user is logged in, isn\'t the owner of the listing and the listing is still available)-->        <div class="card"          *ngIf="user.isLoggedIn() && listing.userID !== user.getId() && listing.availableAssets !== 0 && listing.status !== \'cancelled\'">          <div class="card-body">            <form [formGroup]="form" (ngSubmit)="createTransaction()">              <!-- Number of Assets Input -->              <div class="form-group">                <label for="inputNumberOfAssets">                  Number Of Assets                </label>                <input                  type="number"                  min=1                  class="form-control"                  id="inputNumberOfAssets"                  placeholder="Enter Number Of Assets"                  formControlName="numberOfAssets">              </div>              <!-- Make transaction -->              <button                type="submit"                class="btn btn-primary btn-block"                [disabled]="!form.getRawValue().numberOfAssets">                Make Transaction              </button>            </form>          </div>        </div>      </div>    </div>    <!-- Radio buttons for listing detail tabs -->    <div class="btn-group" role="group" style="margin-left: 15px;margin-top: 20px;">      <!-- Info -->      <button        [class]="\'detail-tab-radio-button--info\' + (selectedTab === \'info\' ? \'-selected\' : \'\')"        (click)="selectedTab = \'info\'">          Info      </button>      <!-- Reviews -->      <button        [class]="\'detail-tab-radio-button--success\' + (selectedTab === \'reviews\' ? \'-selected\' : \'\')"        (click)="selectedTab = \'reviews\'">          Reviews          <!-- star rating system -->          <ngb-rating max=5 [(rate)]="avgScore" readonly="true" *ngIf="avgScore !== 0">            <ng-template let-fill="fill" let-index="index">              <span [class]="\'rating-star-back\' + (fill === 100 ? \'-filled\' : \'\')">                <span class="rating-star-front" [style]="\'width:\' + fill + \'%\'">                  &#9733;                </span>                &#9733;              </span>            </ng-template>          </ngb-rating>          ({{reviews.length}})      </button>      <!-- Transactions (only when user is owner of listing) -->      <button        *ngIf="listing.userID === user.getId()"        [class]="\'detail-tab-radio-button--warning\' + (selectedTab === \'transactions\' ? \'-selected\' : \'\')"        (click)="selectedTab = \'transactions\'">          Transactions      </button>    </div>    <!-- Detail window -->    <div [class]="\'detail-window--\' + selectedTab" id="details">      <!-- Info Tab -->      <div *ngIf="selectedTab === \'info\'" id=\'info\'>        <!-- Description -->        <b *ngIf="listing.description">Description:</b>        <p *ngIf="listing.description">          {{listing.description}}        </p>        <!-- Available Assets -->        <p *ngIf="listing.availableAssets || listing.availableAssets === 0">          <b>Available Assets: </b>{{listing.availableAssets}}        </p>        <!-- Date -->        <p *ngIf="listing.date">          <b>Date: </b>{{listing.date}}        </p>        <!-- Location -->        <p *ngIf="listing.location">          <b>Location: </b>{{listing.location}}        </p>        <!-- Seller -->        <p>          <b>Seller: </b>{{listing.userName}}        </p>        <!-- Categories -->        <p *ngFor="let c of listing.categories">          <b>{{c[0]}}:</b> {{c[1].join(", ")}}        </p>      </div>      <!-- Reviews Tab -->      <div *ngIf="selectedTab === \'reviews\'" id=\'reviews\'>        <!-- Reviews -->        <div *ngIf="reviews.length > 0">          <!-- Each Review -->          <div *ngFor="let review of reviews">            <!-- User Image-->            <img              style="border-radius: 50%; height: 30px; width: 30px"              [src]="review.Transaction.User.profilePicture ? review.Transaction.User.profilePicture: image.getUserPlaceholderImage()">            <!-- User Name -->            {{review.Transaction.User.userName}}            <!-- Rating -->            <ngb-rating max=5 [(rate)]="review.score" readonly="true">              <ng-template let-fill="fill" let-index="index">                <span [class]="\'rating-star-back\' + (fill === 100 ? \'-filled\' : \'\')">                  &#9733;                </span>              </ng-template>            </ngb-rating>            <!-- Review Comment -->            <p *ngIf="review.comment" style="margin-left: 10px;">              {{review.comment}}            </p>            <hr>          </div>        </div>        <!-- No Reviews -->        <div *ngIf="reviews.length === 0">          No one has reviewed this listing yet        </div>      </div>      <!-- Transactions Tab-->      <div *ngIf="selectedTab === \'transactions\'" id=\'transactions\'>        <!-- Transactions-->        <div *ngIf="transactions.length > 0">          <table class="table">            <thead class="thead-light">              <!-- Table headers -->              <tr>                <th scope="col">Time</th>                <th scope="col">Customer</th>                <th scope="col"># Assets</th>                <th scope="col">Price</th>                <th scope="col">Status</th>                <th scope="col">Actions</th>              </tr>            </thead>            <tbody>              <tr *ngFor="let b of transactions">                <!-- Time -->                <td>{{b.time.split(\'T\').join(\' \').split(\':\').slice(0, -1).join(\':\')}}</td>                <!-- Customer -->                <th scope="row">                  {{b.User.name}}                  <!-- When user has score (NOT YET IMPLEMENTED)-->                  <ngb-rating max=5 [(rate)]="b.userScore" readonly="true" *ngIf="b.userScore !== 0">                    <ng-template let-fill="fill" let-index="index">                      <span [class]="\'rating-star-back\' + (fill === 100 ? \'-filled\' : \'\')">                        <span class="rating-star-front" [style]="\'width:\' + fill + \'%\'">                          &#9733;                        </span>                        &#9733;                      </span>                    </ng-template>                  </ngb-rating>                  <span *ngIf="b.userScore && b.userScore !== 0">({{b.userReviews.length}})</span>                </th>                <!-- # Assets -->                <td>{{b.numberOfAssets}}</td>                <!-- Price -->                <td>€{{b.numberOfAssets * b.pricePerAsset}}</td>                <!-- Status -->                <td>{{b.status}}</td>                <!-- Actions -->                <td>                  <div class="btn-group" role="group" *ngIf="b.status !== \'cancelled\'">                    <!-- Confirm Payment-->                    <button                      *ngIf="b.status !== \'payed\'"                      class="btn btn-lg btn-success"                      (click)="confirmPayment(b.transactionID)">                        Confirm Payment                    </button>                    <!-- Cancel Transaction-->                    <button                      class="btn btn-lg btn-danger"                      (click)="cancelTransaction(b.transactionID)">                        Cancel                    </button>                  </div>                </td>              </tr>            </tbody>          </table>        </div>        <!-- No Transactions -->        <div *ngIf="transactions.length === 0">          No one has make a transaction yet        </div>      </div>    </div>  </div></div><!-- Errors --><div *ngIf="error" style="margin: 10px;">  <h1>ERROR</h1>  <p>{{error}}</p></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CategoriesComponent', 'selector': 'app-categories'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'CreateEditListingComponent', 'selector': 'app-form'},{'name': 'ListingDetailComponent', 'selector': 'app-detail'},{'name': 'ListingsComponent', 'selector': 'app-listings'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'TaxonomyComponent', 'selector': 'app-taxonomy'},{'name': 'TransactiondetailComponent', 'selector': 'app-transactiondetail'},{'name': 'TransactionsComponent', 'selector': 'app-transactions'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ListingDetailComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ListingDetailComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

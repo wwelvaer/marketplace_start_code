@@ -1,14 +1,14 @@
 const db = require("../models");
 const sequelize = require('sequelize');
-const Listing = db.listing;
-const Transaction = db.transaction;
-const User = db.user;
-const Notification = db.notification;
-const Review = db.review;
+const Listing = db.Listing;
+const Transaction = db.Transaction;
+const User = db.User;
+const Notification = db.Notification;
+const Review = db.Review;
 
 // returns all listings
 exports.getAllListings = (req, res) => {
-    db.sequelize.query("SELECT l.*, r.avgScore, r.reviewAmount FROM listing as l LEFT JOIN (SELECT listingID, cast(AVG(score) as decimal(3,2)) as avgScore, IFNULL(COUNT(score), 0) as reviewAmount FROM review as r INNER JOIN transaction as t USING (transactionID) WHERE r.reviewType = 'listing' GROUP BY t.listingID) as r USING(listingID)")
+    db.sequelize.query("SELECT l.*, r.avgScore, r.reviewAmount FROM Listing as l LEFT JOIN (SELECT listingID, cast(AVG(score) as decimal(3,2)) as avgScore, IFNULL(COUNT(score), 0) as reviewAmount FROM Review as r INNER JOIN Transaction as t USING (transactionID)  WHERE r.reviewType = 'listing' GROUP BY t.listingID) as r USING(listingID) INNER JOIN Company C on l.company = C.name where C.selected ")
         .then(l => {
             return res.status(200).send({listings: l[0]})
         })
@@ -70,23 +70,23 @@ exports.getListing = (req, res) => {
         },
         // include userName extracted from user
         include: {model: User, attributes: ['userName']},
-    }).then(listing => {
-        if (!listing)
+    }).then(Listing => {
+        if (!Listing)
             return res.status(404).send({ message: "Invalid listingID" });
         // send listingdata
         res.status(200).send({
-            listingID: listing.listingID,
-            name: listing.name,
-            description: listing.description,
-            availableAssets: listing.availableAssets,
-            date: listing.date,
-            price: listing.price,
-            picture: listing.picture,
-            location: listing.location,
-            categories: listing.categories,
-            status: listing.status,
-            userID: listing.userID,
-            userName: listing.user.userName
+            listingID: Listing.listingID,
+            name: Listing.name,
+            description: Listing.description,
+            availableAssets: Listing.availableAssets,
+            date: Listing.date,
+            price: Listing.price,
+            picture: Listing.picture,
+            location: Listing.location,
+            categories: Listing.categories,
+            status: Listing.status,
+            userID: Listing.userID,
+            userName: Listing.User.userName
         })
     })
     
@@ -110,22 +110,22 @@ exports.postListing = (req, res) => {
         where: {
             listingID: req.query.id
         }
-    }).then(listing => {
+    }).then(Listing => {
         // catch errors
-        if (!listing)
+        if (!Listing)
             return res.status(404).send({ message: "Invalid listingID" });
-        if (req.userId !== listing.userID)
+        if (req.userId !== Listing.userID)
             return res.status(401).send({ message: "Unauthorized to edit another user's listing"});
         // save data
-        listing.name = req.body.name
-        listing.description = req.body.description
-        listing.availableAssets = req.body.availableAssets
-        listing.date = req.body.date
-        listing.price = req.body.price
-        listing.picture = req.body.picture
-        listing.location = req.body.location
-        listing.categories = req.body.categories
-        listing.save().then(_ => {
+        Listing.name = req.body.name
+        Listing.description = req.body.description
+        Listing.availableAssets = req.body.availableAssets
+        Listing.date = req.body.date
+        Listing.price = req.body.price
+        Listing.picture = req.body.picture
+        Listing.location = req.body.location
+        Listing.categories = req.body.categories
+        Listing.save().then(_ => {
             res.send({ message: "Listing was updatet successfully!" });
         }).catch(err => {
             res.status(500).send({ message: err.message})
@@ -142,16 +142,16 @@ exports.cancelListing = (req, res) => {
         where: {
             listingID: req.query.id
         }
-    }).then(listing => {
+    }).then(Listing => {
         // catch errors
-        if (!listing)
+        if (!Listing)
             return res.status(404).send({ message: "Invalid listingID" });
-        if (req.userId !== listing.userID)
+        if (req.userId !== Listing.userID)
             return res.status(401).send({ message: "Unauthorized to cancel another user's listing"});
         // cancel all transactions
         Transaction.findAll({
             where: {
-                listingID: listing.listingID
+                listingID: Listing.listingID
             }
         }).then(transactions => {
             // cancel all transactions of listing
@@ -165,8 +165,8 @@ exports.cancelListing = (req, res) => {
                 }).then(_ => t.save())
             });
             // cancel listing
-            listing.status = 'cancelled'
-            listing.save().then(_ => {
+            Listing.status = 'cancelled'
+            Listing.save().then(_ => {
                 res.send({ message: "Listing was cancelled successfully!" });
             })
         })

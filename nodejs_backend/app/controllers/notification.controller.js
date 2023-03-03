@@ -1,7 +1,7 @@
 const db = require("../models");
-const Notification = db.notification;
-const Transaction = db.transaction;
-const Listing = db.listing;
+const Notification = db.Notification;
+const Transaction = db.Transaction;
+const Listing = db.Listing;
 const Op = db.Sequelize.Op
 const sequelize = db.sequelize;
 

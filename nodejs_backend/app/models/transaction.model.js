@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Transaction = sequelize.define("transaction", {
+    const Transaction = sequelize.define("Transaction", {
       transactionID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -20,7 +20,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.ENUM('payed', 'reserved', 'cancelled')
       }
     }, {
-      timestamps: false,
+      timestamps: true,
       freezeTableName: true,
     });
     return Transaction;

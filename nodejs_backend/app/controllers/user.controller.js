@@ -1,5 +1,5 @@
 const db = require("../models");
-const User = db.user;
+const User = db.User;
 var bcrypt = require("bcryptjs");
 
 /** get userdata
@@ -12,21 +12,21 @@ exports.getUserData = (req, res) => {
         where: {
             userID: req.query.id
         }
-    }).then(user => {
+    }).then(User => {
         // catch error
-        if (!user) 
+        if (!User) 
             return res.status(404).send({ message: "Invalid userID" });
         // send data
         res.status(200).send({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            userName: user.userName,
-            gender: user.gender,
-            address: user.address,
-            birthDate: user.birthDate,
-            phoneNumber: user.phoneNumber,
-            profilePicture: user.profilePicture
+            firstName: User.firstName,
+            lastName: User.lastName,
+            email: User.email,
+            userName: User.userName,
+            gender: User.gender,
+            address: User.address,
+            birthDate: User.birthDate,
+            phoneNumber: User.phoneNumber,
+            profilePicture: User.profilePicture
         });
     })
 };
@@ -51,21 +51,21 @@ exports.postUserData = (req, res) => {
         where: {
             userID: req.query.id
         }
-    }).then(user => {
+    }).then(User => {
         // catch error
-        if (!user) 
+        if (!User) 
             return res.status(404).send({ message: "Invalid userID" });
         // update data
-        user.firstName = req.body.firstName;
-        user.lastName = req.body.lastName;
-        user.email = req.body.email;
-        user.userName = req.body.userName;
-        user.gender = req.body.gender;
-        user.address = req.body.address;
-        user.birthDate = req.body.birthDate;
-        user.phoneNumber = req.body.phoneNumber;
-        user.profilePicture = req.body.profilePicture;
-        user.save().then(user => {
+        User.firstName = req.body.firstName;
+        User.lastName = req.body.lastName;
+        User.email = req.body.email;
+        User.userName = req.body.userName;
+        User.gender = req.body.gender;
+        User.address = req.body.address;
+        User.birthDate = req.body.birthDate;
+        User.phoneNumber = req.body.phoneNumber;
+        User.profilePicture = req.body.profilePicture;
+        User.save().then(user => {
             res.send({ message: "Userdata was updatet successfully!" });
         })
         .catch(err => {
@@ -85,15 +85,15 @@ exports.changePassword = (req, res) => {
     where: {
         userID: req.userId
     }
-    }).then(user => {
+    }).then(User => {
         // catch errors
-        if (!user)
+        if (!User)
             return res.status(404).send({ message: "No user matching webtoken found"});
-        if (!bcrypt.compareSync(req.body.oldPassword,user.authID))
+        if (!bcrypt.compareSync(req.body.oldPassword,User.authID))
             return res.status(401).send({message: "Invalid Password"});
         // save hashed password
-        user.authID = bcrypt.hashSync(req.body.newPassword, 8) 
-        user.save().then(_ => {
+        User.authID = bcrypt.hashSync(req.body.newPassword, 8) 
+        User.save().then(_ => {
             res.send({message: "Password updated successfully"})
         })
     })

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define("user", {
+    const User = sequelize.define("User", {
       userID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -39,9 +39,12 @@ module.exports = (sequelize, Sequelize) => {
       },
       profilePicture: {
         type: Sequelize.TEXT('long')
+      },
+      superUser: {
+        type: Sequelize.BOOLEAN
       }
     }, {
-      timestamps: false,
+      timestamps: true,
       freezeTableName: true,
     });
   

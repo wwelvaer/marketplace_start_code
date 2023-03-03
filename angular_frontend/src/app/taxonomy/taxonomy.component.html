@@ -1,0 +1,34 @@
+<div class="text-center">
+  <H1>Taxonomy</H1>
+  Select Company:
+  <div>
+    <select [(ngModel)]="selectedCompanyName" (ngModelChange)="onCompanyChange($event)">
+      <option *ngFor="let company of companies" [ngValue]="company.name">{{company.name}}
+      </option>
+      <option class="add-option">+ Add</option>
+    </select>
+  </div>
+  <br>
+  <form [formGroup]="taxonomyForm">
+    <div *ngFor="let d of this.taxonomy | keyvalue | orderBy:'orderNr'">
+      <!-- Dimensions -->
+      <h4 class="display-6">{{d.key}} <sup *ngIf="d.value.mandatory">m</sup></h4>
+      <!-- DimensionValues-->
+
+      <div class="btn-group-vertical" data-toggle="buttons" style="width: 100%;">
+        <label *ngFor="let dv of d.value" class="btn btn-block">
+          <div >
+            <input *ngIf="dv.selectable" type="checkbox" [value]="dv.value" [checked]=dv.selected (click)="onCheckboxChange($event, dv, d.key)">
+            {{dv.value}}
+            <sup *ngIf="dv.exclusive">e</sup>
+            <sup *ngIf="dv.dependency && dv.exclusive">, </sup>
+            <sup *ngIf="dv.dependency">d</sup>
+          </div>
+        </label>
+      </div>
+    </div>
+    <!-- <h5>Selected Value: {{taxonomyForm.value | json}}</h5> -->
+  </form>
+  <br>
+  <button (click)="checkMandatoryValues()">Save</button>
+</div>
