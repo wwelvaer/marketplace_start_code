@@ -5,9 +5,9 @@
     <div class="col-3">
       <div class="card">
         <div class="card-body">
-
+          <h2>Filter by</h2>
           <!-- Calendar -->
-          <div *ngIf="properties['ListingKind']?.includes('Service')">
+          <div *ngIf="properties['Listing Kind']?.includes('Service')">
             <mat-card style="width: 100%;padding-top: 0px">
               <mat-calendar [selected]="selected" (selectedChange)="selected = $event">
               </mat-calendar>
@@ -17,11 +17,7 @@
               Clear Date Selection
             </button>
           </div>
-
           <!-- Category selection -->
-          <h2 style="margin-top: 10px;">
-            Categories:
-          </h2>
           <div *ngFor="let category of categories">
             <!-- Category name -->
             <h4 class="display-6" style="margin-top: 10px;">
@@ -207,7 +203,7 @@
                         <div>
 
                           <!-- Show average Rating -->
-                          <div *ngIf="l.avgScore && l.reviewAmount && properties['ReviewSystem']?.includes('By Customer')">Rating:
+                          <div *ngIf="l.avgScore && l.reviewAmount && properties['Review System']?.includes('By Customer')">Rating:
                             <ngb-rating max=5 [(rate)]="l.avgScore" readonly="true">
                               <ng-template let-fill="fill" let-index="index">
                                 <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">

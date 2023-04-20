@@ -1256,8 +1256,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="337"
-                            class="link-to-prism">src/app/services/db-connection.service.ts:337</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="341"
+                            class="link-to-prism">src/app/services/db-connection.service.ts:341</a></div>
                 </td>
             </tr>
 
@@ -3386,7 +3386,11 @@ export class DbConnectionService {
   }
 
   deleteProperty(company: string, property: string) {
-    return this.http.delete(&#x60;${this.url}/api/property/${property}/${company}&#x60;);
+    return this.http.delete(&#x60;${this.url}/api/property/${property}/${company}&#x60;).subscribe(response &#x3D;&gt; {
+      console.log(&quot;Record deleted&quot;, response);
+    }, error &#x3D;&gt; {
+      console.error(&quot;Error deleting record&quot;, error);
+    });
   }
 
   // deleteProperties(company: string) {

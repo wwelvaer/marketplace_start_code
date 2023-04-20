@@ -82,8 +82,8 @@ import { LoginComponent } from &#x27;./login/login.component&#x27;;
 import { ChangePasswordComponent } from &#x27;./profile/change-password/change-password.component&#x27;;
 import { ProfileComponent } from &#x27;./profile/profile.component&#x27;;
 import { SignupComponent } from &#x27;./signup/signup.component&#x27;;
-import {TransactionsComponent} from &#x27;./transactions/transactions.component&#x27;;
-import {TransactiondetailComponent} from &#x27;./transactions/transactiondetail/transactiondetail.component&#x27;
+import { TransactionsComponent } from &#x27;./transactions/transactions.component&#x27;;
+import { TransactiondetailComponent } from &#x27;./transactions/transactiondetail/transactiondetail.component&#x27;
 import { TaxonomyComponent } from &#x27;./taxonomy/taxonomy.component&#x27;;
 import { NotFoundComponent } from &#x27;./404/404.component&#x27;;
 
@@ -98,10 +98,10 @@ const routes: Routes &#x3D; [
   { path: &#x27;listings/details/:id/:type&#x27;, component: ListingDetailComponent },
   { path: &#x27;listings/createEditListing&#x27;, component: CreateEditListingComponent },
   { path: &#x27;categories&#x27;, component: CategoriesComponent },
-  { path: &#x27;transactions&#x27;, component: TransactionsComponent},
-  { path: &#x27;transactions/details/:id&#x27;, component: TransactiondetailComponent},
+  { path: &#x27;transactions&#x27;, component: TransactionsComponent },
+  { path: &#x27;transactions/details/:id&#x27;, component: TransactiondetailComponent },
   { path: &#x27;transactions/details/:id/:type&#x27;, component: TransactiondetailComponent },
-  { path: &#x27;taxonomy&#x27;, component: TaxonomyComponent},
+  { path: &#x27;taxonomy&#x27;, component: TaxonomyComponent },
   { path: &#x27;**&#x27;, component: NotFoundComponent }
 
 ];

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DbConnectionService } from '../services/db-connection.service';
 import { User, UserService } from '../services/user.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   // onSubmit function
-  logIn(){
+  logIn() {
     // collect form values
     let d = this.form.getRawValue();
     // sign in

@@ -375,7 +375,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                        <i>Type : </i>    <code>UntypedFormGroup</code>
 
                     </td>
                 </tr>
@@ -395,10 +395,10 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
-import { FormControl, FormGroup } from &#x27;@angular/forms&#x27;;
+import { UntypedFormControl, UntypedFormGroup } from &#x27;@angular/forms&#x27;;
 import { DbConnectionService } from &#x27;../services/db-connection.service&#x27;;
 import { User, UserService } from &#x27;../services/user.service&#x27;;
-import {Location} from &#x27;@angular/common&#x27;;
+import { Location } from &#x27;@angular/common&#x27;;
 
 @Component({
   selector: &#x27;app-login&#x27;,
@@ -407,17 +407,17 @@ import {Location} from &#x27;@angular/common&#x27;;
 })
 export class LoginComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   error: string &#x3D; &quot;&quot;
 
   constructor(private db: DbConnectionService,
     private user: UserService,
     private location: Location) {
     // initialize form fields
-    this.form &#x3D; new FormGroup({
-      login: new FormControl(),
-      password: new FormControl(),
-      keepSignedIn: new FormControl()
+    this.form &#x3D; new UntypedFormGroup({
+      login: new UntypedFormControl(),
+      password: new UntypedFormControl(),
+      keepSignedIn: new UntypedFormControl()
     });
   }
 
@@ -425,7 +425,7 @@ export class LoginComponent implements OnInit {
   }
 
   // onSubmit function
-  logIn(){
+  logIn() {
     // collect form values
     let d &#x3D; this.form.getRawValue();
     // sign in

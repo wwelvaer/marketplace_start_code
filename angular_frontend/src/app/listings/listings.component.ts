@@ -5,7 +5,6 @@ import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
 import { UserService } from '../services/user.service';
 import { PropertyAccessChain } from 'typescript';
-import { PropertyService } from '../services/property.service';
 
 /**
  *  Component is used to display listings
@@ -92,8 +91,7 @@ export class ListingsComponent implements OnInit {
     private user: UserService,
     private route: ActivatedRoute,
     public image: ImageService,
-    public router: Router,
-    private propertyService: PropertyService,
+    public router: Router
   ) {
     this.form = new UntypedFormGroup({
       comment: new UntypedFormControl('')

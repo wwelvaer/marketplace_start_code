@@ -9,26 +9,21 @@
     </select>
   </div>
   <br>
-  <form [formGroup]="taxonomyForm">
-    <div *ngFor="let d of this.taxonomy | keyvalue | orderBy:'orderNr'">
-      <!-- Dimensions -->
-      <h4 class="display-6">{{d.key}} <sup *ngIf="d.value.mandatory">m</sup></h4>
-      <!-- DimensionValues-->
+  <div *ngFor="let d of this.taxonomy | keyvalue | orderBy:'orderNr'">
+    <!-- Dimensions -->
+    <h4 class="display-6">{{d.key}} <sup *ngIf="d.value.mandatory">m</sup><sup *ngIf="!d.value.mandatory">o</sup></h4>
+    <!-- DimensionValues-->
 
-      <div class="btn-group-vertical" data-toggle="buttons" style="width: 100%;">
-        <label *ngFor="let dv of d.value" class="btn btn-block">
-          <div >
-            <input *ngIf="dv.selectable" type="checkbox" [value]="dv.value" [checked]=dv.selected (click)="onCheckboxChange($event, dv, d.key)">
-            {{dv.value}}
-            <sup *ngIf="dv.exclusive">e</sup>
-            <sup *ngIf="dv.dependency && dv.exclusive">, </sup>
-            <sup *ngIf="dv.dependency">d</sup>
-          </div>
-        </label>
-      </div>
+    <div class="form-check form-check-inline" *ngFor="let dv of d.value">
+      <input type="checkbox" class="form-check-input" id={{dv.value}} autocomplete="off" [value]="dv.value"
+        [checked]=dv.selected (click)="onCheckboxChange($event, dv, d.key)" [disabled]="!dv.selectable">
+      <label class="form-check-label" for={{dv.value}}> {{dv.value}}
+        <sup *ngIf="dv.exclusive">e</sup>
+        <sup *ngIf="dv.dependency && dv.exclusive">, </sup>
+        <sup *ngIf="dv.dependency">d</sup>
+      </label>
     </div>
-    <!-- <h5>Selected Value: {{taxonomyForm.value | json}}</h5> -->
-  </form>
+  </div>
   <br>
-  <button (click)="checkMandatoryValues()">Save</button>
+  <button class="save-option"(click)="checkMandatoryValues()">Save</button>
 </div>

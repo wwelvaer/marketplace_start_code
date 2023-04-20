@@ -4,6 +4,7 @@ import { DbConnectionService } from 'src/app/services/db-connection.service';
 import { UserService } from 'src/app/services/user.service';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ImageService } from 'src/app/services/image.service';
+import { ListingModule } from '../listing.module';
 
 @Component({
   selector: 'app-detail',

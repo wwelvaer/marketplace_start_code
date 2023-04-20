@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from 'src/app/services/db-connection.service';
 import { ImageService } from 'src/app/services/image.service';
 import { UserService } from 'src/app/services/user.service';
+import { ListingModule } from '../listing.module';
 
 @Component({
   selector: 'app-form',

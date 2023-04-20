@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { OrderByPipe } from './orderby.pipe';
-import { TaxonomyComponent } from './taxonomy.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,11 +8,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginComponent } from './login.component';
+import { SignupComponent } from '../signup/signup.component';
+import { ProfileComponent } from '../profile/profile.component';
+import { ChangePasswordComponent } from '../profile/change-password/change-password.component';
+import { UserService } from '../services/user.service';
 
 @NgModule({
     declarations: [
-        OrderByPipe,
-        TaxonomyComponent,
+        LoginComponent,
+        SignupComponent,
+        ProfileComponent,
+        ChangePasswordComponent
     ],
     imports: [
         BrowserModule,
@@ -27,9 +32,11 @@ import { MatIconModule } from '@angular/material/icon';
         MatDatepickerModule,
         MatNativeDateModule,
         MatIconModule,
-      ],
+    ],
     exports: [
-        OrderByPipe,]
-    })
-
-    export class TaxonomyModule {}
+    ],
+    providers: [
+        UserService
+    ]
+})
+export class UserModule { }

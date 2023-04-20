@@ -4,6 +4,17 @@
     text-align: center;
   }
 
+.central {
+    display: inline-block;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
   .display-6 {
     margin-top: 10px;
+  }
+
+  .save-option {
+    background-color: blue;
+    color: white;
   }

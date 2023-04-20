@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
 import { UserService } from '../services/user.service';
-import { TransactiondetailComponent } from './transactiondetail/transactiondetail.component';
 
 @Component({
   selector: 'app-transactions',

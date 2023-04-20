@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { OrderByPipe } from './orderby.pipe';
-import { TaxonomyComponent } from './taxonomy.component';
+import { TransactionsComponent } from './transactions.component';
+import { TransactiondetailComponent } from './transactiondetail/transactiondetail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,8 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
-        OrderByPipe,
-        TaxonomyComponent,
+        TransactionsComponent,
+        TransactiondetailComponent
     ],
     imports: [
         BrowserModule,
@@ -27,9 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
         MatDatepickerModule,
         MatNativeDateModule,
         MatIconModule,
-      ],
+    ],
     exports: [
-        OrderByPipe,]
-    })
-
-    export class TaxonomyModule {}
+    ]
+})
+export class TransactionModule { }

@@ -8,8 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './signup/signup.component';
-import {TransactionsComponent} from './transactions/transactions.component';
-import {TransactiondetailComponent} from './transactions/transactiondetail/transactiondetail.component'
+import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactiondetailComponent } from './transactions/transactiondetail/transactiondetail.component'
 import { TaxonomyComponent } from './taxonomy/taxonomy.component';
 import { NotFoundComponent } from './404/404.component';
 
@@ -24,10 +24,10 @@ const routes: Routes = [
   { path: 'listings/details/:id/:type', component: ListingDetailComponent },
   { path: 'listings/createEditListing', component: CreateEditListingComponent },
   { path: 'categories', component: CategoriesComponent },
-  { path: 'transactions', component: TransactionsComponent},
-  { path: 'transactions/details/:id', component: TransactiondetailComponent},
+  { path: 'transactions', component: TransactionsComponent },
+  { path: 'transactions/details/:id', component: TransactiondetailComponent },
   { path: 'transactions/details/:id/:type', component: TransactiondetailComponent },
-  { path: 'taxonomy', component: TaxonomyComponent},
+  { path: 'taxonomy', component: TaxonomyComponent },
   { path: '**', component: NotFoundComponent }
 
 ];

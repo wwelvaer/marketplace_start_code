@@ -73,7 +73,6 @@ export class TaxonomyComponent implements OnInit {
         }
 
 
-        console.log(this.taxonomy)
       })
   }
 
@@ -84,7 +83,6 @@ export class TaxonomyComponent implements OnInit {
   }
 
   checkDependencyConstraint(value) {
-    console.log("1")
     if (typeof this.constraints !== 'undefined' && Array.isArray(this.constraints)) {
       this.constraints.forEach(constraint => {
 
@@ -92,13 +90,13 @@ export class TaxonomyComponent implements OnInit {
 
           const index = this.taxonomy[constraint.dimension].findIndex(cv => cv.value === constraint.constraintsValue)
           if (index !== -1) {
-            console.log(value)
             if (value.selected) {
               this.taxonomy[constraint.dimension][index].selectable = 0
               this.taxonomy[constraint.dimension][index].selected = 0
               this.taxonomy[constraint.dimension][index]['dependency'] = 1
               // console.log(this.taxonomy[constraint.dimension][index].value)
-              this.db.deleteProperty(this.company, this.taxonomy[constraint.dimension][index].value)
+              this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.company}' AND property = '${this.taxonomy[constraint.dimension][index].value}';`)
+              // this.db.deleteProperty(this.company, this.taxonomy[constraint.dimension][index].value)
             }
             else {
               this.taxonomy[constraint.dimension][index].selectable = 1
@@ -133,22 +131,19 @@ export class TaxonomyComponent implements OnInit {
   onCheckboxChange(e, value: any, dimension) {
     if (e.target.checked) {
       this.propertyValuesFormArray.push(new UntypedFormControl(e.target.value));
-      this.db.createProperty(this.company, e.target.value)
+      // this.db.createProperty(this.company, e.target.value)
+      this.db.executeQuery(`INSERT INTO PropertyCompany (company, property) values ('${this.company}','${e.target.value}');`)
       value.selected = 1
     } else {
       const index = this.propertyValuesFormArray.controls.findIndex(x => x.value === e.target.value);
       this.propertyValuesFormArray.removeAt(index);
       value.selected = 0
-      this.db.deleteProperty(this.company, e.target.value)
+      this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.company}' AND property = '${e.target.value}';`)
+      // this.db.deleteProperty(this.company, e.target.value)
     }
     this.checkDependencyConstraint(value)
-    this.checkExclusiveConstraint(dimension, value)
+    this.checkExclusiveConstraint(dimension, value) 
   }
-
-  // checkDecheckValue(dimension: String, value: String, check: Boolean){
-  //   console.log(dimension)
-  //   console.log(value)
-  // }
 
 
   async onCompanyChange(companyName) {
@@ -186,17 +181,15 @@ export class TaxonomyComponent implements OnInit {
   checkMandatoryValues() {
     const missingDimensions = [];
     
-
-    for (const [dimension, values] of Object.entries(this.taxonomy)) {
+    for (let d in this.taxonomy) {
+      const values = this.taxonomy[d]
       if (values['mandatory']) {
         var sum = 0
-        this.taxonomy[dimension].forEach(v => {
-          sum = +v.selected
-          console.log(dimension)
-          console.log(sum)
+        values.forEach(v => {
+          sum = sum+v.selected
         })
         if (sum == 0) {
-          missingDimensions.push(dimension)
+          missingDimensions.push(d)
         }
       }
     }
@@ -204,7 +197,7 @@ export class TaxonomyComponent implements OnInit {
     if (missingDimensions.length > 0) {
       alert(`Please select a value for the following mandatory dimensions: ${missingDimensions.join(", ")}`);
     } else {
-      alert("All mandatory dimensions have at least one value selected.");
+      alert("Saved");
     }
   }
 }
