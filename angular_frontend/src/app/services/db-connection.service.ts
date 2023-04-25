@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { query } from '@angular/animations';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -9,8 +10,9 @@ import { query } from '@angular/animations';
 export class DbConnectionService {
 
   // backend connection settings
-  backendPort = 3000;
-  url = 'http://localhost:' + this.backendPort;
+  url = environment.baseUrlApi;
+  backendPort = 3001;
+  // url = 'http://localhost:' + this.backendPort;
 
   constructor(private http: HttpClient) {
   }
