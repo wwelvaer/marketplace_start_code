@@ -102,7 +102,7 @@ export class ListingsComponent implements OnInit {
 
     this.db.getProperties().then (r => {
       this.properties = r
-      // console.log(this.properties)
+      console.log(this.properties)
       }
     );
 
