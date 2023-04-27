@@ -11,7 +11,7 @@ export class DbConnectionService {
 
   // backend connection settings
   url = environment.baseUrlApi;
-  backendPort = 3001;
+  // backendPort = 3000;
   // url = 'http://localhost:' + this.backendPort;
 
   constructor(private http: HttpClient) {

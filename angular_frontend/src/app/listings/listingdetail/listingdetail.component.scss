@@ -1,5 +1,4 @@
-@import '../../../styles.scss';
-@import '../listings.component.scss';
+// @import '../../../styles.scss';
 
 $btn-types: info, success, warning;
 $detail-window-type-colors: (
@@ -9,7 +8,6 @@ $detail-window-type-colors: (
 );
 
 .detail-tab-radio-button {
-  @extend .btn;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   border-bottom-style: hidden;
