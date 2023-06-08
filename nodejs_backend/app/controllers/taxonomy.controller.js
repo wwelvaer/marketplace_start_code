@@ -4,16 +4,17 @@ const PropertyCompany = db.PropertyCompany
 
 // returns all listings
 exports.getTaxonomy = (req, res) => {
-    db.sequelize.query("Select dimension, dimensionValue, mandatory, selected, exclusive, orderNrDimension from TaxonomyView TV left join SelectedPropertiesView SPV on TV.dimensionValue = SPV.property order by TV.orderNrDimension, TV.orderNrValue;")
+    const companyName = req.query.company
+    db.sequelize.query(`Select dimension, dimensionValue, IF(company IS NOT NULL, 1, 0) AS selected, mandatory, exclusive, orderNrDimension, TV.description from TaxonomyView TV left join (select * from PropertyCompanyView where company = '${companyName}') PCV on TV.dimensionValue = PCV.property  order by TV.orderNrDimension, TV.orderNrValue ;`)
         .then(taxonomy => {
             return res.status(200).send({ taxonomy: taxonomy[0] })
         })
 };
 
 exports.getProperties = (req, res) => {
-    db.sequelize.query("Select D.name as dimension, DV.name as dimensionValue from Dimension D inner join DimensionValue DV on D.name = DV.dimension left Join PropertyCompany PC on DV.name = PC.property left join Company C on PC.company = C.name where selected;")
+    const companyName = req.query.company
+    db.sequelize.query(`Select D.name as dimension, DV.name as dimensionValue from Dimension D inner join DimensionValue DV on D.name = DV.dimension left Join PropertyCompany PC on DV.name = PC.property left join Company C on PC.company = C.name WHERE company = '${companyName}';`)
         .then(properties => {
-            //console.log(properties.totalcount)
             let r = {}
             properties[0].forEach(property => {
                 if (property.dimension in r)

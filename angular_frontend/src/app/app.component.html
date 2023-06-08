@@ -20,7 +20,7 @@
 
       <!-- Link to My Listings page -->
       <li class="nav-item" *ngIf="user.isLoggedIn()">
-        <a class="nav-link" routerLink="/listings" [queryParams]="{id: user.getId()}">
+        <a class="nav-link" routerLink="/mylistings" [queryParams]="{id: user.getId()}">
           My Listings 
         </a>
       </li>

@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   fileName: string;
   imgSrc: string;
   imgError: string;
+  properties = {};
 
   constructor(public user: UserService,
     private route: Router,
@@ -30,6 +31,7 @@ export class ProfileComponent implements OnInit {
       this.form = new UntypedFormGroup({
         firstName: new UntypedFormControl(),
         lastName: new UntypedFormControl(),
+        organisation: new UntypedFormControl(),
         email: new UntypedFormControl(),
         userName: new UntypedFormControl(),
         gender: new UntypedFormControl(),
@@ -40,6 +42,10 @@ export class ProfileComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.db.getProperties().then(r => {
+      this.properties = r
+    })
+
     // get user data
     this.db.getUserData(this.user.getId(), this.user.getLoginToken())
       .then(user => {

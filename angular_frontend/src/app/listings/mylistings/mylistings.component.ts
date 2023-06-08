@@ -1,24 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DbConnectionService } from '../services/db-connection.service';
-import { ImageService } from '../services/image.service';
-import { UserService } from '../services/user.service';
-import { PropertyAccessChain } from 'typescript';
-import { CompanyService } from '../services/company.service';
+import { DbConnectionService } from '../../services/db-connection.service';
+import { ImageService } from '../../services/image.service';
+import { UserService } from '../../services/user.service';
 
-/**
- *  Component is used to display listings
- */
 @Component({
-  selector: 'app-listings',
-  templateUrl: './listings.component.html',
-  styleUrls: ['./listings.component.scss']
+  selector: 'app-mylistings',
+  templateUrl: './mylistings.component.html',
+  styleUrls: ['./mylistings.component.scss']
 })
-export class ListingsComponent implements OnInit {
-
-  activeListings: boolean = true; // show only active listings
-  hasCancelled: boolean = false;
+export class MylistingsComponent {
   selected: Date | null; // calendar value
   listings = [];
   categories = [];
@@ -86,6 +78,8 @@ export class ListingsComponent implements OnInit {
       .sort(this.transactions ? (a, b) => 1 : this.sortCols[this.sortCol].sortFunc) // only listings need to be sorted clientside
   }
 
+  
+
   constructor(
     private db: DbConnectionService,
     private user: UserService,
@@ -100,32 +94,34 @@ export class ListingsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.db.getProperties().then (r => {
+    this.db.getProperties().then(r => {
       this.properties = r
-      }
+      console.log(this.properties)
+    }
     );
 
-    
-    
+
+
     // get categories
     this.db.getCategories().then(r => {
       // console.log(r)
       this.categories = Object.entries(r).map(([k, v]) => [k, v.map((x => {
         return { name: x, selected: false }
-        
+
       }))])
     })
-    
+
     // get url query params
     this.route.queryParamMap.subscribe(qMap => {
       // when query has 'id' parameter display listings from user with id
       let uId = qMap['params'].id;
 
-          this.db.getActiveListings().then(l => {
-          this.listings = l['listings']
-          this.hasCancelled = false;
-          console.log(this.listings)
-        })
+      this.db.getUserListings(uId).then(l => {
+        this.listings = l['listings']
+        console.log(this.listings)
+
+      })
+
       // }
     })
   }
@@ -133,6 +129,5 @@ export class ListingsComponent implements OnInit {
   formatCategories(categories: string): string {
     return categories.replace(/;/g, ', ');
   }
-
-
+  
 }

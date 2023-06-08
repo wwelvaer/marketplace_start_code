@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
       type: {
         type: Sequelize.STRING,
       },
+      company: {
+        type: Sequelize.STRING
+      }
     }, {
       timestamps: true,
       freezeTableName: true,

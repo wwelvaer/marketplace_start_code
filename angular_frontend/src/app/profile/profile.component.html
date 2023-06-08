@@ -26,7 +26,7 @@
             <form [formGroup]="form" (ngSubmit)="updateProfile()">
 
               <!-- First Name -->
-              <div class="form-group">
+              <div *ngIf="properties['User Type']?.includes('Person')" class="form-group">
                 <label for="inputFirstName">
                   First Name
                 </label>
@@ -39,7 +39,7 @@
               </div>
 
               <!-- Last Name -->
-              <div class="form-group">
+              <div *ngIf="properties['User Type']?.includes('Person')" class="form-group">
                 <label for="inputLastName">
                   Last Name
                 </label>
@@ -49,6 +49,18 @@
                   id="inputLastName"
                   placeholder="Enter Last Name"
                   formControlName="lastName">
+              </div>
+
+              <div *ngIf="properties['User Type']?.includes('Organisation')" class="form-group">
+                <label for="inputOrganisation">
+                  Organisation
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputOrganisation"
+                  placeholder="Enter Organisation"
+                  formControlName="organisation">
               </div>
 
               <!-- Email -->
@@ -78,7 +90,7 @@
               </div>
 
               <!-- Gender -->
-              <div class="form-group">
+              <div *ngIf="properties['User Type']?.includes('Person')" class="form-group">
                 <label for="inputGender">
                   Gender
                 </label>
@@ -104,7 +116,7 @@
               </div>
 
               <!-- Birth Date -->
-              <div class="form-group">
+              <div *ngIf="properties['User Type']?.includes('Person')" class="form-group">
                 <label for="inputBirthDate">
                   Birth Date
                 </label>

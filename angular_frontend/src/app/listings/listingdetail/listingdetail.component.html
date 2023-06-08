@@ -19,18 +19,14 @@
         <div class="btn-group" role="group">
 
           <!-- Edit Listing -->
-          <button
-            class="btn btn-lg btn-success"
-            routerLink="/listings/createEditListing"
+          <button class="btn btn-lg btn-success" routerLink="/listings/createEditListing"
             [queryParams]="{edit: listing.listingID}">
-              EDIT
+            EDIT
           </button>
 
           <!-- Cancel Listing -->
-          <button
-            class="btn btn-lg btn-danger"
-            (click)="cancelListing(listing.listingID)">
-              CANCEL
+          <button class="btn btn-lg btn-danger" (click)="cancelListing(listing.listingID)">
+            CANCEL
           </button>
 
         </div>
@@ -42,9 +38,8 @@
     <div class="row">
 
       <!-- Image -->
-      <div class="col-8">
-        <img
-          style="width: 100%;border-radius: 5px;"
+      <div *ngIf="!properties['Listing Type']?.includes('Digital Good')" class="col-8">
+        <img style="width: 100%;border-radius: 5px;"
           [src]="listing.picture ? listing.picture : image.getPlaceholderImage()">
       </div>
 
@@ -59,26 +54,33 @@
           *ngIf="user.isLoggedIn() && listing.userID !== user.getId() && listing.availableAssets !== 0 && listing.status !== 'cancelled'">
           <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="createTransaction()">
-
-              <!-- Number of Assets Input -->
-              <div class="form-group">
-                <label for="inputNumberOfAssets">
-                  Number Of Assets
+              <!--Address input-->
+              <div class="form-group" *ngIf="properties['Listing Type']?.includes('Physical Good')">
+                <label for="address">
+                  Address
                 </label>
-                <input
-                  type="number"
-                  min=1
-                  class="form-control"
-                  id="inputNumberOfAssets"
-                  placeholder="Enter Number Of Assets"
-                  formControlName="numberOfAssets">
+                <input type="text" class="form-control" id="address" placeholder="address" formControlName="address">
               </div>
-
+              <!-- Number of Assets Input -->
+              <div class="form-group" *ngIf="!properties['Quantity']?.includes('One')">
+                <label for="inputNumberOfAssets">
+                  Quantity (max {{listing.availableAssets}})
+                </label>
+                <input type="number" min=1 max={{listing.availableAssets}} class="form-control" id="inputNumberOfAssets"
+                  placeholder="Quantity" formControlName="numberOfAssets">
+              </div>
+               <!-- Date input -->
+              <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')" class="form-group">
+                <label for="inputDate">Date</label>
+                <input type="date" class="form-control" id="inputDate" formControlName="date">
+              </div>
+              <!-- Time input -->
+              <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')" class="form-group">
+                <label for="inputTime">Time</label>
+                <input type="time" class="form-control" id="inputTime" formControlName="time">
+              </div>
               <!-- Make transaction -->
-              <button
-                type="submit"
-                class="btn btn-primary btn-block"
-                [disabled]="!form.getRawValue().numberOfAssets">
+              <button type="submit" class="btn btn-primary btn-block">
                 Make Transaction
               </button>
 
@@ -94,39 +96,36 @@
     <div class="btn-group" role="group" style="margin-left: 15px;margin-top: 20px;">
 
       <!-- Info -->
-      <button
-        [class]="'detail-tab-radio-button--info' + (selectedTab === 'info' ? '-selected' : '')"
+      <button [class]="'detail-tab-radio-button--info' + (selectedTab === 'info' ? '-selected' : '')"
         (click)="selectedTab = 'info'">
-          Info
+        Info
       </button>
 
       <!-- Reviews -->
-      <button
-        [class]="'detail-tab-radio-button--success' + (selectedTab === 'reviews' ? '-selected' : '')"
+      <button *ngIf="properties['Review System']?.includes('By Customer')" [class]="'detail-tab-radio-button--success' + (selectedTab === 'reviews' ? '-selected' : '')"
         (click)="selectedTab = 'reviews'">
-          Reviews
 
-          <!-- star rating system -->
-          <ngb-rating max=5 [(rate)]="avgScore" readonly="true" *ngIf="avgScore !== 0">
-            <ng-template let-fill="fill" let-index="index">
-              <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
-                <span class="rating-star-front" [style]="'width:' + fill + '%'">
-                  &#9733;
-                </span>
+        <!-- star rating system -->
+        Reviews:
+        <ngb-rating max=5 [(rate)]="avgScore" readonly="true" *ngIf="avgScore !== 0">
+          <ng-template let-fill="fill" let-index="index">
+            <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
+              <span class="rating-star-front" [style]="'width:' + fill + '%'">
                 &#9733;
               </span>
-            </ng-template>
-          </ngb-rating>
+              &#9733;
+            </span>
+          </ng-template>
+        </ngb-rating>
 
-          ({{reviews.length}})
+        ({{reviews.length}})
       </button>
 
       <!-- Transactions (only when user is owner of listing) -->
-      <button
-        *ngIf="listing.userID === user.getId()"
+      <button *ngIf="listing.userID === user.getId()"
         [class]="'detail-tab-radio-button--warning' + (selectedTab === 'transactions' ? '-selected' : '')"
         (click)="selectedTab = 'transactions'">
-          Transactions
+        Transactions
       </button>
 
     </div>
@@ -144,8 +143,8 @@
         </p>
 
         <!-- Available Assets -->
-        <p *ngIf="listing.availableAssets || listing.availableAssets === 0">
-          <b>Available Assets: </b>{{listing.availableAssets}}
+        <p *ngIf="!properties['Quantity']?.includes('One') && (listing.availableAssets || listing.availableAssets === 0)">
+          <b>Quantity Available: </b>{{listing.availableAssets}}
         </p>
 
         <!-- Date -->
@@ -180,8 +179,7 @@
           <div *ngFor="let review of reviews">
 
             <!-- User Image-->
-            <img
-              style="border-radius: 50%; height: 30px; width: 30px"
+            <img style="border-radius: 50%; height: 30px; width: 30px"
               [src]="review.Transaction.User.profilePicture ? review.Transaction.User.profilePicture: image.getUserPlaceholderImage()">
 
             <!-- User Name -->
@@ -225,7 +223,8 @@
               <tr>
                 <th scope="col">Time</th>
                 <th scope="col">Customer</th>
-                <th scope="col"># Assets</th>
+                <th scope="col" *ngIf="!properties['Quantity']?.includes('One')">Quantity</th>
+                <th scope="col" *ngIf="properties['Listing Type']?.includes('Physical Good')">Address</th>
                 <th scope="col">Price</th>
                 <th scope="col">Status</th>
                 <th scope="col">Actions</th>
@@ -240,7 +239,7 @@
 
                 <!-- Customer -->
                 <th scope="row">
-                  {{b.User.name}}
+                  {{b.User.userName}}
 
                   <!-- When user has score (NOT YET IMPLEMENTED)-->
                   <ngb-rating max=5 [(rate)]="b.userScore" readonly="true" *ngIf="b.userScore !== 0">
@@ -258,10 +257,13 @@
                 </th>
 
                 <!-- # Assets -->
-                <td>{{b.numberOfAssets}}</td>
+                <td *ngIf="!properties['Quantity']?.includes('One')">{{b.numberOfAssets}}</td>
+
+                <td *ngIf="properties['Listing Type']?.includes('Physical Good')">{{b.sendAddress}}</td>
 
                 <!-- Price -->
-                <td>€{{b.numberOfAssets * b.pricePerAsset}}</td>
+                <td *ngIf="properties['Price Discovery']?.includes('By Quantity')">€{{b.numberOfAssets * b.price}}</td>
+                <td *ngIf="!properties['Price Discovery']?.includes('By Quantity')">€{{b.price}}</td>
 
                 <!-- Status -->
                 <td>{{b.status}}</td>
@@ -271,18 +273,14 @@
                   <div class="btn-group" role="group" *ngIf="b.status !== 'cancelled'">
 
                     <!-- Confirm Payment-->
-                    <button
-                      *ngIf="b.status !== 'payed'"
-                      class="btn btn-lg btn-success"
+                    <button *ngIf="b.status !== 'payed'" class="btn btn-lg btn-success"
                       (click)="confirmPayment(b.transactionID)">
-                        Confirm Payment
+                      Confirm Payment
                     </button>
 
                     <!-- Cancel Transaction-->
-                    <button
-                      class="btn btn-lg btn-danger"
-                      (click)="cancelTransaction(b.transactionID)">
-                        Cancel
+                    <button class="btn btn-lg btn-danger" (click)="cancelTransaction(b.transactionID)">
+                      Cancel
                     </button>
 
                   </div>

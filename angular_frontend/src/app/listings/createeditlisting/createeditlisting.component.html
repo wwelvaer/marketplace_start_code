@@ -45,21 +45,21 @@
               </div>
 
               <!-- Available Assets -->
-              <div class="form-group">
+              <div *ngIf="!properties['Quantity']?.includes('One')" class="form-group">
                 <label for="inputAvailableAssets">
-                  Available Assets
+                  Quantity Available
                 </label>
                 <input
                   type="number"
                   min=1
                   class="form-control"
                   id="inputAvailableAssets"
-                  placeholder="Enter Available Assets"
+                  placeholder="Enter Quantity Available"
                   formControlName="availableAssets">
               </div>
 
               <!-- Date -->
-              <div class="form-group">
+              <div *ngIf=" properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('One-Time')" class="form-group">
                 <label for="inputDate">
                   Date
                 </label>
@@ -94,7 +94,7 @@
               </div>
 
               <!-- Location -->
-              <div class="form-group">
+              <div  *ngIf="properties['Listing Type']?.includes('Offline Service')" class="form-group">
                 <label for="inputLocation">
                   Location
                 </label>
@@ -107,7 +107,7 @@
               </div>
 
               <!-- Image -->
-              <div class="form-group">
+              <div *ngIf="!properties['Listing Type']?.includes('Digital Good')" class="form-group">
 
                 <!-- Image Input-->
                 <label for="inputImage">
@@ -144,6 +144,35 @@
 
               </div>
 
+              <div *ngIf="properties['Listing Type']?.includes('Digital Good')" class="form-group">
+
+                <!-- file Input-->
+                <label for="inputFile">
+                  File
+                </label>
+                <div class="custom-file" id="inputFile">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="customFile"
+                    (change)="fileSelected($event)">
+                  <label class="custom-file-label" for="customFile">
+                    {{fileName ? fileName : 'Choose File'}}
+                  </label>
+                </div>
+              </div>
+
+              <div *ngIf="properties['Listing Type']?.includes('Digital Service')" class="form-group">
+                <label for="inputLink">
+                  Link
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputLink"
+                  placeholder="Enter Link"
+                  formControlName="link">
+              </div>
             </form>
 
             <!-- Category selection-->

@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  baseUrlApi: "https://ugmarket.ugent.be/api2/"
+  
+  baseUrlApi: 'http://localhost:3001'
+
 };
 
 /*

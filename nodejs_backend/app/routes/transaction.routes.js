@@ -39,4 +39,9 @@ module.exports = function(app) {
       [authJwt.verifyToken],
       controller.confirmPayment
     );
+
+    app.get(
+      "/api/transaction",
+      controller.getTransaction
+    );
   };

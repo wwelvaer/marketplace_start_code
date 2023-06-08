@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DbConnectionService } from './services/db-connection.service';
 import { UserService } from './services/user.service';
+import { CompanyService } from './services/company.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent {
   constructor(
     public user: UserService,
     private db: DbConnectionService,
-    private router: Router){
+    private router: Router,
+    private companyService: CompanyService){
       this.fetchNotifications();
 
       // repeatedly check for notifications
@@ -26,6 +28,11 @@ export class AppComponent {
       }, this.timeToRefresh);  
       
   }
+
+  ngOnInit() {
+    this.title = this.companyService.companyName
+  }
+  
 
   // turn notification into message
   getNotificationMessage(notification: object): string{

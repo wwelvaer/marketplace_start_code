@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { query } from '@angular/animations';
 import { environment } from 'src/environments/environment';
+import { CompanyService } from './company.service';
 
 
 @Injectable({
@@ -11,10 +12,12 @@ export class DbConnectionService {
 
   // backend connection settings
   url = environment.baseUrlApi;
-  // backendPort = 3000;
-  // url = 'http://localhost:' + this.backendPort;
+  companyName: string;
+  
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private companyService: CompanyService) {
+                this.companyName = companyService.companyName
   }
 
   // create HTTP header with webtoken
@@ -46,6 +49,7 @@ export class DbConnectionService {
    * @returns http response promise
    */
   signUp(fields: Object){
+    console.log(fields)
     return this.http.post(`${this.url}/api/auth/signup`, fields).toPromise();
   }
 
@@ -101,8 +105,14 @@ export class DbConnectionService {
    * get all listings
    * @returns http response promise
    */
-  getAllListings(){
-    return this.http.get(`${this.url}/api/listings`).toPromise();
+  getAllListings() {
+    const params = { company: this.companyName }; // Add the company name as a query parameter
+    return this.http.get(`${this.url}/api/listings`, { params }).toPromise();
+  }
+
+  getActiveListings() {
+    const params = { company: this.companyName }; // Add the company name as a query parameter
+    return this.http.get(`${this.url}/api/activeListings`, { params }).toPromise();
   }
 
   /**
@@ -111,7 +121,8 @@ export class DbConnectionService {
    * @returns http response promise
    */
   getUserListings(userId: number){
-    return this.http.get(`${this.url}/api/listings/user?id=${userId}`).toPromise();
+    const params = { company: this.companyName };
+    return this.http.get(`${this.url}/api/listings/user?id=${userId}`, { params }).toPromise();
   }
 
   /**
@@ -127,8 +138,9 @@ export class DbConnectionService {
    *  @field location
    * @returns http response promise
    */
-  createListing(userToken: string, fields: Object){
-    return this.http.post(`${this.url}/api/listing/create`, fields, {headers: this.getTokenHeader(userToken)}).toPromise();
+  createListing(userToken: string, fields: Object, companyName: string){
+    const data = { ...fields, companyName };
+    return this.http.post(`${this.url}/api/listing/create`, data,  {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
   /**
@@ -138,6 +150,10 @@ export class DbConnectionService {
    */
   getListing(id: number){
     return this.http.get(`${this.url}/api/listing?id=${id}`).toPromise();
+  }
+
+  getTransaction(id: number){
+    return this.http.get(`${this.url}/api/transaction?transactionID=${id}`).toPromise();
   }
 
   /**
@@ -168,6 +184,10 @@ export class DbConnectionService {
     return this.http.get(`${this.url}/api/listing/cancel?id=${id}`, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
+  soldListingStatus(listingID) {
+    return this.http.get(`${this.url}/api/listing/soldStatus?id=${listingID}`).toPromise();
+  }
+
   /**
    * get all transactions on a given listing
    * @param listingID listingID
@@ -184,7 +204,8 @@ export class DbConnectionService {
    * @returns http response promise
    */
   getUserTransactions(userToken: string){
-    return this.http.get(`${this.url}/api/transactions/user`, {headers: this.getTokenHeader(userToken)}).toPromise();
+    const params = { company: this.companyName };
+    return this.http.get(`${this.url}/api/transactions/user`, {params, headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
   /**
@@ -196,6 +217,7 @@ export class DbConnectionService {
    * @returns http response promise
    */
   createTransaction(userToken: string, fields: Object){
+    console.log(fields)
     return this.http.post(`${this.url}/api/transaction/create`, fields, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
@@ -221,7 +243,8 @@ export class DbConnectionService {
 
   // get all categories
   getCategories(){
-    return this.http.get(`${this.url}/api/categories`).toPromise();
+    const params = {company: this.companyName}
+    return this.http.get(`${this.url}/api/categories`, {params} ).toPromise();
   }
 
   /**
@@ -247,11 +270,20 @@ export class DbConnectionService {
    * @param fields
    *  @field name (required)
    *  @field type
+   *  @field company
    * @returns http response promise
    */
-  createCategory(fields: object){
+  createCategory(fields: any){
+    fields.company = this.companyName
+    // console.log(fields)
     return this.http.post(`${this.url}/api/category/create`, fields).toPromise();
   }
+
+  createCompany (fields){
+    // fields.company = this.companyName
+      // console.log(fields)
+      return this.http.post(`${this.url}/api/company/create`, fields).toPromise();
+   }
 
   /**
    * // get all notifications from user
@@ -303,11 +335,13 @@ export class DbConnectionService {
   }
 
   getTaxonomy() {
-    return this.http.get(`${this.url}/api/taxonomy`).toPromise();
+    const params = { company: this.companyName };
+    return this.http.get(`${this.url}/api/taxonomy`, {params}).toPromise();
   }
 
   getProperties() {
-    return this.http.get(`${this.url}/api/properties`).toPromise();
+    const params = { company: this.companyName };
+    return this.http.get(`${this.url}/api/properties`, {params}).toPromise();
   }
 
   getSelectedCompany() {

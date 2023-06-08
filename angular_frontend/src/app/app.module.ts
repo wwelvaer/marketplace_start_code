@@ -21,6 +21,7 @@ import { ListingModule } from './listings/listing.module';
 
 import { TransactionModule } from './transactions/transaction.module';
 import { UserModule } from './login/user.module';
+import { CompanyService } from './services/company.service';
 
 @NgModule({
   declarations: [
@@ -41,10 +42,12 @@ import { UserModule } from './login/user.module';
     TaxonomyModule,
     ListingModule,
     TransactionModule,
-    UserModule
+    UserModule,
+    NgbModule,
     
   ],
   providers: [CookieService,
+    CompanyService,
     MatDatepickerModule,
     MatNativeDateModule],
   bootstrap: [AppComponent]

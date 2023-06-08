@@ -31,7 +31,6 @@ export class TransactionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.rating)
     this.fetchTransactions();
     this.db.getProperties().then(r => {
       this.properties = r

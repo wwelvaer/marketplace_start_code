@@ -24,6 +24,12 @@ module.exports = (sequelize, Sequelize) => {
       picture: { // base64 string
         type: Sequelize.TEXT('long')
       },
+      file: { // base64 string
+        type: Sequelize.TEXT('long')
+      },
+      link: {
+        type: Sequelize.TEXT('long')
+      },
       location: {
         type: Sequelize.STRING
       },
@@ -39,7 +45,7 @@ module.exports = (sequelize, Sequelize) => {
         },
       },
       status: {
-        type: Sequelize.ENUM('active', 'cancelled'),
+        type: Sequelize.ENUM('active', 'cancelled', 'draft', 'sold'),
         allowNull: false,
         default: 'active'
       },

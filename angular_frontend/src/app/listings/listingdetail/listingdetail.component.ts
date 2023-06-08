@@ -21,6 +21,7 @@ export class ListingDetailComponent implements OnInit {
   avgScore: number = 0;
   selectedTab = ""; // ["info", "reviews", "transactions"]
   loading = 0; // #asynchronous tasks running
+  properties = {}
 
   constructor(private route: ActivatedRoute,
     private db : DbConnectionService,
@@ -29,11 +30,20 @@ export class ListingDetailComponent implements OnInit {
     public image: ImageService) {
       // initialize form field
       this.form = new UntypedFormGroup({
-        numberOfAssets: new UntypedFormControl()
+        numberOfAssets: new UntypedFormControl(),
+        address: new UntypedFormControl(),
+        date: new UntypedFormControl(),
+        time: new UntypedFormControl()
       });
     }
 
   ngOnInit(): void {
+
+    this.db.getProperties().then (r => {
+      this.properties = r
+      }
+    );
+
     // get url query params
     this.route.params.subscribe(params => {
       this.error = "";
@@ -94,11 +104,13 @@ export class ListingDetailComponent implements OnInit {
             t['userReviews'] = r['reviews']
             t['userScore'] = r['score']
           });
+          console.log(this.transactions)
         })
         this.onFinishLoading();
       }).catch(err => {
         this.error = err.error.message
       })
+      
   }
 
   // delete listing
@@ -113,11 +125,16 @@ export class ListingDetailComponent implements OnInit {
   // create transaction
   createTransaction(){
     // get form value
-    let v = this.form.getRawValue()
+    let values = {...this.form.getRawValue(), }
+    console.log(values)
     // add listingID to form values
-    v['listingID'] = this.listing['listingID'];
-    this.db.createTransaction(this.user.getLoginToken(), v).then(_ => {
-      // go to transactions
+    values['listingID'] = this.listing['listingID'];
+    this.db.createTransaction(this.user.getLoginToken(), values).then(_ => {
+     //sold when only 1 quantity exists
+    if (this.properties['Quantity']?.includes('One') && !this.properties['Frequency']?.includes('Recurring')) {
+      this.db.soldListingStatus(this.listing['listingID'])
+    }
+     // go to transactions
       this.router.navigate(['/transactions'])
     })
   }

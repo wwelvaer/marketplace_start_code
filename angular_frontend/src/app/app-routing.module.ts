@@ -4,6 +4,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { ListingDetailComponent } from './listings/listingdetail/listingdetail.component';
 import { CreateEditListingComponent } from './listings/createeditlisting/createeditlisting.component';
 import { ListingsComponent } from './listings/listings.component';
+import { MylistingsComponent } from './listings/mylistings/mylistings.component'
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'profile/changePassword', component: ChangePasswordComponent },
   { path: 'listings', component: ListingsComponent },
+  { path: 'mylistings', component: MylistingsComponent},
   { path: 'listings/details/:id', component: ListingDetailComponent },
   { path: 'listings/details/:id/:type', component: ListingDetailComponent },
   { path: 'listings/createEditListing', component: CreateEditListingComponent },

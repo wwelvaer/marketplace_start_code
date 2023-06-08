@@ -19,5 +19,13 @@ module.exports = function(app) {
       "/api/companies",
       controller.getAllCompanies
     );
-    app.put("api/company/updateSelected", controller.updateSelectedCompany)
+    app.put(
+      "/api/company/updateSelected", 
+      controller.updateSelectedCompany
+      );
+
+    app.post(
+      "/api/company/create",
+      controller.createCompany
+    );
   };

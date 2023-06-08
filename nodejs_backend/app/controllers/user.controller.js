@@ -20,6 +20,7 @@ exports.getUserData = (req, res) => {
         res.status(200).send({
             firstName: User.firstName,
             lastName: User.lastName,
+            organisation: User.organisation,
             email: User.email,
             userName: User.userName,
             gender: User.gender,
@@ -37,6 +38,7 @@ exports.getUserData = (req, res) => {
  * expected params in body (not required):
  * @param firstName
  * @param lastName
+ * @param organisation
  * @param email
  * @param userName
  * @param gender
@@ -58,6 +60,7 @@ exports.postUserData = (req, res) => {
         // update data
         User.firstName = req.body.firstName;
         User.lastName = req.body.lastName;
+        User.organisation = req.body.organisation;
         User.email = req.body.email;
         User.userName = req.body.userName;
         User.gender = req.body.gender;

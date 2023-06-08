@@ -9,15 +9,20 @@ module.exports = (sequelize, Sequelize) => {
       numberOfAssets: {
         type: Sequelize.INTEGER
       },
-      pricePerAsset: {
+      price: {
         type: Sequelize.DOUBLE
       },
+      date: {
+        type: Sequelize.DATEONLY
+      },
       time: {
-        type: Sequelize.DATE,
-        allowNull: false
+        type: Sequelize.TIME,
       },
       status: {
         type: Sequelize.ENUM('payed', 'reserved', 'cancelled')
+      },
+      sendAddress: {
+        type: Sequelize.TEXT
       }
     }, {
       timestamps: true,

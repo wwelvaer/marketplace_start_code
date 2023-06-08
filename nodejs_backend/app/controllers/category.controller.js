@@ -3,29 +3,38 @@ const Category = db.Category;
 
 // returns all categories
 exports.getCategories = (req, res) => {
-    Category.findAll().then(l => {
-        let r = {}
-        l.forEach(x => {
-            if (x.type in r)
-                r[x.type].push(x.name)
-            else
-                r[x.type] = [x.name]
+    const companyName = req.query.company;
+
+    Category.findAll({
+        where: { company: companyName } // Filter categories based on the company name
+      })
+        .then(categories => {
+          let result = {};
+          categories.forEach(category => {
+            if (category.type in result) {
+              result[category.type].push(category.name);
+            } else {
+              result[category.type] = [category.name];
+            }
+          });
+          res.status(200).send(result);
+        })
+        .catch(err => {
+          res.status(500).send({ message: err.message });
         });
-        res.status(200).send(r)
-    }).catch(err => {
-        res.status(500).send({ message: err.message });
-      });
 };
 
 /** create category
  * expected params in body
  * @param name
  * @param type
+ * @param company
  */
 exports.createCategory = (req, res) => {
     Category.create({
         name: req.body.name,
-        type: req.body.type
+        type: req.body.type,
+        company: req.body.company
     }).then(c => {
         res.send({message: "Category created successfully"})
     }).catch(err => {

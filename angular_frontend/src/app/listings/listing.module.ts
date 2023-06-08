@@ -11,12 +11,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MylistingsComponent } from './mylistings/mylistings.component';
 
 @NgModule({
     declarations: [
         ListingsComponent,
         ListingDetailComponent,
-        CreateEditListingComponent
+        CreateEditListingComponent,
+        MylistingsComponent
     ],
     imports: [
         BrowserModule,

@@ -2,16 +2,23 @@
   <H1>Taxonomy</H1>
   Select Company:
   <div>
-    <select [(ngModel)]="selectedCompanyName" (ngModelChange)="onCompanyChange($event)">
+    <!-- <select [(ngModel)]="companyName" (ngModelChange)="onCompanyChange($event)">
       <option *ngFor="let company of companies" [ngValue]="company.name">{{company.name}}
       </option>
       <option class="add-option">+ Add</option>
-    </select>
+    </select> -->
+    <p>{{this.companyName}}</p>
   </div>
   <br>
   <div *ngFor="let d of this.taxonomy | keyvalue | orderBy:'orderNr'">
     <!-- Dimensions -->
-    <h4 class="display-6">{{d.key}} <sup *ngIf="d.value.mandatory">m</sup><sup *ngIf="!d.value.mandatory">o</sup></h4>
+    <span class="fa-stack" [ngbPopover]="d.value.description" triggers="mouseenter:mouseleave"
+      popoverClass="myclass">
+      <i class="fa fa-circle fa-stack-1x icon-background2"></i>
+      <i class="fa fa-info fa-stack-1x"></i>
+      <h4 class="display-6">{{d.key}} <sup *ngIf="d.value.mandatory">m</sup><sup *ngIf="!d.value.mandatory">o</sup></h4>
+    </span>
+
     <!-- DimensionValues-->
 
     <div class="form-check form-check-inline" *ngFor="let dv of d.value">
@@ -25,5 +32,5 @@
     </div>
   </div>
   <br>
-  <button class="save-option"(click)="checkMandatoryValues()">Save</button>
+  <button class="save-option" (click)="checkMandatoryValues()">Save</button>
 </div>

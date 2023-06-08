@@ -18,6 +18,7 @@ export class SignupComponent implements OnInit {
   fileName: string;
   imgSrc: string;
   imgError: string;
+  properties = {};
 
   constructor(private db: DbConnectionService,
     private route: Router,
@@ -26,6 +27,7 @@ export class SignupComponent implements OnInit {
       this.form = new UntypedFormGroup({
         firstName: new UntypedFormControl(),
         lastName: new UntypedFormControl(),
+        organisation: new UntypedFormControl(),
         email: new UntypedFormControl(),
         userName: new UntypedFormControl(),
         gender: new UntypedFormControl(),
@@ -38,6 +40,9 @@ export class SignupComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.db.getProperties().then(r => {
+      this.properties = r
+    })
   }
 
   // onSubmit function

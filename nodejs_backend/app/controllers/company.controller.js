@@ -50,5 +50,32 @@ exports.updateSelectedCompany = async (req, res) => {
   }
 };
 
+exports.createCompany = (req, res) => {
+  const companyName = req.body.company;
+
+  Company.findOne({ where: { name: companyName } })
+    .then(existingCompany => {
+      if (existingCompany) {
+        // Company already exists, send a response indicating that no record was added
+        res.status(200).json({ message: 'Company already exists' });
+      } else {
+        // Company does not exist, create a new record
+        Company.create({ name: companyName })
+          .then(company => {
+            res.status(201).json(company);
+          })
+          .catch(error => {
+            console.error('Error creating company:', error);
+            res.status(500).json({ error: 'Failed to create company' });
+          });
+      }
+    })
+    .catch(error => {
+      console.error('Error checking company existence:', error);
+      res.status(500).json({ error: 'Failed to check company existence' });
+    });
+};
+
+
 
 

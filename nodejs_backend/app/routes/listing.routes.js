@@ -14,6 +14,10 @@ module.exports = function(app) {
       "/api/listings",
       controller.getAllListings
     );
+    app.get(
+      "/api/activeListings",
+      controller.getActiveListings
+    );
   
     app.get(
       "/api/listings/user",
@@ -41,5 +45,10 @@ module.exports = function(app) {
       "/api/listing/cancel",
       [authJwt.verifyToken],
       controller.cancelListing
+    );
+
+    app.get(
+      "/api/listing/soldStatus",
+      controller.soldListingStatus
     );
   };

@@ -92,7 +92,7 @@
           </div>
 
           <!-- Show cancelled listings checkbox -->
-          <div class="col-auto" *ngIf="hasCancelled">
+          <!-- <div class="col-auto" *ngIf="hasCancelled">
             <div class="card">
               <div class="card-body" style="padding:10px">
                 <div class="form-check">
@@ -104,7 +104,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Template for page navigation -->
           <ng-template #pages>
@@ -179,7 +179,7 @@
               <div class="row no-gutters">
 
                 <!-- Image -->
-                <div class="col-auto" style="cursor:pointer;" [routerLink]="['/listings', 'details', l.listingID]">
+                <div *ngIf="!properties['Listing Type']?.includes('Digital Good')" class="col-auto" style="cursor:pointer;" [routerLink]="['/listings', 'details', l.listingID]">
                   <img class="card-img-left" [src]="l.picture ? l.picture : image.getPlaceholderImage()"
                     style="width: 318px;height: 200;" [alt]="l.name">
                 </div>
@@ -201,9 +201,10 @@
 
                         <!-- Listing Details -->
                         <div>
+                          <div> categories: <b>{{formatCategories(l.categories)}}</b></div>
 
                           <!-- Show average Rating -->
-                          <div *ngIf="l.avgScore && l.reviewAmount && properties['Review System']?.includes('By Customer')">Rating:
+                          <div *ngIf="l.avgScore && l.reviewAmount && properties['Review System']?.includes('By Customer')">
                             <ngb-rating max=5 [(rate)]="l.avgScore" readonly="true">
                               <ng-template let-fill="fill" let-index="index">
                                 <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
@@ -217,9 +218,11 @@
                             ({{l.reviewAmount}})
                           </div>
 
-                          <div *ngIf="l.availableAssets">Available Assets: <b>{{l.availableAssets}}</b></div>
+                          <div *ngIf="l.availableAssets && properties['Quantity']?.includes('Many')">Quantity Available: <b>{{l.availableAssets}}</b></div>
                           <div *ngIf="l.date">Date: <b>{{l.date}}</b></div>
                           <div *ngIf="l.location">Location: <b>{{l.location}}</b></div>
+                          <div *ngIf="l.organisation">Offered by: <b>{{l.organisation}}</b></div>
+                          <div *ngIf="!l.organisation">Offered by: <b>{{l.userName}}</b></div>
                         </div>
                       </div>
 

@@ -5,6 +5,7 @@ import { DbConnectionService } from 'src/app/services/db-connection.service';
 import { ImageService } from 'src/app/services/image.service';
 import { UserService } from 'src/app/services/user.service';
 import { ListingModule } from '../listing.module';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-form',
@@ -21,12 +22,14 @@ export class CreateEditListingComponent implements OnInit {
   error: string
   listingId: number = -1;
   categories = [];
+  properties = {};
 
   constructor(private user: UserService,
     private route: ActivatedRoute,
     private db: DbConnectionService,
     private router: Router,
-    private image: ImageService) {
+    private image: ImageService,
+    private companyService: CompanyService) {
     // redirect to login page when not logged in
     if (!this.user.isLoggedIn())
         this.router.navigateByUrl("/login")
@@ -38,10 +41,17 @@ export class CreateEditListingComponent implements OnInit {
       date: new UntypedFormControl(),
       price: new UntypedFormControl(),
       location: new UntypedFormControl(),
+      link: new UntypedFormControl(),
     })
    }
 
   ngOnInit(): void {
+
+    this.db.getProperties().then (r => {
+      this.properties = r
+      console.log(this.properties)
+      }
+    );
 
     // get url query params
     this.route.queryParamMap.subscribe(qMap => {
@@ -103,14 +113,17 @@ export class CreateEditListingComponent implements OnInit {
   // onSubmit function
   createListing(){
     // get values
-    let values = this.form.getRawValue();
+    let values = {...this.form.getRawValue(), };
+    // console.log(values)
     // add selected categories
     values['categories'] = this.categories.map(x => x[1]).reduce((acc, val) => acc.concat(val), []).filter(x => x.selected).map(x => x.name)
     // add image
     values['picture'] = this.imgSrc;
+    // add file
+    values['file'] = this.imgSrc
     // create listing
     if (this.listingId < 0)
-      this.db.createListing(this.user.getLoginToken(), values).then(r => {
+      this.db.createListing(this.user.getLoginToken(), values, this.companyService.companyName).then(r => {
         // go to details page
         this.router.navigateByUrl(`/listings/details/${r['listingID']}`)
       }).catch(err => this.error = err.error.message)

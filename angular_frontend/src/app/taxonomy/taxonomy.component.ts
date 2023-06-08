@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DbConnectionService } from '../services/db-connection.service';
+import { CompanyService } from '../services/company.service';
 
 @Component({
   selector: 'app-taxonomy',
@@ -10,26 +11,27 @@ import { DbConnectionService } from '../services/db-connection.service';
 export class TaxonomyComponent implements OnInit {
 
   taxonomy = {};
-  company: string;
+  // company: string;
   taxonomyForm: UntypedFormGroup;
   propertyValuesFormArray: UntypedFormArray;
   companies: any;
-  selectedCompanyName = "";
+  companyName: string;
   constraints: any;
 
 
   constructor(
     private db: DbConnectionService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
+    private companyService:CompanyService
   ) {
     this.taxonomyForm = this.formBuilder.group({
       dimensionValue: this.formBuilder.array([])
 
     })
+    
   }
 
   ngOnInit(): void {
-
     this.fetchCompany();
 
     this.propertyValuesFormArray = this.taxonomyForm.get('dimensionValue') as UntypedFormArray;
@@ -37,10 +39,10 @@ export class TaxonomyComponent implements OnInit {
     // this.db.getSelectedCompany().then(data =>
     //   {this.company = Object.values(data)[0]})
 
-    this.db.getCompanies().then(data =>
-      (this.companies = data))
+    // this.db.getCompanies().then(data =>
+    //   (this.companies = data))
     this.fetchConstraints()
-    this.fetchTaxonomy()
+    //this.fetchTaxonomy()
 
   }
 
@@ -57,7 +59,10 @@ export class TaxonomyComponent implements OnInit {
             this.taxonomy[x.dimension] = [{ value: x.dimensionValue, selected: x.selected, exclusive: x.exclusive, selectable: 1 }]
             this.taxonomy[x.dimension]['mandatory'] = x.mandatory;
             this.taxonomy[x.dimension]['orderNr'] = x.orderNrDimension
+            this.taxonomy[x.dimension]['description'] = x.description
+            // console.log(x)
           }
+          console.log(x)
           if (x.selected) {
             this.propertyValuesFormArray.push(new UntypedFormControl(x.dimensionValue));
           }
@@ -72,7 +77,7 @@ export class TaxonomyComponent implements OnInit {
           })
         }
 
-
+        console.log(this.taxonomy)
       })
   }
 
@@ -95,7 +100,7 @@ export class TaxonomyComponent implements OnInit {
               this.taxonomy[constraint.dimension][index].selected = 0
               this.taxonomy[constraint.dimension][index]['dependency'] = 1
               // console.log(this.taxonomy[constraint.dimension][index].value)
-              this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.company}' AND property = '${this.taxonomy[constraint.dimension][index].value}';`)
+              this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.companyName}' AND property = '${this.taxonomy[constraint.dimension][index].value}';`)
               // this.db.deleteProperty(this.company, this.taxonomy[constraint.dimension][index].value)
             }
             else {
@@ -116,7 +121,7 @@ export class TaxonomyComponent implements OnInit {
             v.selectable = 0;
             if (v.selected) {
               v.selected = 0
-              this.db.deleteProperty(this.company, v.value)
+              this.db.deleteProperty(this.companyName, v.value)
             }
           }
           else {
@@ -132,13 +137,13 @@ export class TaxonomyComponent implements OnInit {
     if (e.target.checked) {
       this.propertyValuesFormArray.push(new UntypedFormControl(e.target.value));
       // this.db.createProperty(this.company, e.target.value)
-      this.db.executeQuery(`INSERT INTO PropertyCompany (company, property) values ('${this.company}','${e.target.value}');`)
+      this.db.executeQuery(`INSERT INTO PropertyCompany (company, property) values ('${this.companyName}','${e.target.value}');`)
       value.selected = 1
     } else {
       const index = this.propertyValuesFormArray.controls.findIndex(x => x.value === e.target.value);
       this.propertyValuesFormArray.removeAt(index);
       value.selected = 0
-      this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.company}' AND property = '${e.target.value}';`)
+      this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.companyName}' AND property = '${e.target.value}';`)
       // this.db.deleteProperty(this.company, e.target.value)
     }
     this.checkDependencyConstraint(value)
@@ -146,23 +151,23 @@ export class TaxonomyComponent implements OnInit {
   }
 
 
-  async onCompanyChange(companyName) {
-    this.taxonomy = {}
-    // this.db.updateSelectedCompany(companyName)
-    await this.db.executeQuery('update Company set selected = false where selected = true')
-    if (companyName == "+ Add") {
-      var newCompany = prompt("Please enter the name of the new platform company");
-      await this.db.executeQuery(`insert into Company (name, selected) values ('${newCompany}', true)`)
-      this.db.getCompanies().then(data =>
-        (this.companies = data))
-      this.company = newCompany
-    }
-    else {
-      await this.db.executeQuery(`update Company set selected = true where name = '${companyName}'`)
-    }
-    this.fetchTaxonomy();
+  // async onCompanyChange(companyName) {
+  //   this.taxonomy = {}
+  //   // this.db.updateSelectedCompany(companyName)
+  //   await this.db.executeQuery('update Company set selected = false where selected = true')
+  //   if (companyName == "+ Add") {
+  //     var newCompany = prompt("Please enter the name of the new platform company");
+  //     await this.db.executeQuery(`insert into Company (name, selected) values ('${newCompany}', true)`)
+  //     this.db.getCompanies().then(data =>
+  //       (this.companies = data))
+  //     this.companyName = newCompany
+  //   }
+  //   else {
+  //     await this.db.executeQuery(`update Company set selected = true where name = '${companyName}'`)
+  //   }
+  //   this.fetchTaxonomy();
 
-  }
+  // }
 
 
   // editTaxonomy() {
@@ -171,11 +176,12 @@ export class TaxonomyComponent implements OnInit {
   // }
 
   async fetchCompany() {
-    await this.db.executeQuery(`select name from Company where selected`).then(r => {
-      // set data
-      this.company = r['data'][0].name
-      this.selectedCompanyName = this.company;
-    })
+    this.companyName = this.companyService.companyName
+    // console.log(this.companyService.companyName)
+    this.db.createCompany({company: this.companyName})
+    await this.db.executeQuery('update Company set selected = false where selected = true')
+    await this.db.executeQuery(`update Company set selected = true where name = '${this.companyService.companyName}'`)
+    this.fetchTaxonomy();
   }
 
   checkMandatoryValues() {

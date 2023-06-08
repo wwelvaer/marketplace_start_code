@@ -6,7 +6,7 @@
 
 ## database
 
-1. Install MySQLWorkbench
+1. Install the MySQL database using the `nodejs_backend/Database.sql`file
 
 
 ## Backend server
@@ -15,7 +15,12 @@
 
 ## Frontend
 
-one-time: Run `cd angular_frontend;npm install` to install the packages
-Run `cd angular_frontend;ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. First time: Run `cd angular_frontend;npm install` to install the packages
+2. Run `cd angular_frontend;ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Select Business Models
+
+1. Create a new platform company by altering the companyName in the `angular_frontend/src/app/services/company.service.ts`
+2. Navigate to `http://localhost:4200/taxonomy` to select the business model properties 
 
 

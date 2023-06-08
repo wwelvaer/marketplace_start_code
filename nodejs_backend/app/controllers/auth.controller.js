@@ -9,6 +9,7 @@ var bcrypt = require("bcryptjs");
  * expected params in body (not required):
  * @param firstName
  * @param lastName
+ * @param organisation
  * @param password
  * @param email
  * @param userName
@@ -22,6 +23,7 @@ exports.signup = (req, res) => {
   User.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    organisation: req.body.organisation,
     authID: bcrypt.hashSync(req.body.password, 8), // hash password
     email: req.body.email,
     userName: req.body.userName,

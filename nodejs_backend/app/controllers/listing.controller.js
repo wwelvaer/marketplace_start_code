@@ -8,7 +8,18 @@ const Review = db.Review;
 
 // returns all listings
 exports.getAllListings = (req, res) => {
-    db.sequelize.query("SELECT l.*, r.avgScore, r.reviewAmount FROM Listing as l LEFT JOIN (SELECT listingID, cast(AVG(score) as decimal(3,2)) as avgScore, IFNULL(COUNT(score), 0) as reviewAmount FROM Review as r INNER JOIN Transaction as t USING (transactionID)  WHERE r.reviewType = 'listing' GROUP BY t.listingID) as r USING(listingID) INNER JOIN Company C on l.company = C.name where C.selected ")
+    const companyName = req.query.company
+    
+    db.sequelize.query(`SELECT l.*, r.avgScore, r.reviewAmount, U.* FROM Listing as l LEFT JOIN User as U USING (userID) LEFT JOIN (SELECT listingID, cast(AVG(score) as decimal(3,2)) as avgScore, IFNULL(COUNT(score), 0) as reviewAmount FROM Review as r INNER JOIN Transaction as t USING (transactionID)  WHERE r.reviewType = 'listing' GROUP BY t.listingID) as r USING(listingID)  WHERE company = '${companyName}'`)
+        .then(l => {
+            return res.status(200).send({listings: l[0]})
+        })
+};
+
+exports.getActiveListings = (req, res) => {
+    const companyName = req.query.company
+    
+    db.sequelize.query(`SELECT l.*, r.avgScore, r.reviewAmount, U.* FROM Listing as l LEFT JOIN User as U USING (userID) LEFT JOIN (SELECT listingID, cast(AVG(score) as decimal(3,2)) as avgScore, IFNULL(COUNT(score), 0) as reviewAmount FROM Review as r INNER JOIN Transaction as t USING (transactionID)  WHERE r.reviewType = 'listing' GROUP BY t.listingID) as r USING(listingID)  WHERE company = '${companyName}' AND status = 'active' AND (availableAssets <> 0 OR ISNULL(availableAssets))`)
         .then(l => {
             return res.status(200).send({listings: l[0]})
         })
@@ -21,7 +32,8 @@ exports.getAllListings = (req, res) => {
 exports.getUserListings = (req, res) => {
     Listing.findAll({
         where: {
-            userID: req.query.id
+            userID: req.query.id,
+            company: req.query.company
         }
     }).then(l => {
         return res.status(200).send({listings: l})
@@ -38,6 +50,7 @@ exports.getUserListings = (req, res) => {
  * @param picture // image in base64 format
  * @param location
  * @param categories
+ * @param file
  */
 exports.createListing = (req, res) => {
     Listing.create({
@@ -46,11 +59,16 @@ exports.createListing = (req, res) => {
         availableAssets: req.body.availableAssets,
         date: req.body.date,
         price: req.body.price,
+        date: req.body.date,
+        time: req.body.time,
         picture: req.body.picture,
         location: req.body.location,
         categories: req.body.categories,
         status: 'active',
-        userID: req.userId
+        file: req.body.file,
+        link: req.body.link,
+        userID: req.userId,
+        company: req.body.companyName
     }).then(l => {
         res.send({ message: "Listing was created successfully!", listingID: l.listingID });
     })
@@ -85,6 +103,8 @@ exports.getListing = (req, res) => {
             location: Listing.location,
             categories: Listing.categories,
             status: Listing.status,
+            file: Listing.file,
+            link: Listing.link,
             userID: Listing.userID,
             userName: Listing.User.userName
         })
@@ -104,6 +124,7 @@ exports.getListing = (req, res) => {
  * @param picture // image in base64 format
  * @param location
  * @param categories
+ * @param file
  */
 exports.postListing = (req, res) => {
     Listing.findOne({
@@ -123,6 +144,8 @@ exports.postListing = (req, res) => {
         Listing.date = req.body.date
         Listing.price = req.body.price
         Listing.picture = req.body.picture
+        Listing.file = req.body.file,
+        Listing.link= req.body.link,
         Listing.location = req.body.location
         Listing.categories = req.body.categories
         Listing.save().then(_ => {
@@ -173,3 +196,27 @@ exports.cancelListing = (req, res) => {
         
     })
 }
+
+exports.soldListingStatus = (req, res) => {
+    Listing.findOne({
+      where: {
+        listingID: req.query.id
+      }
+    }).then(listing => {
+      if (!listing) {
+        console.log("Listing not found");
+        return;
+      }
+  
+      // Update the listing status to 'sold'
+      listing.status = 'sold';
+  
+      listing.save().then(_ => {
+        console.log("Listing status updated");
+      }).catch(error => {
+        console.log("Error updating listing status:", error);
+      });
+    }).catch(error => {
+      console.log("Error finding listing:", error);
+    });
+  };
