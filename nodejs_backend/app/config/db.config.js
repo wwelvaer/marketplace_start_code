@@ -1,7 +1,7 @@
 module.exports = {
     HOST: "ugmarket.ugent.be",
-    USER: "tdrave3",
-    PASSWORD: "9030gent",
+    USER: "tester",
+    PASSWORD: "1234",
     DB: "Marketplace",
     dialect: "mysql",
     PORT: 13306,
