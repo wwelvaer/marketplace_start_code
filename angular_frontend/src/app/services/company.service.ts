@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class CompanyService {
 
- companyName: string = 'SafaRide'
+ companyName: string = 'RetroKicks'
+ 
 
  
 }
