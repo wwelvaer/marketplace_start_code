@@ -9,8 +9,8 @@ import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-form',
-  templateUrl: './CreateEditListing.component.html',
-  styleUrls: ['./CreateEditListing.component.scss']
+  templateUrl: './createeditlisting.component.html',
+  styleUrls: ['./createeditlisting.component.scss']
 })
 export class CreateEditListingComponent implements OnInit {
 
