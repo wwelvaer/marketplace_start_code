@@ -144,10 +144,10 @@
     ora "5.4.1"
     rxjs "6.6.7"
 
-"@angular/animations@^15.0.0 || ^16.0.0", "@angular/animations@~15.2.1", "@angular/animations@15.2.1":
-  version "15.2.1"
-  resolved "https://registry.npmjs.org/@angular/animations/-/animations-15.2.1.tgz"
-  integrity sha512-oQjTdXLVHzSnsHHPF3CM4bnT4uVQQW1vP4weFTXWhvybQ6vICcq57N9Ri8ZsvB0Sisqug6CPwZoUATCb5a2HXw==
+"@angular/animations@^15.0.0 || ^16.0.0", "@angular/animations@~15.2.1", "@angular/animations@15.2.9":
+  version "15.2.9"
+  resolved "https://registry.npmjs.org/@angular/animations/-/animations-15.2.9.tgz"
+  integrity sha512-GQujLhI0cQFcl4Q8y0oSYKSRnW23GIeSL+Arl4eFufziJ9hGAAQNuesaNs/7i+9UlTHDMkPH3kd5ScXuYYz6wg==
   dependencies:
     tslib "^2.3.0"
 
@@ -184,7 +184,7 @@
     symbol-observable "4.0.0"
     yargs "17.6.2"
 
-"@angular/common@^11.0.0", "@angular/common@^12.0.0", "@angular/common@^15.0.0 || ^16.0.0", "@angular/common@~15.2.1", "@angular/common@15.2.1":
+"@angular/common@^11.0.0", "@angular/common@^12.0.0", "@angular/common@^15.0.0 || ^16.0.0", "@angular/common@~15.2.1", "@angular/common@15.2.1", "@angular/common@15.2.9":
   version "15.2.1"
   resolved "https://registry.npmjs.org/@angular/common/-/common-15.2.1.tgz"
   integrity sha512-nGFrZXrxLMkFyK4VYHHH6+/Hq92BjVls6UWuG1UblkYzGqPpr7dRQZGOXzJc48sEG2WOeVhlhyK+0tHFFaG08g==
@@ -219,7 +219,7 @@
   resolved "https://registry.npmjs.org/@angular/compiler/-/compiler-9.0.0.tgz"
   integrity sha512-ctjwuntPfZZT2mNj2NDIVu51t9cvbhl/16epc5xEwyzyDt76pX9UgwvY+MbXrf/C/FWwdtmNtfP698BKI+9leQ==
 
-"@angular/core@^11.0.0", "@angular/core@^12.0.0", "@angular/core@^15.0.0 || ^16.0.0", "@angular/core@~15.2.1", "@angular/core@15.2.1":
+"@angular/core@^11.0.0", "@angular/core@^12.0.0", "@angular/core@^15.0.0 || ^16.0.0", "@angular/core@~15.2.1", "@angular/core@15.2.1", "@angular/core@15.2.9":
   version "15.2.1"
   resolved "https://registry.npmjs.org/@angular/core/-/core-15.2.1.tgz"
   integrity sha512-CtN/cYDTGlELRcKBHxqnxmUhI9Euz2R+25dvjNtxB2tLzCehI6Fbmsb3NsC++jcAjL3QAmodpzzgULPtNJqs6A==
@@ -309,9 +309,9 @@
     tslib "^2.3.0"
 
 "@angular/platform-browser@^15.0.0 || ^16.0.0", "@angular/platform-browser@~15.2.1", "@angular/platform-browser@15.2.1":
-  version "15.2.1"
-  resolved "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-15.2.1.tgz"
-  integrity sha512-aUV4XfdeqHTXwMRAjgrmx43F22YwgaCZnU08Ufg4Dx3nfqL9ak3e5NfgUpMlKbj7qX2rGGt6GKhQwoDFR4Dg1g==
+  version "15.2.9"
+  resolved "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-15.2.9.tgz"
+  integrity sha512-ufCHeSX+U6d43YOMkn3igwfqtlozoCXADcbyfUEG8m2y9XASobqmCKvdSk/zfl62oyiA8msntWBJVBE2l4xKXg==
   dependencies:
     tslib "^2.3.0"
 

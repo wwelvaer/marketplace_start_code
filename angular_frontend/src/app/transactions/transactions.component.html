@@ -1,13 +1,13 @@
 <div style="margin: 10px;">
-  <div class="row">
+   <div class="row">
     <!-- Right Col (All main info)-->
-    <div class="col">
+    <!-- <div class="col"> -->
       <div class="container">
 
         <!-- Row containing search bar and order preference -->
-        <div class="row">
+        <!-- <div class="row"> -->
           <!-- Row containing amount of results and page nagivation -->
-          <div class="row">
+          <!-- <div class="row"> -->
 
             <!-- Show cancelled listings checkbox -->
             <!-- <div class="col-auto" *ngIf="hasCancelled">
@@ -37,7 +37,7 @@
                       style="cursor:pointer;" [routerLink]="['/transactions', 'details', t.transactionID]">
                       <img class="card-img-left"
                         [src]="t.Listing.picture ? t.Listing.picture : image.getPlaceholderImage()"
-                        style="width: 318px;height: 200;" [alt]="t.Listing.name">
+                        style=" max-width: 100%; height: auto; display: block; margin: 0 auto;" [alt]="t.Listing.name">
                     </div>
 
                     <!-- Listing info -->
@@ -139,15 +139,15 @@
 
                     </form>
                   </div>
-                </div>
+                <!-- </div> -->
               </div>
 
               <!-- No results -->
               <div *ngIf="transactions!== undefined && transactions.length === 0">
                 <b>No Transactions Found</b>
               </div>
-            </div>
-          </div>
+            <!-- </div>
+          </div> -->
         </div>
 
       </div>

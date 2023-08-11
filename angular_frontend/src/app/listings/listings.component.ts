@@ -6,6 +6,7 @@ import { ImageService } from '../services/image.service';
 import { UserService } from '../services/user.service';
 import { PropertyAccessChain } from 'typescript';
 import { CompanyService } from '../services/company.service';
+import { Platform } from '@angular/cdk/platform';
 
 /**
  *  Component is used to display listings
@@ -26,6 +27,7 @@ export class ListingsComponent implements OnInit {
   // @Input() properties: any;
   // @Input() testMessage = '';
   properties = {}
+  isMobile: boolean;
 
   // searchbar + sorting
   searchTerm: string = ""; // searchbar value
@@ -92,6 +94,7 @@ export class ListingsComponent implements OnInit {
     private route: ActivatedRoute,
     public image: ImageService,
     public router: Router,
+    private platform: Platform,
   ) {
     this.form = new UntypedFormGroup({
       comment: new UntypedFormControl('')
@@ -99,6 +102,8 @@ export class ListingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.isMobile = this.platform.ANDROID || this.platform.IOS;
 
     this.db.getProperties().then (r => {
       this.properties = r

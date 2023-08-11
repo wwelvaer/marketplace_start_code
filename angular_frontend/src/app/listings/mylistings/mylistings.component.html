@@ -1,9 +1,8 @@
-test
 <div style="margin: 10px;">
     <div class="row" *ngIf="filteredListings() as lst">
   
       <!-- Left column -->
-      <div class="col-3">
+      <div *ngIf="!isMobile" class="col-3">
         <div class="card">
           <div class="card-body">
             <h2>Filter by</h2>

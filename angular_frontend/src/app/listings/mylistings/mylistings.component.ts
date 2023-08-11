@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from '../../services/db-connection.service';
 import { ImageService } from '../../services/image.service';
 import { UserService } from '../../services/user.service';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-mylistings',
@@ -18,6 +19,7 @@ export class MylistingsComponent {
   // @Input() properties: any;
   // @Input() testMessage = '';
   properties = {}
+  isMobile: boolean;
 
   // searchbar + sorting
   searchTerm: string = ""; // searchbar value
@@ -86,6 +88,7 @@ export class MylistingsComponent {
     private route: ActivatedRoute,
     public image: ImageService,
     public router: Router,
+    private platform: Platform,
   ) {
     this.form = new UntypedFormGroup({
       comment: new UntypedFormControl('')
@@ -93,6 +96,8 @@ export class MylistingsComponent {
   }
 
   ngOnInit(): void {
+
+    this.isMobile = this.platform.ANDROID || this.platform.IOS;
 
     this.db.getProperties().then(r => {
       this.properties = r
