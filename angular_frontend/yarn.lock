@@ -141,7 +141,7 @@
   optionalDependencies:
     parse5 "^7.1.2"
 
-"@angular/common@^12.0.0", "@angular/common@^16.0.0", "@angular/common@^16.0.0 || ^17.0.0", "@angular/common@~16.2.0", "@angular/common@16.2.0":
+"@angular/common@^16.0.0", "@angular/common@^16.0.0 || ^17.0.0", "@angular/common@~16.2.0", "@angular/common@16.2.0":
   version "16.2.0"
   resolved "https://registry.npmjs.org/@angular/common/-/common-16.2.0.tgz"
   integrity sha512-ByrDLsTBarzqRmq4GS841Ku0lvB4L2wfOCfGEIw2ZuiNbZlDA5O/qohQgJnHR5d9meVJnu9NgdbeyMzk90xZNg==
@@ -174,7 +174,7 @@
   resolved "https://registry.npmjs.org/@angular/compiler/-/compiler-9.0.0.tgz"
   integrity sha512-ctjwuntPfZZT2mNj2NDIVu51t9cvbhl/16epc5xEwyzyDt76pX9UgwvY+MbXrf/C/FWwdtmNtfP698BKI+9leQ==
 
-"@angular/core@^12.0.0", "@angular/core@^16.0.0", "@angular/core@^16.0.0 || ^17.0.0", "@angular/core@~16.2.0", "@angular/core@16.2.0":
+"@angular/core@^16.0.0", "@angular/core@^16.0.0 || ^17.0.0", "@angular/core@~16.2.0", "@angular/core@16.2.0":
   version "16.2.0"
   resolved "https://registry.npmjs.org/@angular/core/-/core-16.2.0.tgz"
   integrity sha512-iwUWFw+JmRxw0chcNoqhXVR8XUTE+Rszhy22iSCkK0Jo8IJqEad1d2dQoFu1QfqOVdPMZtpJDmC/ppQ/f5c5aA==
@@ -6237,10 +6237,10 @@ next-tick@^1.1.0:
   resolved "https://registry.npmjs.org/next-tick/-/next-tick-1.1.0.tgz"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-ngx-cookie-service@^12.0.3:
-  version "12.0.3"
-  resolved "https://registry.npmjs.org/ngx-cookie-service/-/ngx-cookie-service-12.0.3.tgz"
-  integrity sha512-F5xJBTrrreI2DERGOrO6U+L7s031HxTER+3Z4gDCwxdTl4AXmtWddMxxQVw7KflOLZ4InYEs6FjQsXmKU4HsJg==
+ngx-cookie-service@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.npmjs.org/ngx-cookie-service/-/ngx-cookie-service-16.0.0.tgz"
+  integrity sha512-bD0F8/I6Y7lfP1THeQDR70hv1SSEfFOjJqF1tnLphNBvR9EwkITO2KSOtfag7VH5CHT16PRIqv8XaGRDbCNAmA==
   dependencies:
     tslib "^2.0.0"
 
@@ -7358,28 +7358,7 @@ semver@^6.3.1:
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
-semver@^7.0.0, semver@^7.3.8:
-  version "7.3.8"
-  resolved "https://registry.npmjs.org/semver/-/semver-7.3.8.tgz"
-  integrity sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==
-  dependencies:
-    lru-cache "^6.0.0"
-
-semver@^7.5.1:
-  version "7.5.4"
-  resolved "https://registry.npmjs.org/semver/-/semver-7.5.4.tgz"
-  integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
-  dependencies:
-    lru-cache "^6.0.0"
-
-semver@^7.5.3:
-  version "7.5.4"
-  resolved "https://registry.npmjs.org/semver/-/semver-7.5.4.tgz"
-  integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
-  dependencies:
-    lru-cache "^6.0.0"
-
-semver@7.5.4:
+semver@^7.0.0, semver@^7.3.8, semver@^7.5.1, semver@^7.5.3, semver@7.5.4:
   version "7.5.4"
   resolved "https://registry.npmjs.org/semver/-/semver-7.5.4.tgz"
   integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
