@@ -22,11 +22,13 @@ import { ListingModule } from './listings/listing.module';
 import { TransactionModule } from './transactions/transaction.module';
 import { UserModule } from './login/user.module';
 import { CompanyService } from './services/company.service';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

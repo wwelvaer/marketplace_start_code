@@ -73,7 +73,9 @@ exports.getListingReviews = (req, res) => {
     }).then(r => {
         // send data
         return res.status(200).send({reviews: r, score: getAvgScore(r)})
-    })
+    }).catch(err => {
+        res.status(500).send({ message: err.message});
+    });
 }
 
 /** get all reviews on user
@@ -93,7 +95,9 @@ exports.getUserReviews = (req, res) => {
     }).then(r => {
         // send data
         return res.status(200).send({reviews: r, score: getAvgScore(r)})
-    })
+    }).catch(err => {
+        res.status(500).send({ message: err.message});
+    });
 }
 
 // calculates average score of all reviews

@@ -367,6 +367,14 @@ export class DbConnectionService {
     });
   }
 
+  postMessage(userToken: string, receiverID: number, message: string){
+    return this.http.post(`${this.url}/api/message`, { receiverID: receiverID, message: message}, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
+  getMessages(userToken: string, userID: number){
+    return this.http.get(`${this.url}/api/messages?id=${userID}`, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
   // deleteProperties(company: string) {
   //   console.log(company)
   //   return this.http.post(`${this.url}/api/properties/delete` , {company: company}).toPromise()
