@@ -45,6 +45,13 @@
                 </label>
               </div>
 
+              <!-- Errors -->
+              <div>
+                <small *ngIf="error" class="form-text">
+                  <i style="color: red;">{{error}}</i>
+                </small>
+              </div>
+
               <!-- Log In Button-->
               <button
                 type="submit"
@@ -53,15 +60,13 @@
                   LOG IN
               </button>
 
-              <!-- Errors -->
-              <small *ngIf="error" class="form-text">
-                <i style="color: red;">{{error}}</i>
-              </small>
-
               <!-- Create account link-->
-              <a routerLink="/signup">
-                Create new account
-              </a>
+              <div>
+                <a routerLink="/signup">
+                  Create new account
+                </a>
+              </div>
+              
 
             </form>
           </div>

@@ -1,7 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLink="/">
+
+  <!-- Company selection dropdown -->
+  <div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      {{ title }}
+    </a>
+    <ul class="dropdown-menu">
+      <li *ngFor="let company of companyService.companies">
+        <button class="dropdown-item" type="button" 
+          (click)="changeCompany(company)">
+          {{ company }}
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Company Title (instead of dropdown) -->
+  <!-- <a class="navbar-brand" routerLink="/">
     {{ title }}
-  </a>
+  </a> -->
+
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -9,7 +28,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
     <!-- Left side Navbar -->
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav me-auto">
 
       <!-- Link to listings page -->
       <li class="nav-item">

@@ -19,7 +19,7 @@ export class AppComponent {
     public user: UserService,
     private db: DbConnectionService,
     private router: Router,
-    private companyService: CompanyService){
+    public companyService: CompanyService){
       this.fetchNotifications();
 
       // repeatedly check for notifications
@@ -31,6 +31,14 @@ export class AppComponent {
 
   ngOnInit() {
     this.title = this.companyService.companyName
+  }
+
+  changeCompany(c: string){
+    this.companyService.companyName = c;
+    this.title = this.companyService.companyName;
+    this.router.navigateByUrl('/tmp', {skipLocationChange: true}).then(() => {
+      this.router.navigateByUrl('/');
+    });
   }
   
 

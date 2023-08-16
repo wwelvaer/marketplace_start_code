@@ -129,7 +129,7 @@ export class ListingsComponent implements OnInit {
           this.db.getActiveListings().then(l => {
           this.listings = l['listings']
           this.hasCancelled = false;
-          console.log(this.listings)
+          //console.log(this.listings)
         })
       // }
     })
