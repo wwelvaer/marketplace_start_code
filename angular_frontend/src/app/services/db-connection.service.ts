@@ -375,6 +375,10 @@ export class DbConnectionService {
     return this.http.get(`${this.url}/api/messages?id=${userID}`, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
+  getLastMessages(userToken: string){
+    return this.http.get(`${this.url}/api/lastMessages`, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
   // deleteProperties(company: string) {
   //   console.log(company)
   //   return this.http.post(`${this.url}/api/properties/delete` , {company: company}).toPromise()

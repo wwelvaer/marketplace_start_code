@@ -27,7 +27,7 @@ exports.postMessage = (req, res) => {
             receiverID: u.userID,
             message: req.body.message
         }).then(m => {
-            res.send({ message: "Message was posted successfully!", messageID: m.messageID})
+            res.send({ message: m})
         }).catch(err => {
             res.status(500).send({ message: err.message});
         });
@@ -37,22 +37,23 @@ exports.postMessage = (req, res) => {
 /** Get lasts messages for every person contacted
  */ 
 exports.getLastMessages = (req, res) => {
-    Message.findAll({
-        attributes: [
-            'senderID',
-            'receiverID',
-            'message',
-            'createdAt'
-        ],
-        where: {
-            [Op.or]: [
-                { senderID: req.userId },
-                { receiverID: req.userId }
-            ]
-        }
-    }).then(m => {
-        // TODO get last message for every user
-    })
+    // fetch all last messages send and received by user
+    // Last send message AND last received message from every person will be returned (max 2 messages for each person)
+    db.sequelize.query(`SELECT messageID, senderID, S.userName AS sender, receiverID, R.userName AS receiver, message, Message.createdAt FROM Message INNER JOIN (SELECT senderID, receiverID, MAX(createdAt) AS createdAt FROM Message WHERE senderID = ${req.userId} OR receiverID = ${req.userId} GROUP BY senderID, receiverID) as A USING (senderID, receiverID, createdAt) INNER JOIN User AS S ON Message.senderID = S.userID INNER JOIN User AS R ON Message.receiverID = R.userID;`)
+        .then(messages => {
+            let lastMessages = {};
+            messages[0].forEach(m => {
+                // ID of other user
+                let userID = m.senderID === req.userId ? m.receiverID : m.senderID;
+                // Only keep last message (to keep only one send or received message from same person)
+                if (!(userID in lastMessages) || new Date(lastMessages[userID].createdAt) < new Date(m.createdAt))
+                    lastMessages[userID] = m;
+            });
+            lastMessages = Object.values(lastMessages).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            return res.status(200).send({messages: lastMessages})
+        }).catch(err => {
+            res.status(500).send({ message: err.message});
+        })
 }
 
 /** Get all messages with another user
@@ -85,7 +86,10 @@ exports.getMessages = (req, res) => {
                             [{ senderID: req.query.id },
                             { receiverID: req.userId }]
                     }]
-            }
+            },
+            order: [
+                'createdAt'
+            ]
         }).then(m => {
             return res.status(200).send({messages: m})
         }).catch(err => {
