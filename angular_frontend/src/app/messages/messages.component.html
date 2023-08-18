@@ -15,10 +15,10 @@
         <!-- Last Messages Window -->
         <ul class="list-group">
           <li *ngFor="let m of lastMessages" class="list-group-item" style="padding:0px"
-            [class.active]="m.senderID === selected || m.receiverID === selected" aria-current="true">
+            [class.active]="m.receiverID === selected || m.senderID === selected" aria-current="true">
 
             <!-- -->
-            <button type="button" class="btn btn-secondary-outline" 
+            <button type="button" class="btn btn-secondary-outline d-inline-block text-truncate" 
                 style="width:100%;height:100%;text-align:left" (click)="selectPerson(m)">
                 <h6>
                     {{ m.senderID === user.getId() ? m.receiver : m.sender }}
@@ -41,7 +41,9 @@
                         <div class="row">
                             <!-- Message -->
                             <div class="col d-flex" [class.flex-row-reverse]="m.senderID !== selected">
-                                <h3><span class="badge bg-primary">{{ m.message }}</span></h3>
+                                <p class="message">
+                                    {{ m.message }}
+                                </p>
                             </div>
                             <!-- Date -->
                             <div class="col" style="max-width: 100px;">

@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DbConnectionService } from '../services/db-connection.service';
 import { UserService } from '../services/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-messages',
@@ -25,6 +26,7 @@ export class MessagesComponent {
 
   constructor(
     private db: DbConnectionService,
+    private route: ActivatedRoute,
     public user: UserService
   ) {
     // repeatedly check for new messages
@@ -49,6 +51,19 @@ export class MessagesComponent {
 
   ngOnInit() {
     this.db.getLastMessages(this.user.getLoginToken()).then(r => this.lastMessages = r['messages']);
+
+    // get url query params
+    this.route.queryParamMap.subscribe(qMap => {
+      // when query has 'id' parameter show chat with user
+      let uId = qMap['params'].id;
+      if (uId){
+        this.db.getUserData(uId, this.user.getLoginToken()).then(l => {
+          this.selected = parseInt(uId);
+          this.selectedUserName = l['userName'];
+          this.fetchMessages();
+        })
+      }
+    })
   }
 
   // stop checking for new messages when leaving page
@@ -70,6 +85,7 @@ export class MessagesComponent {
   }
 
   fetchMessages(){
+    this.db.getLastMessages(this.user.getLoginToken()).then(r => this.lastMessages = r['messages']);
     if (this.selected < 0)
       return;
     this.db.getMessages(this.user.getLoginToken(), this.selected).then(r => {
@@ -93,18 +109,26 @@ export class MessagesComponent {
       let m = r['message'];
       this.message = "";
       this.messages.push(m);
-      for (let i = 0; i < this.lastMessages.length; i++){
-        if (this.lastMessages[i].receiverID === this.selected || this.lastMessages[i].senderID === this.selected){
-          // set chat to top of recent messages list
-          this.lastMessages.unshift(...this.lastMessages.splice(i, 1));
-          // update last message
-          this.lastMessages[0].message = m.message;
-          break;
-        }
-      }
+      m.sender = this.user.getUserName();
+      m.receiver = this.selectedUserName;
+      this.moveLastMessageUp(m);
       this.locked = false;
       this.scrollToBottomNeeded = true;
     })
+  }
+
+  moveLastMessageUp(m: Message){
+    for (let i = 0; i < this.lastMessages.length; i++){
+      if (this.lastMessages[i].receiverID === this.selected || this.lastMessages[i].senderID === this.selected){
+        // set chat to top of recent messages list
+        this.lastMessages.unshift(...this.lastMessages.splice(i, 1));
+        // update last message
+        this.lastMessages[0].message = m.message;
+        return;
+      }
+    }
+    // When no previous message is found, add message
+    this.lastMessages.unshift(m);
   }
 
   simplifyDate(d: string){

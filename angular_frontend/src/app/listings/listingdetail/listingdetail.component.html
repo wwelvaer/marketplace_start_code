@@ -96,13 +96,13 @@
     <div class="btn-group" role="group" style="margin-left: 15px;margin-top: 20px;">
 
       <!-- Info -->
-      <button [class]="'detail-tab-radio-button--info' + (selectedTab === 'info' ? '-selected' : '')"
+      <button [class]="'btn detail-tab-radio-button--info' + (selectedTab === 'info' ? '-selected' : '')"
         (click)="selectedTab = 'info'">
         Info
       </button>
 
       <!-- Reviews -->
-      <button *ngIf="properties['Review System']?.includes('By Customer')" [class]="'detail-tab-radio-button--success' + (selectedTab === 'reviews' ? '-selected' : '')"
+      <button *ngIf="properties['Review System']?.includes('By Customer')" [class]="'btn detail-tab-radio-button--success' + (selectedTab === 'reviews' ? '-selected' : '')"
         (click)="selectedTab = 'reviews'">
 
         <!-- star rating system -->
@@ -123,9 +123,16 @@
 
       <!-- Transactions (only when user is owner of listing) -->
       <button *ngIf="listing.userID === user.getId()"
-        [class]="'detail-tab-radio-button--warning' + (selectedTab === 'transactions' ? '-selected' : '')"
+        [class]="'btn detail-tab-radio-button--warning' + (selectedTab === 'transactions' ? '-selected' : '')"
         (click)="selectedTab = 'transactions'">
         Transactions
+      </button>
+
+      <!-- Contact (only when user is not owner of listing) -->
+      <button *ngIf="listing.userID !== user.getId()"
+        class="btn detail-tab-radio-button--danger"
+        (click)="contactOwner()">
+        Message Seller
       </button>
 
     </div>

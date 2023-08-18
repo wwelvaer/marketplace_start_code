@@ -27,9 +27,9 @@ exports.postMessage = (req, res) => {
             receiverID: u.userID,
             message: req.body.message
         }).then(m => {
-            res.send({ message: m})
+            res.send({ message: m })
         }).catch(err => {
-            res.status(500).send({ message: err.message});
+            res.status(500).send({ message: err.message });
         });
     })
 }
