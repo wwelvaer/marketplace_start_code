@@ -13,6 +13,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactiondetailComponent } from './transactions/transactiondetail/transactiondetail.component'
 import { TaxonomyComponent } from './taxonomy/taxonomy.component';
 import { NotFoundComponent } from './404/404.component';
+import { MessagesComponent } from './messages/messages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/listings', pathMatch: 'full' },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'transactions/details/:id', component: TransactiondetailComponent },
   { path: 'transactions/details/:id/:type', component: TransactiondetailComponent },
   { path: 'taxonomy', component: TaxonomyComponent },
+  { path: 'messages', component: MessagesComponent},
   { path: '**', component: NotFoundComponent }
 
 ];

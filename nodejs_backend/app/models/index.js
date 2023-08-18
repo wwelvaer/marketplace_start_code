@@ -26,15 +26,16 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // load models
-db.User = require("../models/user.model.js")(sequelize, Sequelize);
-db.Listing = require("../models/listing.model.js")(sequelize, Sequelize);
-db.Transaction = require("../models/transaction.model.js")(sequelize, Sequelize);
-db.Category = require("../models/category.model.js")(sequelize, Sequelize);
-db.Notification = require("../models/notification.model.js")(sequelize, Sequelize);
-db.Review = require("../models/review.model.js")(sequelize, Sequelize);
-db.Company = require("../models/company.model.js")(sequelize, Sequelize);
-db.PropertyCompany = require("../models/PropertyCompany.model.js")(sequelize, Sequelize);
-db.Registration = require("../models/registration.model.js")(sequelize, Sequelize);
+db.User = require("./user.model.js")(sequelize, Sequelize);
+db.Listing = require("./listing.model.js")(sequelize, Sequelize);
+db.Transaction = require("./transaction.model.js")(sequelize, Sequelize);
+db.Category = require("./category.model.js")(sequelize, Sequelize);
+db.Notification = require("./notification.model.js")(sequelize, Sequelize);
+db.Review = require("./review.model.js")(sequelize, Sequelize);
+db.Company = require("./company.model.js")(sequelize, Sequelize);
+db.PropertyCompany = require("./PropertyCompany.model.js")(sequelize, Sequelize);
+db.Registration = require("./registration.model.js")(sequelize, Sequelize);
+db.Message = require("./message.model.js")(sequelize, Sequelize);
 
 // add foreign keys
 db.Listing.belongsTo(db.User, {foreignKey: 'userID'})
@@ -47,5 +48,7 @@ db.PropertyCompany.belongsTo(db.Company, {foreignKey: 'company'})
 db.Listing.belongsTo(db.Company, {foreignKey: 'company'})
 db.Registration.belongsTo(db.Company, {foreignKey: 'company'})
 db.Registration.belongsTo(db.User, {foreignKey: 'userID'})
+db.Message.belongsTo(db.User, {foreignKey: 'senderID'})
+db.Message.belongsTo(db.User, {foreignKey: 'receiverID'})
 
 module.exports = db;

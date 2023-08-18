@@ -12,6 +12,7 @@ import { CompanyService } from './services/company.service';
 export class AppComponent {
   title = 'Marketplace';
   notifications: object[] = [];
+  unseenMessages: number = 0;
   timeToRefresh = 5000; // time in ms
   properties = {}
 
@@ -19,18 +20,28 @@ export class AppComponent {
     public user: UserService,
     private db: DbConnectionService,
     private router: Router,
-    private companyService: CompanyService){
+    public companyService: CompanyService){
       this.fetchNotifications();
+      this.fetchMessageNotifications();
 
       // repeatedly check for notifications
       setInterval(() => {
         this.fetchNotifications();
+        this.fetchMessageNotifications();
       }, this.timeToRefresh);  
       
   }
 
   ngOnInit() {
     this.title = this.companyService.companyName
+  }
+
+  changeCompany(c: string){
+    this.companyService.companyName = c;
+    this.title = this.companyService.companyName;
+    this.router.navigateByUrl('/tmp', {skipLocationChange: true}).then(() => {
+      this.router.navigateByUrl('/');
+    });
   }
   
 
@@ -87,6 +98,12 @@ export class AppComponent {
   fetchNotifications() {
     if (this.user.isLoggedIn())
       this.db.getUserNotifications(this.user.getLoginToken()).then(r => this.notifications = r['notifications'].sort((a, b) => b['notificationID'] - a['notificationID']))
+  }
+
+  // get notifications of new messages
+  fetchMessageNotifications(){
+    if (this.user.isLoggedIn())
+      this.db.getNewMessagesAmount(this.user.getLoginToken()).then(r => this.unseenMessages = r['messageAmount'])
   }
 
   getUnreadNotificationsAmount(): number{

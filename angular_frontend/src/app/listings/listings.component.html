@@ -88,7 +88,10 @@
 
           <!-- Amount of results -->
           <div class="col">
-            <p style="margin: 0px;"><i>{{lst.length}} result{{(lst.length > 1 ? "s" : "")}} </i></p>
+            <p style="margin: 0px;">
+              <i *ngIf="!loading">{{lst.length}} result{{(lst.length > 1 ? "s" : "")}}</i>
+              <i *ngIf="loading">Loading Listings...</i>
+            </p>
           </div>
 
           <!-- Show cancelled listings checkbox -->

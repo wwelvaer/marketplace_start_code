@@ -1,6 +1,6 @@
-// @import '../../../styles.scss';
+@import 'bootstrap/scss/bootstrap';
 
-$btn-types: info, success, warning;
+$btn-types: info, success, warning, danger;
 $detail-window-type-colors: (
   info: #17a2b8,
   reviews: #28a745,
@@ -53,4 +53,9 @@ $detail-window-type-colors: (
   display: inline-block;
   overflow: hidden;
   color: #FAB81E;
+}
+
+.col-8 {
+  flex: 0 0 auto;
+  width: 66.66666667% !important;
 }

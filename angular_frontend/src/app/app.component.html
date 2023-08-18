@@ -1,15 +1,33 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLink="/">
+
+  <!-- Company selection dropdown -->
+  <div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      {{ title }}
+    </a>
+    <ul class="dropdown-menu">
+      <li *ngFor="let company of companyService.companies">
+        <button class="dropdown-item" type="button" 
+          (click)="changeCompany(company)">
+          {{ company }}
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Company Title (instead of dropdown) -->
+  <!-- <a class="navbar-brand" routerLink="/">
     {{ title }}
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  </a> -->
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
     <!-- Left side Navbar -->
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav me-auto">
 
       <!-- Link to listings page -->
       <li class="nav-item">
@@ -56,36 +74,52 @@
 
     <!-- Right side Navbar (user logged in) -->
     <ul class="navbar-nav my-2 my-lg-0" *ngIf="user.isLoggedIn()">
+
+      <!-- Link to messages -->
+      <li class="nav-item">
+        <a routerLink="/messages" class="nav-link">
+          <!-- Messages Icon -->
+          <mat-icon>question_answer</mat-icon>
+
+          <!-- New Message amount -->
+          <span class="badge rounded-pill bg-danger" *ngIf="unseenMessages > 0">
+            {{unseenMessages}}
+          </span>
+        </a>
+      </li>
       <!-- Notification dropdown -->
       <li class="nav-item dropdown">
         <!-- Dropdown Button -->
-        <a class="nav-link" id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
           <!-- Bell Icon -->
           <mat-icon> {{'notifications' + (getUnreadNotificationsAmount() > 0 ? '_active': '')}}</mat-icon>
 
           <!-- Notifiaction amount -->
-          <span class="badge badge-warning" *ngIf="getUnreadNotificationsAmount() > 0">
+          <span class="badge rounded-pill bg-danger" *ngIf="getUnreadNotificationsAmount() > 0">
             {{getUnreadNotificationsAmount()}}
           </span>
 
         </a>
 
         <!-- Dropdown Menu -->
-        <div class="dropdown-menu" aria-labelledby="notificationsDropdown">
+        <ul class="dropdown-menu" aria-labelledby="notificationsDropdown">
 
           <!-- Notifications -->
-          <a class="dropdown-item" *ngFor="let n of notifications" (click)="clickedNotification(n)" style="width: 300px;white-space: pre-wrap;">
-            <div *ngIf="n.viewed">- {{getNotificationMessage(n)}}</div>
-            <b *ngIf="!n.viewed">- {{getNotificationMessage(n)}}</b>
-          </a>
+          <li *ngFor="let n of notifications">
+            <a class="dropdown-item" (click)="clickedNotification(n)" style="width: 300px;white-space: pre-wrap;">
+              <div *ngIf="n.viewed">- {{getNotificationMessage(n)}}</div>
+              <b *ngIf="!n.viewed">- {{getNotificationMessage(n)}}</b>
+            </a>
+          </li>
+          
 
           <!-- No Notification -->
-          <a class="dropdown-item" *ngIf="notifications.length === 0">
+          <li class="dropdown-item"  *ngIf="notifications.length === 0">
             No notifications
-          </a>
+          </li>
 
-        </div>
+        </ul>
       </li>
 
       <!-- Link to change profile page -->

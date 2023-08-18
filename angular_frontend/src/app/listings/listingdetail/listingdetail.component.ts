@@ -154,4 +154,8 @@ export class ListingDetailComponent implements OnInit {
       this.loadTransactions();
     }).catch(r => this.error = r.error.message)
   }
+
+  contactOwner(){
+    this.router.navigateByUrl(`/messages?id=${this.listing['userID']}`)
+  }
 }
