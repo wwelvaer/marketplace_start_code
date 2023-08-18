@@ -8,7 +8,7 @@
             <h1>{{ selectedUserName }}</h1>
         </div>
     </div>
-    <div class="row" style="height:87vh">
+    <div class="row" style="height:85vh">
 
       <div class="col" style="padding-left: 0px;max-width: 300px;">
 
@@ -33,10 +33,10 @@
 
         <!-- Chat Window -->
         <div class="card" style="height:100%">
-            <div class="card-body">
+            <div class="card-body" style="padding: 0;">
 
                 <!-- Chat -->
-                <ul #chat class="list-group overflow-auto" style="max-height: 80vh;margin-bottom: 20px;">
+                <ul #chat class="list-group overflow-auto" style="max-height: 81vh">
                     <li *ngFor="let m of messages" class="list-group-item no-border">
                         <div class="row">
                             <!-- Message -->
@@ -63,7 +63,9 @@
                             aria-describedby="send-message-button"
                             (keypress)="keyPressed($event)"
                         >
-                        <button class="btn btn-primary" type="button" id="send-message-button" (click)="sendMessage()">Send</button>
+                        <button class="btn btn-primary" type="button" id="send-message-button" (click)="sendMessage()">
+                            <mat-icon style="vertical-align: middle;">send</mat-icon>
+                        </button>
                     </div>
                 </div>
                 

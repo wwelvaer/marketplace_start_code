@@ -75,6 +75,15 @@
 
     <!-- Right side Navbar (user logged in) -->
     <ul class="navbar-nav my-2 my-lg-0" *ngIf="user.isLoggedIn()">
+
+      <!-- Link to messages -->
+      <li class="nav-item">
+        <a routerLink="/messages" class="nav-link">
+          <!-- Messages Icon -->
+          <mat-icon>question_answer</mat-icon>
+        </a>
+      </li>
+
       <!-- Notification dropdown -->
       <li class="nav-item dropdown">
         <!-- Dropdown Button -->
