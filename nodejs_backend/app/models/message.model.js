@@ -9,6 +9,11 @@ module.exports = (sequelize, Sequelize) => {
       message: {
         type: Sequelize.TEXT
       },
+      viewed: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        default: false
+      },
     }, {
       timestamps: true,
       freezeTableName: true,

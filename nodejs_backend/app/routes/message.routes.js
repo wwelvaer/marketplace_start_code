@@ -22,6 +22,13 @@ module.exports = function(app) {
         controller.getMessages
     );
 
+    app.get(
+        "/api/newMessages",
+        [authJwt.verifyToken],
+        controller.getUnseenMessageAmount
+    );
+
+
     app.post(
         "/api/message",
         [authJwt.verifyToken],

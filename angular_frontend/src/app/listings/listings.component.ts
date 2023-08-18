@@ -28,6 +28,7 @@ export class ListingsComponent implements OnInit {
   // @Input() testMessage = '';
   properties = {}
   isMobile: boolean;
+  loading: boolean = true;
 
   // searchbar + sorting
   searchTerm: string = ""; // searchbar value
@@ -80,9 +81,9 @@ export class ListingsComponent implements OnInit {
 
   // function that filters by category and searchTerm and sorts entries using searchCols
   filteredListings = () => {
-    let selectedCategories = this.categories.map(x => x[1]).reduce((acc, val) => acc.concat(val), []).filter(x => x.selected).map(x => x.name);
+    let selectedCategories = this.categories.map(x => [x[0], x[1].filter(y => y.selected).map(y => y.name)]);
     return this.listings
-      .filter(l => selectedCategories.every(x => (l.categories).includes(x))) // categories
+      .filter(l => selectedCategories.every(x => x[1].length === 0 || x[1].some(y => (l.categories).includes(y)))) // categories
       .filter(u => Object.values(u).join("").toString().toLowerCase().indexOf(this.searchTerm.toString().toLowerCase()) > -1 // filter matching search terms
         && (!this.selected || this.selected.getTime() === new Date(u.date).setHours(0, 0, 0, 0))) // when date is selected filter on date
       .sort(this.transactions ? (a, b) => 1 : this.sortCols[this.sortCol].sortFunc) // only listings need to be sorted clientside
@@ -102,6 +103,7 @@ export class ListingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
 
     this.isMobile = this.platform.ANDROID || this.platform.IOS;
 
@@ -109,8 +111,6 @@ export class ListingsComponent implements OnInit {
       this.properties = r
       }
     );
-
-    
     
     // get categories
     this.db.getCategories().then(r => {
@@ -121,17 +121,10 @@ export class ListingsComponent implements OnInit {
       }))])
     })
     
-    // get url query params
-    this.route.queryParamMap.subscribe(qMap => {
-      // when query has 'id' parameter display listings from user with id
-      let uId = qMap['params'].id;
-
-          this.db.getActiveListings().then(l => {
-          this.listings = l['listings']
-          this.hasCancelled = false;
-          //console.log(this.listings)
-        })
-      // }
+    this.db.getActiveListings().then(l => {
+      this.listings = l['listings']
+      this.hasCancelled = false;
+      this.loading = false;
     })
   }
 

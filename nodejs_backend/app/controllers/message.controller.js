@@ -25,7 +25,8 @@ exports.postMessage = (req, res) => {
         Message.create({
             senderID: req.userId,
             receiverID: u.userID,
-            message: req.body.message
+            message: req.body.message,
+            viewed: false,
         }).then(m => {
             res.send({ message: m })
         }).catch(err => {
@@ -39,7 +40,7 @@ exports.postMessage = (req, res) => {
 exports.getLastMessages = (req, res) => {
     // fetch all last messages send and received by user
     // Last send message AND last received message from every person will be returned (max 2 messages for each person)
-    db.sequelize.query(`SELECT messageID, senderID, S.userName AS sender, receiverID, R.userName AS receiver, message, Message.createdAt FROM Message INNER JOIN (SELECT senderID, receiverID, MAX(createdAt) AS createdAt FROM Message WHERE senderID = ${req.userId} OR receiverID = ${req.userId} GROUP BY senderID, receiverID) as A USING (senderID, receiverID, createdAt) INNER JOIN User AS S ON Message.senderID = S.userID INNER JOIN User AS R ON Message.receiverID = R.userID;`)
+    db.sequelize.query(`SELECT messageID, senderID, S.userName AS sender, receiverID, R.userName AS receiver, message, Message.createdAt, viewed FROM Message INNER JOIN (SELECT senderID, receiverID, MAX(createdAt) AS createdAt FROM Message WHERE senderID = ${req.userId} OR receiverID = ${req.userId} GROUP BY senderID, receiverID) as A USING (senderID, receiverID, createdAt) INNER JOIN User AS S ON Message.senderID = S.userID INNER JOIN User AS R ON Message.receiverID = R.userID;`)
         .then(messages => {
             let lastMessages = {};
             messages[0].forEach(m => {
@@ -50,7 +51,7 @@ exports.getLastMessages = (req, res) => {
                     lastMessages[userID] = m;
             });
             lastMessages = Object.values(lastMessages).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            return res.status(200).send({messages: lastMessages})
+            res.status(200).send({messages: lastMessages})
         }).catch(err => {
             res.status(500).send({ message: err.message});
         })
@@ -74,7 +75,8 @@ exports.getMessages = (req, res) => {
             attributes: [
                 'message',
                 'createdAt',
-                'senderID'
+                'senderID',
+                'messageID'
             ],
             where: {
                 [Op.or]: 
@@ -91,10 +93,27 @@ exports.getMessages = (req, res) => {
                 'createdAt'
             ]
         }).then(m => {
-            return res.status(200).send({messages: m})
+            Message.update(
+                { viewed: true },
+                { where: { senderID: req.query.id, receiverID: req.userId} }
+            ).then(_ => res.status(200).send({messages: m}))
         }).catch(err => {
             res.status(500).send({ message: err.message});
         })
     })
-    
+}
+
+/** Get all amount fo unseen messages
+ */
+exports.getUnseenMessageAmount = (req, res) => {
+    Message.findAll({
+        where: {
+            receiverID: req.userId,
+            viewed: false
+        }
+    }).then(m => {
+        res.status(200).send({ messageAmount: m.length, messages: m });
+    }).catch(err => {
+        res.status(500).send({ message: err.message});
+    })
 }

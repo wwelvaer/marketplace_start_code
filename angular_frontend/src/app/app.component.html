@@ -20,8 +20,7 @@
     {{ title }}
   </a> -->
 
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -81,39 +80,46 @@
         <a routerLink="/messages" class="nav-link">
           <!-- Messages Icon -->
           <mat-icon>question_answer</mat-icon>
+
+          <!-- New Message amount -->
+          <span class="badge rounded-pill bg-danger" *ngIf="unseenMessages > 0">
+            {{unseenMessages}}
+          </span>
         </a>
       </li>
-
       <!-- Notification dropdown -->
       <li class="nav-item dropdown">
         <!-- Dropdown Button -->
-        <a class="nav-link" id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
           <!-- Bell Icon -->
           <mat-icon> {{'notifications' + (getUnreadNotificationsAmount() > 0 ? '_active': '')}}</mat-icon>
 
           <!-- Notifiaction amount -->
-          <span class="badge badge-warning" *ngIf="getUnreadNotificationsAmount() > 0">
+          <span class="badge rounded-pill bg-danger" *ngIf="getUnreadNotificationsAmount() > 0">
             {{getUnreadNotificationsAmount()}}
           </span>
 
         </a>
 
         <!-- Dropdown Menu -->
-        <div class="dropdown-menu" aria-labelledby="notificationsDropdown">
+        <ul class="dropdown-menu" aria-labelledby="notificationsDropdown">
 
           <!-- Notifications -->
-          <a class="dropdown-item" *ngFor="let n of notifications" (click)="clickedNotification(n)" style="width: 300px;white-space: pre-wrap;">
-            <div *ngIf="n.viewed">- {{getNotificationMessage(n)}}</div>
-            <b *ngIf="!n.viewed">- {{getNotificationMessage(n)}}</b>
-          </a>
+          <li *ngFor="let n of notifications">
+            <a class="dropdown-item" (click)="clickedNotification(n)" style="width: 300px;white-space: pre-wrap;">
+              <div *ngIf="n.viewed">- {{getNotificationMessage(n)}}</div>
+              <b *ngIf="!n.viewed">- {{getNotificationMessage(n)}}</b>
+            </a>
+          </li>
+          
 
           <!-- No Notification -->
-          <a class="dropdown-item" *ngIf="notifications.length === 0">
+          <li class="dropdown-item"  *ngIf="notifications.length === 0">
             No notifications
-          </a>
+          </li>
 
-        </div>
+        </ul>
       </li>
 
       <!-- Link to change profile page -->

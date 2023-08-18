@@ -143,6 +143,7 @@ export interface Message {
   message: string,
   createdAt: Date,
   sender: string,
-  receiver: string
+  receiver: string,
+  viewed: boolean
 }
 
