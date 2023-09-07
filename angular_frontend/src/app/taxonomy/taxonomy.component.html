@@ -9,15 +9,24 @@
     </select> -->
     <p>{{this.companyName}}</p>
   </div>
+  <sup>m</sup> = mandatory, <sup>e</sup> = exclusive, <sup>o</sup> = optional, <sup>d</sup> = dependent
   <br>
+  
+
+
   <div *ngFor="let d of this.taxonomy | keyvalue | orderBy:'orderNr'">
     <!-- Dimensions -->
-    <span class="fa-stack" [ngbPopover]="d.value.description" triggers="mouseenter:mouseleave"
-      popoverClass="myclass">
-      <i class="fa fa-circle fa-stack-1x icon-background2"></i>
-      <i class="fa fa-info fa-stack-1x"></i>
+    <span class="clickable" [ngbPopover]="popoverContent" triggers="click" (click)="showPopup = true">
+      
       <h4 class="display-6">{{d.key}} <sup *ngIf="d.value.mandatory">m</sup><sup *ngIf="!d.value.mandatory">o</sup></h4>
     </span>
+
+    <ng-template #popoverContent >
+      <div *ngIf="showPopup" class="text-center">
+        <p>{{ d.value.description }}</p>
+        <button class="button" (click)="showPopup = false">Close</button>
+      </div>
+    </ng-template>
 
     <!-- DimensionValues-->
 
@@ -32,5 +41,5 @@
     </div>
   </div>
   <br>
-  <button class="save-option" (click)="checkMandatoryValues()">Save</button>
+  <button class="button" (click)="checkMandatoryValues()">Save</button>
 </div>

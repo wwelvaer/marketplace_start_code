@@ -17,6 +17,7 @@ export class TaxonomyComponent implements OnInit {
   companies: any;
   companyName: string;
   constraints: any;
+  showPopup = false;
 
 
   constructor(
