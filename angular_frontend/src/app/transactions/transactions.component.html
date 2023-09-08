@@ -56,8 +56,8 @@
                             <!-- Transaction Details -->
                             <div>
                               <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('One-Time')">Date: <b>{{t.Listing.date}}</b></div>
-                              <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')">Date: <b>{{t.date}}</b></div>
-                              <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')">Time: <b>{{t.time.split('T').join(' ').split(':').slice(0, -1).join(':')}}</b></div>
+                              <!-- div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')">Date: <b>{{t.date}}</b></div-->
+                              <!--div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')">Time: <b>{{t.time.split('T').join(' ').split(':').slice(0, -1).join(':')}}</b></div-->
                               <div *ngIf="!properties['Quantity']?.includes('One')">Quantity: <b>{{t.numberOfAssets}}</b></div>
                               <div *ngIf="!properties['Price Calculation']?.includes('By Quantity')">Price: <b>€{{t.price}}</b></div>
                               <div *ngIf="properties['Price Calculation']?.includes('By Quantity')"> Total Price: <b>€{{t.price * t.numberOfAssets}}</b></div>

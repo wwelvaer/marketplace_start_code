@@ -34,14 +34,15 @@ export class TransactionsComponent implements OnInit {
     this.fetchTransactions();
     this.db.getProperties().then(r => {
       this.properties = r
+      console.log(r)
     })
   }
 
   fetchTransactions() {
     this.db.getUserTransactions(this.user.getLoginToken())
       .then(t => {
-        //what is this? 
-        this.transactions = t['transactions'].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).map(x => { return { ...x, ...x.listing } })
+        // sort by creation time
+        this.transactions = t['transactions'].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         console.log(this.transactions)
       })
 

@@ -38,7 +38,7 @@
     <div class="row">
 
       <!-- Image -->
-      <div *ngIf="!properties['Listing Type']?.includes('Digital Good')" class="col-8">
+      <div *ngIf="!ps.properties['Listing Type'].includes('Digital Good')" class="col-8">
         <img style="width: 100%;border-radius: 5px;"
           [src]="listing.picture ? listing.picture : image.getPlaceholderImage()">
       </div>
@@ -49,35 +49,45 @@
         <!-- Asking price -->
         <h2>Asking Price:<b> €{{listing.price}}</b></h2>
 
+        <!-- Availability calendar -->
+        <div class="card" *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
+          <div class="card-body">
+            <mat-card style="width: 100%;padding-top: 0px">
+              <mat-calendar #bookings [dateClass]="dateClass" (selectedChange)="_onSelectedChange($event)" 
+              [selected]="ps.properties['Time Unit'].includes('Day') ? selectedDateRange : selectedDate">
+              </mat-calendar>
+            </mat-card>
+          </div>
+        </div>
+
         <!-- Make Transaction (only when user is logged in, isn't the owner of the listing and the listing is still available)-->
         <div class="card"
           *ngIf="user.isLoggedIn() && listing.userID !== user.getId() && listing.availableAssets !== 0 && listing.status !== 'cancelled'">
           <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="createTransaction()">
               <!--Address input-->
-              <div class="form-group" *ngIf="properties['Listing Type']?.includes('Physical Good')">
+              <div class="form-group" *ngIf="ps.properties['Listing Type'].includes('Physical Good')">
                 <label for="address">
                   Address
                 </label>
                 <input type="text" class="form-control" id="address" placeholder="address" formControlName="address">
               </div>
               <!-- Number of Assets Input -->
-              <div class="form-group" *ngIf="!properties['Quantity']?.includes('One')">
+              <div class="form-group" *ngIf="!ps.properties['Quantity'].includes('One')">
                 <label for="inputNumberOfAssets">
                   Quantity (max {{listing.availableAssets}})
                 </label>
                 <input type="number" min=1 max={{listing.availableAssets}} class="form-control" id="inputNumberOfAssets"
                   placeholder="Quantity" formControlName="numberOfAssets">
               </div>
-               <!-- Date input -->
-              <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')" class="form-group">
-                <label for="inputDate">Date</label>
-                <input type="date" class="form-control" id="inputDate" formControlName="date">
-              </div>
               <!-- Time input -->
-              <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')" class="form-group">
-                <label for="inputTime">Time</label>
-                <input type="time" class="form-control" id="inputTime" formControlName="time">
+              <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring') && ps.properties['Time Unit'].includes('Hour')" class="form-group">
+                <label for="inputStartTime">Start Time</label>
+                <input type="time" class="form-control" id="inputStartTime" formControlName="startTime">
+              </div>
+              <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring') && ps.properties['Time Unit'].includes('Hour')" class="form-group">
+                <label for="inputEndTime">End Time</label>
+                <input type="time" class="form-control" id="inputEndTime" formControlName="endTime">
               </div>
               <!-- Make transaction -->
               <button type="submit" class="btn btn-primary btn-block">
@@ -102,7 +112,7 @@
       </button>
 
       <!-- Reviews -->
-      <button *ngIf="properties['Review System']?.includes('By Customer')" [class]="'btn detail-tab-radio-button--success' + (selectedTab === 'reviews' ? '-selected' : '')"
+      <button *ngIf="ps.properties['Review System'].includes('By Customer')" [class]="'btn detail-tab-radio-button--success' + (selectedTab === 'reviews' ? '-selected' : '')"
         (click)="selectedTab = 'reviews'">
 
         <!-- star rating system -->
@@ -129,7 +139,7 @@
       </button>
 
       <!-- Contact (only when user is not owner of listing) -->
-      <button *ngIf="listing.userID !== user.getId()"
+      <button *ngIf="listing.userID !== user.getId() && user.isLoggedIn()"
         class="btn detail-tab-radio-button--danger"
         (click)="contactOwner()">
         Message Seller
@@ -150,7 +160,7 @@
         </p>
 
         <!-- Available Assets -->
-        <p *ngIf="!properties['Quantity']?.includes('One') && (listing.availableAssets || listing.availableAssets === 0)">
+        <p *ngIf="!ps.properties['Quantity'].includes('One') && (listing.availableAssets || listing.availableAssets === 0)">
           <b>Quantity Available: </b>{{listing.availableAssets}}
         </p>
 
@@ -230,8 +240,8 @@
               <tr>
                 <th scope="col">Time</th>
                 <th scope="col">Customer</th>
-                <th scope="col" *ngIf="!properties['Quantity']?.includes('One')">Quantity</th>
-                <th scope="col" *ngIf="properties['Listing Type']?.includes('Physical Good')">Address</th>
+                <th scope="col" *ngIf="!ps.properties['Quantity'].includes('One')">Quantity</th>
+                <th scope="col" *ngIf="ps.properties['Listing Type'].includes('Physical Good')">Address</th>
                 <th scope="col">Price</th>
                 <th scope="col">Status</th>
                 <th scope="col">Actions</th>
@@ -264,13 +274,13 @@
                 </th>
 
                 <!-- # Assets -->
-                <td *ngIf="!properties['Quantity']?.includes('One')">{{b.numberOfAssets}}</td>
+                <td *ngIf="!ps.properties['Quantity'].includes('One')">{{b.numberOfAssets}}</td>
 
-                <td *ngIf="properties['Listing Type']?.includes('Physical Good')">{{b.sendAddress}}</td>
+                <td *ngIf="ps.properties['Listing Type'].includes('Physical Good')">{{b.sendAddress}}</td>
 
                 <!-- Price -->
-                <td *ngIf="properties['Price Discovery']?.includes('By Quantity')">€{{b.numberOfAssets * b.price}}</td>
-                <td *ngIf="!properties['Price Discovery']?.includes('By Quantity')">€{{b.price}}</td>
+                <td *ngIf="ps.properties['Price Discovery'].includes('By Quantity')">€{{b.numberOfAssets * b.price}}</td>
+                <td *ngIf="!ps.properties['Price Discovery'].includes('By Quantity')">€{{b.price}}</td>
 
                 <!-- Status -->
                 <td>{{b.status}}</td>

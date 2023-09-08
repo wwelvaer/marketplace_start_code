@@ -1,17 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from 'src/app/services/db-connection.service';
 import { UserService } from 'src/app/services/user.service';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ImageService } from 'src/app/services/image.service';
+import { PropertiesService } from 'src/app/services/properties.service';
 import { ListingModule } from '../listing.module';
+import { DateRange, DefaultMatCalendarRangeStrategy, MAT_DATE_RANGE_SELECTION_STRATEGY, MatCalendar, MatCalendarCellClassFunction } from '@angular/material/datepicker';
+import { promise } from 'protractor';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './listingdetail.component.html',
-  styleUrls: ['./listingdetail.component.scss']
+  styleUrls: ['./listingdetail.component.scss'],
+  providers: [
+    {
+      provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
+      useClass: DefaultMatCalendarRangeStrategy,
+    },
+  ],
 })
 export class ListingDetailComponent implements OnInit {
+
+  @ViewChild('bookings') calendar: MatCalendar<Date>;
 
   listing: object;
   error: string;
@@ -21,29 +32,84 @@ export class ListingDetailComponent implements OnInit {
   avgScore: number = 0;
   selectedTab = ""; // ["info", "reviews", "transactions"]
   loading = 0; // #asynchronous tasks running
-  properties = {}
+
+  loadedBookings: number[] = [0, 0]; // [month, year]
+  bookingsPromise = this.db.getListingBookings(16, 9, 2023);
+  bookings: number[] = [];
+  selectedDateRange: DateRange<Date>;
+  selectedDate: Date;
+
+  _onSelectedChange(date: Date): void {
+    this.selectedDate = date;
+    if (
+      this.selectedDateRange &&
+      this.selectedDateRange.start &&
+      date > this.selectedDateRange.start &&
+      !this.selectedDateRange.end
+    ) {
+      this.selectedDateRange = new DateRange(
+        this.selectedDateRange.start,
+        date
+      );
+    } else {
+      this.selectedDateRange = new DateRange(date, null);
+    }
+    console.log(this.selectedDateRange)
+  }
+
+  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    // Only highlight dates inside the month view.
+    if (view === 'month') {
+      // fetch bookings when not loaded
+      if (this.loadedBookings[0] !== cellDate.getMonth() + 1 || this.loadedBookings[1] !== cellDate.getFullYear()){
+        this.db.getListingBookings(this.listing['listingID'], cellDate.getMonth() + 1, cellDate.getFullYear()).then(r => {
+            this.bookings = r['bookings'];
+            console.log(this.bookings)
+            // update calendar
+            this.calendar.updateTodaysDate();
+        });
+        this.loadedBookings = [cellDate.getMonth() + 1, cellDate.getFullYear()];
+      }
+      let cellDateUTC = Date.UTC(cellDate.getFullYear(), cellDate.getMonth(), cellDate.getDate());
+      for (let i = 0; i < this.bookings.length; i++){
+        let startDate = this.customToDate(this.bookings[i]['startDate']);
+        let endDate = this.customToDate(this.bookings[i]['endDate']);
+        if (cellDateUTC >= startDate && cellDateUTC <= endDate)
+          return 'calendar-date-occupied';
+      }
+    }
+    return '';
+  };
+
+  private customToDate(date: string){
+    let d: number[] = date.split("-").map(x => parseInt(x))
+    return Date.UTC(d[0], d[1]-1, d[2]);
+  }
 
   constructor(private route: ActivatedRoute,
     private db : DbConnectionService,
     private user: UserService,
     private router: Router,
-    public image: ImageService) {
+    public image: ImageService,
+    public ps: PropertiesService) {
+      console.log(ps.properties)
+      
       // initialize form field
       this.form = new UntypedFormGroup({
-        numberOfAssets: new UntypedFormControl(),
+        numberOfAssets: new FormControl(1),
         address: new UntypedFormControl(),
         date: new UntypedFormControl(),
-        time: new UntypedFormControl()
+        startTime: new UntypedFormControl(),
+        endTime: new UntypedFormControl()
       });
     }
 
   ngOnInit(): void {
 
-    this.db.getProperties().then (r => {
+    /* this.db.getProperties().then (r => {
       this.properties = r
       }
-    );
-
+    ); */
     // get url query params
     this.route.params.subscribe(params => {
       this.error = "";
@@ -89,7 +155,6 @@ export class ListingDetailComponent implements OnInit {
       this.avgScore = r['score'];
       this.reviews = r['reviews'];
       this.onFinishLoading();
-      console.log(this.reviews)
     }).catch(err => this.error = err.error.message)
   }
 
@@ -125,16 +190,25 @@ export class ListingDetailComponent implements OnInit {
   // create transaction
   createTransaction(){
     // get form value
-    let values = {...this.form.getRawValue(), }
+    let values = {...this.form.getRawValue()}
     console.log(values)
     // add listingID to form values
     values['listingID'] = this.listing['listingID'];
-    this.db.createTransaction(this.user.getLoginToken(), values).then(_ => {
-     //sold when only 1 quantity exists
-    if (this.properties['Quantity']?.includes('One') && !this.properties['Frequency']?.includes('Recurring')) {
-      this.db.soldListingStatus(this.listing['listingID'])
-    }
-     // go to transactions
+    this.db.createTransaction(this.user.getLoginToken(), values).then(r => {
+      console.log(r)
+      if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
+        let fields = this.ps.properties['Time Unit'].includes('Day')
+          ? {startDate: this.selectedDateRange.start, endDate: this.selectedDateRange.end}
+          : {startDate: this.selectedDate, endDate: this.selectedDate, startTime: values['startTime'], endTime: values['endTime']}
+        fields['transactionID'] = r['transactionID']
+        this.db.createBooking(this.user.getLoginToken(), fields).then(console.log)
+      }
+      
+      //sold when only 1 quantity exists
+      if (this.ps.properties['Quantity']?.includes('One') && !this.ps.properties['Frequency']?.includes('Recurring')) {
+        this.db.soldListingStatus(this.listing['listingID'])
+      }
+      // go to transactions
       this.router.navigate(['/transactions'])
     })
   }
