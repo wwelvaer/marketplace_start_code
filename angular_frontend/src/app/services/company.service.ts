@@ -5,10 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class CompanyService {
 
- companyName: string = "SmartLearn"
+  companyName: string = "Airbnb"
 
- companies: string[] = ["SafaRide", "SmartLearn", "Ticketswap", "RetroKicks", "Airbnb"]
-
+  companies: string[] = ["SafaRide", "SmartLearn", "Ticketswap", "RetroKicks", "Airbnb"]
  
 }
 
