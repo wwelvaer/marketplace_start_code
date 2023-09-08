@@ -27,6 +27,7 @@ require('./app/routes/review.routes')(app);
 require('./app/routes/taxonomy.routes')(app);
 require('./app/routes/company.routes') (app);
 require('./app/routes/message.routes') (app);
+require('./app/routes/booking.routes') (app);
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({

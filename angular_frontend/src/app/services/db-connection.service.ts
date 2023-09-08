@@ -332,6 +332,53 @@ export class DbConnectionService {
     return this.http.get(`${this.url}/api/reviews/user?id=${userID}`).toPromise();
   }
 
+  /**
+   * get booking
+   * @param userToken web token
+   * @param bookingID bookingID
+   * @returns http response promise
+   */
+  getBooking(userToken: string, bookingID: number){
+    return this.http.get(`${this.url}/api/booking?id=${bookingID}`, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
+  /**
+   * get bookings on transaction
+   * @param userToken web token
+   * @param transactionID transactionID
+   * @returns http response promise
+   */
+  getTransactionBookings(userToken: string, transactionID: number){
+    return this.http.get(`${this.url}/api/transaction/bookings?id=${transactionID}`, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
+  /**
+   * get bookings of month on listing 
+   * @param listingID listingID
+   * @param month month
+   * @param year year
+   * @returns http response promise
+   */
+  getListingBookings(listingID: number, month: number, year: number){
+    return this.http.get(`${this.url}/api/listing/bookings?id=${listingID}&month=${month}&year=${year}`).toPromise();
+  }
+
+  /**
+   * create booking
+   * @param userToken web token
+   * @param fields
+   *  @field startDate (required)
+   *  @field endDate (required)
+   *  @field startTime
+   *  @field endTime
+   *  @field transactionID
+   * @returns http response promise
+   */
+  createBooking(userToken: string, fields: any){
+    return this.http.post(`${this.url}/api/booking`, fields, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
+
   getTaxonomy() {
     const params = { company: this.companyService.companyName };
     return this.http.get(`${this.url}/api/taxonomy`, {params}).toPromise();

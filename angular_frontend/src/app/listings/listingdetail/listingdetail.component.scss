@@ -59,3 +59,13 @@ $detail-window-type-colors: (
   flex: 0 0 auto;
   width: 66.66666667% !important;
 }
+
+:host ::ng-deep .calendar-date-occupied {
+  background: red;
+  border-radius: 100%;
+}
+
+:host ::ng-deep .calendar-date-partially-occupied {
+  background: orange;
+  border-radius: 100%;
+}

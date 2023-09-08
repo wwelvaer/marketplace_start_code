@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DbConnectionService } from './services/db-connection.service';
 import { UserService } from './services/user.service';
 import { CompanyService } from './services/company.service';
+import { PropertiesService } from './services/properties.service';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,13 @@ export class AppComponent {
   notifications: object[] = [];
   unseenMessages: number = 0;
   timeToRefresh = 5000; // time in ms
-  properties = {}
 
   constructor(
     public user: UserService,
     private db: DbConnectionService,
     private router: Router,
-    public companyService: CompanyService){
+    public companyService: CompanyService,
+    private properties: PropertiesService){
       this.fetchNotifications();
       this.fetchMessageNotifications();
 
@@ -38,9 +39,11 @@ export class AppComponent {
 
   changeCompany(c: string){
     this.companyService.companyName = c;
+    this.properties.fetchProperties();
     this.title = this.companyService.companyName;
+    let url = this.router.url;
     this.router.navigateByUrl('/tmp', {skipLocationChange: true}).then(() => {
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl(url);
     });
   }
   

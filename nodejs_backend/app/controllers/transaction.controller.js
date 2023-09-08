@@ -183,7 +183,7 @@ exports.createTransaction = (req, res) => {
                 activeAt: sequelize.literal('NOW() + INTERVAL 10 day')
             })
             Listing.save().then(() => {
-                res.send({ message: "Transaction was created successfully!", customerID: t.customerID });
+                res.send({ message: "Transaction was created successfully!", customerID: t.customerID, transactionID: t.transactionID });
             })
         })
         .catch(err => {
