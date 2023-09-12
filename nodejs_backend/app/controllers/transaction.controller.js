@@ -5,6 +5,7 @@ const User = db.User;
 const Notification = db.Notification;
 const Review = db.Review;
 const sequelize = db.sequelize;
+const Booking = db.Booking;
 
 /** get all transactions on a given listingid
  * expected Query param:
@@ -220,12 +221,20 @@ exports.cancelTransaction = (req, res) => {
             // catch error
             if (!Listing)
                 return res.status(404).send({ message: "Transaction has invalid listingID" });
+
             // update listing's available assets
             if (Listing.availableAssets)
                 Listing.availableAssets += Transaction.numberOfAssets;
             Listing.save().then(_ => {
                 // update transaction status
                 Transaction.status = 'cancelled';
+
+                Booking.destroy({
+                    where: {
+                      transactionID: Transaction.transactionID
+                    }
+                });
+
                 Notification.create({
                     transactionID: Transaction.transactionID,
                     viewed: false,

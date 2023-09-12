@@ -57,8 +57,15 @@
               [selected]="ps.properties['Time Unit'].includes('Day') ? selectedDateRange : selectedDate">
               </mat-calendar>
             </mat-card>
+            <div *ngIf="ps.properties['Time Unit'].includes('Hour')">
+              Scheduled bookings:
+              <p *ngFor="let b of logBookings()" style="margin: 0">
+                {{ b }}
+              </p>
+            </div>
           </div>
         </div>
+        
 
         <!-- Make Transaction (only when user is logged in, isn't the owner of the listing and the listing is still available)-->
         <div class="card"
@@ -86,13 +93,20 @@
                 <input type="time" class="form-control" id="inputStartTime" formControlName="startTime">
               </div>
               <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring') && ps.properties['Time Unit'].includes('Hour')" class="form-group">
-                <label for="inputEndTime">End Time</label>
-                <input type="time" class="form-control" id="inputEndTime" formControlName="endTime">
+                <label for="inputAmountOfHours">Amount of hours</label>
+                <input type="number" min=1 class="form-control" id="inputAmountOfHours"
+                  formControlName="amountOfHours">
+              </div>
+              <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
+                Total Price: €{{ getTotalPrice() }}
               </div>
               <!-- Make transaction -->
-              <button type="submit" class="btn btn-primary btn-block">
-                Make Transaction
-              </button>
+              <div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Make Transaction
+                </button>
+              </div>
+              
 
             </form>
           </div>
@@ -324,4 +338,5 @@
 <div *ngIf="error" style="margin: 10px;">
   <h1>ERROR</h1>
   <p>{{error}}</p>
+  <button class="btn btn-danger" (click)="error=''">OK</button>
 </div>

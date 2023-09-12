@@ -34,8 +34,7 @@ export class ListingDetailComponent implements OnInit {
   loading = 0; // #asynchronous tasks running
 
   loadedBookings: number[] = [0, 0]; // [month, year]
-  bookingsPromise = this.db.getListingBookings(16, 9, 2023);
-  bookings: number[] = [];
+  bookings = [];
   selectedDateRange: DateRange<Date>;
   selectedDate: Date;
 
@@ -54,7 +53,6 @@ export class ListingDetailComponent implements OnInit {
     } else {
       this.selectedDateRange = new DateRange(date, null);
     }
-    console.log(this.selectedDateRange)
   }
 
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
@@ -86,6 +84,28 @@ export class ListingDetailComponent implements OnInit {
     return Date.UTC(d[0], d[1]-1, d[2]);
   }
 
+  private dateToYYYYMMDDformat(date: Date){
+    const offset = date.getTimezoneOffset()
+    let newDate = new Date(date.getTime() - (offset*60*1000))
+    return newDate.toISOString().split('T')[0]
+  }
+
+  logBookings(){
+    return this.bookings.map(x => `(${x.startDate}) ${x.startTime} - ${x.endTime} (${x.endDate})`)
+  }
+
+  getTotalPrice(){
+    if (this.ps.properties['Time Unit'].includes('Hour'))
+      return parseInt(this.listing['price']) * parseInt(this.form.get('amountOfHours').value)
+    else{
+      if (this.selectedDateRange && this.selectedDateRange.start && this.selectedDateRange.end)
+        return parseInt(this.listing['price']) * Math.round((this.selectedDateRange.end.valueOf() - this.selectedDateRange.start.valueOf()) / (1000 * 60 * 60 * 24));
+      else
+        return ""
+    }
+      
+  }
+
   constructor(private route: ActivatedRoute,
     private db : DbConnectionService,
     private user: UserService,
@@ -100,7 +120,7 @@ export class ListingDetailComponent implements OnInit {
         address: new UntypedFormControl(),
         date: new UntypedFormControl(),
         startTime: new UntypedFormControl(),
-        endTime: new UntypedFormControl()
+        amountOfHours: new UntypedFormControl(1)
       });
     }
 
@@ -197,20 +217,43 @@ export class ListingDetailComponent implements OnInit {
     this.db.createTransaction(this.user.getLoginToken(), values).then(r => {
       console.log(r)
       if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
-        let fields = this.ps.properties['Time Unit'].includes('Day')
-          ? {startDate: this.selectedDateRange.start, endDate: this.selectedDateRange.end}
-          : {startDate: this.selectedDate, endDate: this.selectedDate, startTime: values['startTime'], endTime: values['endTime']}
-        fields['transactionID'] = r['transactionID']
-        this.db.createBooking(this.user.getLoginToken(), fields).then(console.log)
+        let fields = {'transactionID': r['transactionID']};
+        if (this.ps.properties['Time Unit'].includes('Day')){
+          fields['startDate'] = this.dateToYYYYMMDDformat(this.selectedDateRange.start);
+          fields['endDate'] = this.dateToYYYYMMDDformat(this.selectedDateRange.end);
+        } else {
+          fields['startDate'] = this.dateToYYYYMMDDformat(this.selectedDate);
+          let endDate = new Date(this.selectedDate);
+          endDate.setHours(values['startTime'].split(":")[0])
+          endDate.setMinutes(values['startTime'].split(":")[1])
+          endDate.setTime(endDate.getTime() + (values['amountOfHours']*60*60*1000))
+          fields['endDate'] = this.dateToYYYYMMDDformat(endDate);
+          fields['startTime'] = values['startTime'];
+          fields['endTime'] = `${endDate.getHours()}:${endDate.getMinutes()}`
+        }
+
+        this.db.createBooking(this.user.getLoginToken(), fields).then(res => {
+          this.transactionSuccess();
+        }).catch(e => {
+          this.db.cancelTransaction(r['transactionID'], this.user.getLoginToken()).then(console.log)
+          this.error = `Booking failed: ${e.error.message}`
+        })
+      } else {
+        this.transactionSuccess();
       }
       
-      //sold when only 1 quantity exists
+      
+    })
+  }
+
+  // helper function for createTransaction()
+  transactionSuccess(){
+    //sold when only 1 quantity exists
       if (this.ps.properties['Quantity']?.includes('One') && !this.ps.properties['Frequency']?.includes('Recurring')) {
         this.db.soldListingStatus(this.listing['listingID'])
       }
       // go to transactions
       this.router.navigate(['/transactions'])
-    })
   }
 
   // cancel transaction
