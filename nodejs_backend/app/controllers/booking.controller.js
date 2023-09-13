@@ -74,7 +74,7 @@ exports.getBookingsOnTransaction = (req, res) => {
     }).then(transaction => {
         if (!transaction)
             return res.status(404).send({ message: "Invalid transactionID" });
-        if (transaction.Listing.userID !== req.userId || transaction.customerID !== req.userId)
+        if (transaction.Listing.userID !== req.userId && transaction.customerID !== req.userId)
             return res.status(401).send({ message: "Unauthorized to view another user's bookings"});
 
         Booking.findAll({

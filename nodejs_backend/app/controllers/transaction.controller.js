@@ -30,7 +30,7 @@ exports.getListingTransactions = (req, res) => {
             },
             // include userdata (when user has no firstName and lastName use email as name)
             include: {model: User, attributes: ['userID', 'userName', 'email', 'address']},
-            order: [['time', 'DESC']],
+            order: [['transactionID', 'DESC']],
         }).then(t => {
             checkReviewable(t, 'user', res);
         })
@@ -160,7 +160,7 @@ exports.createTransaction = (req, res) => {
         Transaction.create({
             numberOfAssets: req.body.numberOfAssets,
             sendAddress: req.body.address,
-            price: Listing.price,
+            price: Listing.price * (req.body.numberOfAssets ? parseInt(req.body.numberOfAssets) : 1),
             customerID: req.userId, // get user from webtoken
             status: 'reserved',
             listingID: Listing.listingID,
@@ -210,7 +210,7 @@ exports.cancelTransaction = (req, res) => {
         if (!Transaction)
             return res.status(404).send({ message: "Invalid transactionID" });
         // compare user from webtoken with data
-        if (req.userId !== Transaction.customerID && req.userId !== Transaction.listing.userID) 
+        if (req.userId !== Transaction.customerID && req.userId !== Transaction.Listing.userID) 
             return res.status(401).send({ message: "Unauthorized to cancel transaction"});
         // find listing
         Listing.findOne({

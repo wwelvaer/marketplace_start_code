@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
 import { UserService } from '../services/user.service';
+import { PropertiesService } from '../services/properties.service';
 
 @Component({
   selector: 'app-transactions',
@@ -14,17 +15,17 @@ export class TransactionsComponent implements OnInit {
 
   hasCancelled: boolean = false;
   form: UntypedFormGroup;
-  transactions: [];
+  transactions = [];
   rating: number = 0; // selected rating for review
   selectedTransactionForReview: number = -1;
-  properties = {};
 
   constructor(
     private db: DbConnectionService,
     private user: UserService,
     private route: ActivatedRoute,
     public image: ImageService,
-    public router: Router) {
+    public router: Router,
+    private ps: PropertiesService) {
     this.form = new UntypedFormGroup({
       comment: new UntypedFormControl('')
     });
@@ -32,10 +33,6 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchTransactions();
-    this.db.getProperties().then(r => {
-      this.properties = r
-      console.log(r)
-    })
   }
 
   fetchTransactions() {
@@ -43,9 +40,21 @@ export class TransactionsComponent implements OnInit {
       .then(t => {
         // sort by creation time
         this.transactions = t['transactions'].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+        // load bookings when applicable
+        if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
+          this.transactions.forEach(transaction => {
+              this.db.getTransactionBookings(this.user.getLoginToken(), transaction['transactionID']).then(r => {
+                transaction['bookings'] = r['bookings']
+              })
+          })
+        }
         console.log(this.transactions)
       })
+  }
 
+  logBookings(bookings){
+    return bookings.map(x => `(${x.startDate}) ${x.startTime} - ${x.endTime} (${x.endDate})`)
   }
 
   // cancel transaction

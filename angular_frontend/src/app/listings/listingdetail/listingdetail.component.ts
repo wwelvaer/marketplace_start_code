@@ -90,20 +90,23 @@ export class ListingDetailComponent implements OnInit {
     return newDate.toISOString().split('T')[0]
   }
 
-  logBookings(){
-    return this.bookings.map(x => `(${x.startDate}) ${x.startTime} - ${x.endTime} (${x.endDate})`)
+  logBookings(bookings=this.bookings){
+    return bookings.map(x => `(${x.startDate}) ${x.startTime} - ${x.endTime} (${x.endDate})`)
   }
 
   getTotalPrice(){
+    return parseInt(this.listing['price']) * this.getTotalServiceAssets()
+  }
+
+  private getTotalServiceAssets(){
     if (this.ps.properties['Time Unit'].includes('Hour'))
-      return parseInt(this.listing['price']) * parseInt(this.form.get('amountOfHours').value)
+      return parseInt(this.form.get('amountOfHours').value)
     else{
       if (this.selectedDateRange && this.selectedDateRange.start && this.selectedDateRange.end)
-        return parseInt(this.listing['price']) * Math.round((this.selectedDateRange.end.valueOf() - this.selectedDateRange.start.valueOf()) / (1000 * 60 * 60 * 24));
+        return Math.round((this.selectedDateRange.end.valueOf() - this.selectedDateRange.start.valueOf()) / (1000 * 60 * 60 * 24));
       else
-        return ""
+        return 0
     }
-      
   }
 
   constructor(private route: ActivatedRoute,
@@ -184,12 +187,20 @@ export class ListingDetailComponent implements OnInit {
     this.db.getListingTransactions(this.listing['listingID'], this.user.getLoginToken())
       .then(b => {
         this.transactions = b['transactions']
+        console.log(this.transactions)
         this.transactions.forEach(t => {
           this.db.getUserReviews(t['customerID']).then(r => {
             t['userReviews'] = r['reviews']
             t['userScore'] = r['score']
           });
-          console.log(this.transactions)
+          
+          // load bookings when applicable
+          if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
+            this.db.getTransactionBookings(this.user.getLoginToken(), t['transactionID']).then(r => {
+              t['bookings'] = r['bookings']
+            })
+          }
+          //console.log(this.transactions)
         })
         this.onFinishLoading();
       }).catch(err => {
@@ -211,6 +222,7 @@ export class ListingDetailComponent implements OnInit {
   createTransaction(){
     // get form value
     let values = {...this.form.getRawValue()}
+    values['numberOfAssets'] = this.getTotalServiceAssets()
     console.log(values)
     // add listingID to form values
     values['listingID'] = this.listing['listingID'];

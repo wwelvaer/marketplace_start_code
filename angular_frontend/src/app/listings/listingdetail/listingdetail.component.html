@@ -252,10 +252,11 @@
             <thead class="thead-light">
               <!-- Table headers -->
               <tr>
-                <th scope="col">Time</th>
+                <th scope="col">Created At</th>
                 <th scope="col">Customer</th>
                 <th scope="col" *ngIf="!ps.properties['Quantity'].includes('One')">Quantity</th>
                 <th scope="col" *ngIf="ps.properties['Listing Type'].includes('Physical Good')">Address</th>
+                <th scope="col" *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">Bookings</th>
                 <th scope="col">Price</th>
                 <th scope="col">Status</th>
                 <th scope="col">Actions</th>
@@ -266,7 +267,7 @@
               <tr *ngFor="let b of transactions">
 
                 <!-- Time -->
-                <td>{{b.time.split('T').join(' ').split(':').slice(0, -1).join(':')}}</td>
+                <td>{{b.createdAt.split('T').join(' ').split(':').slice(0, -1).join(':')}}</td>
 
                 <!-- Customer -->
                 <th scope="row">
@@ -290,7 +291,15 @@
                 <!-- # Assets -->
                 <td *ngIf="!ps.properties['Quantity'].includes('One')">{{b.numberOfAssets}}</td>
 
+                <!-- Address -->
                 <td *ngIf="ps.properties['Listing Type'].includes('Physical Good')">{{b.sendAddress}}</td>
+
+                <!-- Bookings -->
+                <td *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
+                  <p *ngFor="let x of logBookings(b['bookings'])" style="margin: 0">
+                    {{ x }}
+                  </p>
+                </td>
 
                 <!-- Price -->
                 <td *ngIf="ps.properties['Price Discovery'].includes('By Quantity')">€{{b.numberOfAssets * b.price}}</td>
