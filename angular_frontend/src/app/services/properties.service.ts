@@ -22,6 +22,7 @@ export class PropertiesService {
 export interface Properties {
   "Conversation System": string[],
   "Frequency": string[],
+  "Time Unit": string[],
   "Listing Kind": string[],
   "Listing Type": string[],
   "Price Calculation": string[],

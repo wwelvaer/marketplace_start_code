@@ -5,6 +5,7 @@ const User = db.User;
 const Notification = db.Notification;
 const Review = db.Review;
 const sequelize = db.sequelize;
+const Booking = db.Booking;
 
 /** get all transactions on a given listingid
  * expected Query param:
@@ -29,7 +30,7 @@ exports.getListingTransactions = (req, res) => {
             },
             // include userdata (when user has no firstName and lastName use email as name)
             include: {model: User, attributes: ['userID', 'userName', 'email', 'address']},
-            order: [['time', 'DESC']],
+            order: [['transactionID', 'DESC']],
         }).then(t => {
             checkReviewable(t, 'user', res);
         })
@@ -159,7 +160,7 @@ exports.createTransaction = (req, res) => {
         Transaction.create({
             numberOfAssets: req.body.numberOfAssets,
             sendAddress: req.body.address,
-            price: Listing.price,
+            price: Listing.price * (req.body.numberOfAssets ? parseInt(req.body.numberOfAssets) : 1),
             customerID: req.userId, // get user from webtoken
             status: 'reserved',
             listingID: Listing.listingID,
@@ -209,7 +210,7 @@ exports.cancelTransaction = (req, res) => {
         if (!Transaction)
             return res.status(404).send({ message: "Invalid transactionID" });
         // compare user from webtoken with data
-        if (req.userId !== Transaction.customerID && req.userId !== Transaction.listing.userID) 
+        if (req.userId !== Transaction.customerID && req.userId !== Transaction.Listing.userID) 
             return res.status(401).send({ message: "Unauthorized to cancel transaction"});
         // find listing
         Listing.findOne({
@@ -220,12 +221,20 @@ exports.cancelTransaction = (req, res) => {
             // catch error
             if (!Listing)
                 return res.status(404).send({ message: "Transaction has invalid listingID" });
+
             // update listing's available assets
             if (Listing.availableAssets)
                 Listing.availableAssets += Transaction.numberOfAssets;
             Listing.save().then(_ => {
                 // update transaction status
                 Transaction.status = 'cancelled';
+
+                Booking.destroy({
+                    where: {
+                      transactionID: Transaction.transactionID
+                    }
+                });
+
                 Notification.create({
                     transactionID: Transaction.transactionID,
                     viewed: false,

@@ -1,21 +1,8 @@
 <div style="margin: 10px;">
-    <div class="row">
-        <!-- Right Col (All main info)-->
-        <div class="col">
-            <div class="container">
-
-                <!-- Row containing search bar and order preference -->
-                <div class="row">
-                    <!-- Row containing amount of results and page nagivation -->
-                    <div class="row">
-                        <div class="col-auto" style="cursor:pointer;"
-                            [routerLink]="['/transactions', 'details', transaction.listingID]">
-                            <img *ngIf="transaction" class="card-img-left" [src]="transaction.listing.file"
-                                style="width: 318px;height: 200;" [alt]="transaction.listing.name">
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container" *ngIf="transaction">
+        <div class="col-auto" style="cursor:pointer;">
+            <img *ngIf="transaction" class="card-img-left" [src]="transaction.listing.file"
+                style="width: 318px;height: 200;" [alt]="transaction.listing.name">
         </div>
     </div>
 </div>

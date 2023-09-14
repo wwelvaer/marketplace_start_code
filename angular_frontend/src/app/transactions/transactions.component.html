@@ -33,7 +33,7 @@
                   <div class="row no-gutters">
 
                     <!-- Image -->
-                    <div *ngIf="!properties['Listing Type']?.includes('Digital Good')" class="col-auto"
+                    <div *ngIf="!ps.properties['Listing Type']?.includes('Digital Good')" class="col-auto"
                       style="cursor:pointer;" [routerLink]="['/transactions', 'details', t.transactionID]">
                       <img class="card-img-left"
                         [src]="t.Listing.picture ? t.Listing.picture : image.getPlaceholderImage()"
@@ -55,16 +55,24 @@
 
                             <!-- Transaction Details -->
                             <div>
-                              <div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('One-Time')">Date: <b>{{t.Listing.date}}</b></div>
+                              <div *ngIf="ps.properties['Listing Kind']?.includes('Service') && ps.properties['Frequency']?.includes('One-Time')">Date: <b>{{t.Listing.date}}</b></div>
                               <!-- div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')">Date: <b>{{t.date}}</b></div-->
                               <!--div *ngIf="properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('Recurring')">Time: <b>{{t.time.split('T').join(' ').split(':').slice(0, -1).join(':')}}</b></div-->
-                              <div *ngIf="!properties['Quantity']?.includes('One')">Quantity: <b>{{t.numberOfAssets}}</b></div>
-                              <div *ngIf="!properties['Price Calculation']?.includes('By Quantity')">Price: <b>€{{t.price}}</b></div>
-                              <div *ngIf="properties['Price Calculation']?.includes('By Quantity')"> Total Price: <b>€{{t.price * t.numberOfAssets}}</b></div>
+                              <div *ngIf="!ps.properties['Quantity']?.includes('One')">Quantity: <b>{{t.numberOfAssets}}</b></div>
+                              <div *ngIf="!ps.properties['Price Calculation']?.includes('By Quantity')">Price: <b>€{{t.price}}</b></div>
+                              <div *ngIf="ps.properties['Price Calculation']?.includes('By Quantity')"> Total Price: <b>€{{t.price * t.numberOfAssets}}</b></div>
                               <div>Status: <b>{{t.status}}</b></div>
-                              <div *ngIf="properties['Listing Type']?.includes('Digital Service')"><a href="{{t.Listing.link}}">Meeting Link</a></div>
-                              <div *ngIf="properties['Listing Type']?.includes('Physical Good')">Address: <b>{{t.sendAddress}}</b></div>
-                              <div *ngIf="properties['Listing Type']?.includes('Digital Good')"><a style="cursor:pointer;" [routerLink]="['/transactions', 'details', t.transactionID]">Event File</a></div>
+                              <div *ngIf="ps.properties['Listing Type']?.includes('Digital Service')"><a href="{{t.Listing.link}}">Meeting Link</a></div>
+                              <div *ngIf="ps.properties['Listing Type']?.includes('Physical Good')">Address: <b>{{t.sendAddress}}</b></div>
+                              <div *ngIf="ps.properties['Listing Type']?.includes('Digital Good')"><a style="cursor:pointer;" [routerLink]="['/transactions', 'details', t.transactionID]">Event File</a></div>
+                              <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
+                                Bookings:
+                                <div *ngIf="t['bookings']">
+                                  <p *ngFor="let b of logBookings(t['bookings'])" style="margin: 0">
+                                    <b>{{ b }}</b>
+                                  </p>
+                                </div>
+                              </div>
                             </div>
 
                           </div>
@@ -82,7 +90,7 @@
 
                             <!-- Review listing -->
                             <button
-                              *ngIf="selectedTransactionForReview !== t.transactionID && properties['Review System'].includes('By Customer')"
+                              *ngIf="selectedTransactionForReview !== t.transactionID && ps.properties['Review System'].includes('By Customer')"
                               class="btn btn-success"
                               (click)="selectedTransactionForReview = t.transactionID;form.reset();rating=0;hoverRating=0">
                               Review

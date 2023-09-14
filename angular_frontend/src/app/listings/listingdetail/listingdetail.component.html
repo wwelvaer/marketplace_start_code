@@ -57,8 +57,15 @@
               [selected]="ps.properties['Time Unit'].includes('Day') ? selectedDateRange : selectedDate">
               </mat-calendar>
             </mat-card>
+            <div *ngIf="ps.properties['Time Unit'].includes('Hour')">
+              Scheduled bookings:
+              <p *ngFor="let b of logBookings()" style="margin: 0">
+                {{ b }}
+              </p>
+            </div>
           </div>
         </div>
+        
 
         <!-- Make Transaction (only when user is logged in, isn't the owner of the listing and the listing is still available)-->
         <div class="card"
@@ -86,13 +93,20 @@
                 <input type="time" class="form-control" id="inputStartTime" formControlName="startTime">
               </div>
               <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring') && ps.properties['Time Unit'].includes('Hour')" class="form-group">
-                <label for="inputEndTime">End Time</label>
-                <input type="time" class="form-control" id="inputEndTime" formControlName="endTime">
+                <label for="inputAmountOfHours">Amount of hours</label>
+                <input type="number" min=1 class="form-control" id="inputAmountOfHours"
+                  formControlName="amountOfHours">
+              </div>
+              <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
+                Total Price: €{{ getTotalPrice() }}
               </div>
               <!-- Make transaction -->
-              <button type="submit" class="btn btn-primary btn-block">
-                Make Transaction
-              </button>
+              <div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Make Transaction
+                </button>
+              </div>
+              
 
             </form>
           </div>
@@ -238,10 +252,11 @@
             <thead class="thead-light">
               <!-- Table headers -->
               <tr>
-                <th scope="col">Time</th>
+                <th scope="col">Created At</th>
                 <th scope="col">Customer</th>
                 <th scope="col" *ngIf="!ps.properties['Quantity'].includes('One')">Quantity</th>
                 <th scope="col" *ngIf="ps.properties['Listing Type'].includes('Physical Good')">Address</th>
+                <th scope="col" *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">Bookings</th>
                 <th scope="col">Price</th>
                 <th scope="col">Status</th>
                 <th scope="col">Actions</th>
@@ -252,7 +267,7 @@
               <tr *ngFor="let b of transactions">
 
                 <!-- Time -->
-                <td>{{b.time.split('T').join(' ').split(':').slice(0, -1).join(':')}}</td>
+                <td>{{b.createdAt.split('T').join(' ').split(':').slice(0, -1).join(':')}}</td>
 
                 <!-- Customer -->
                 <th scope="row">
@@ -276,7 +291,15 @@
                 <!-- # Assets -->
                 <td *ngIf="!ps.properties['Quantity'].includes('One')">{{b.numberOfAssets}}</td>
 
+                <!-- Address -->
                 <td *ngIf="ps.properties['Listing Type'].includes('Physical Good')">{{b.sendAddress}}</td>
+
+                <!-- Bookings -->
+                <td *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
+                  <p *ngFor="let x of logBookings(b['bookings'])" style="margin: 0">
+                    {{ x }}
+                  </p>
+                </td>
 
                 <!-- Price -->
                 <td *ngIf="ps.properties['Price Discovery'].includes('By Quantity')">€{{b.numberOfAssets * b.price}}</td>
@@ -324,4 +347,5 @@
 <div *ngIf="error" style="margin: 10px;">
   <h1>ERROR</h1>
   <p>{{error}}</p>
+  <button class="btn btn-danger" (click)="error=''">OK</button>
 </div>
