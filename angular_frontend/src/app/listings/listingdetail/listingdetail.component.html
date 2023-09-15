@@ -112,6 +112,14 @@
           </div>
         </div>
 
+        <div class="card" *ngIf="!user.isLoggedIn()">
+          <div class="text-center" style="padding:10px">
+            <button type="button" class="btn btn-primary btn-block" routerLink="/login">
+              Make Transaction
+            </button>
+          </div>
+        </div>
+
       </div>
 
     </div>

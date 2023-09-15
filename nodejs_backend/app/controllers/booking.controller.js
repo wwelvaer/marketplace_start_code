@@ -141,7 +141,6 @@ exports.getListingBookingsByMonth = (req, res) => {
     })
 }
 
-// booking maken (let op assets in transaction)
 /** creates booking
  * expected params in body:
  * @param transactionID
@@ -250,6 +249,5 @@ exports.createBooking = (req, res) => {
         })
     })
 }
-
 
 // update info on booking (for owner of listing)

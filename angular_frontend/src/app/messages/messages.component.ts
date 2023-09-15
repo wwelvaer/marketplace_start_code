@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { DbConnectionService } from '../services/db-connection.service';
 import { UserService } from '../services/user.service';
 import { ActivatedRoute } from '@angular/router';
@@ -23,6 +23,14 @@ export class MessagesComponent {
 
   timeToRefresh = 1000; // time in ms
   interval;
+
+  focus: boolean = false;
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.focus = window.innerWidth < 1000;
+  }
 
   constructor(
     private db: DbConnectionService,
@@ -58,10 +66,17 @@ export class MessagesComponent {
       let uId = qMap['params'].id;
       if (uId){
         this.db.getUserData(uId, this.user.getLoginToken()).then(l => {
+          this.focus = true;
           this.selected = parseInt(uId);
           this.selectedUserName = l['userName'];
           this.fetchMessages();
         })
+      } else {
+        this.focus = false;
+        this.selected = 1;
+        this.messages = [];
+        this.message = "";
+        this.selectedUserName = "";
       }
     })
   }
