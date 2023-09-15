@@ -1,3 +1,4 @@
+const { STRIPE_API_KEY } = require("../config/stripe.config");
 const db = require("../models");
 const Transaction = db.Transaction;
 const Listing = db.Listing;
@@ -6,6 +7,8 @@ const Notification = db.Notification;
 const Review = db.Review;
 const sequelize = db.sequelize;
 const Booking = db.Booking;
+
+const stripe = require('stripe')(STRIPE_API_KEY);
 
 /** get all transactions on a given listingid
  * expected Query param:
@@ -282,4 +285,84 @@ exports.confirmPayment = (req, res) => {
             res.send({ message: "Payment was confirmed successfully!" });
         }) 
     })
+}
+
+
+exports.stripeTest = async (req, res) => {
+    /* const account = await stripe.accounts.create({
+        country: 'BE',
+        type: 'custom',
+        capabilities: {
+            card_payments: {
+            requested: true,
+            },
+            transfers: {
+            requested: true,
+            },
+        },
+    }); */
+    let id = "acct_1NqFCMBCH4ThFgid"
+    const accountLink = await stripe.accountLinks.create({
+        account: id,
+        refresh_url: 'http://localhost:3001/api/transaction/stripetest',
+        return_url: 'http://localhost:3001/api/transaction/stripereturn',
+        type: 'account_onboarding',
+        collect: 'currently_due',
+      });
+    res.send({accountLink: accountLink})
+}
+
+
+exports.stripeReturn = async (req, res) => {
+    res.send({message: "SUCCESS!!!"});
+}
+
+exports.stripeCancel = async (req, res) => {
+    res.send({message: "Cancelled!!!"});
+}
+
+exports.stripeCheckout = async (req, res) => {
+
+    const price = await stripe.prices.retrieve("price_1NqZI7BS0WI8pkbjSUACqEPo");
+    const account = await stripe.accounts.retrieve("acct_1NqFs4B1Pk7ZIeT9");
+    return res.send({price: price, account: account})
+
+    /* const price = await stripe.prices.update(
+        'price_1NqH57BS0WI8pkbjdepHU6kN',
+        {livemode: true}
+      );
+    console.log(price) */
+    try {
+        const price = await stripe.prices.create({
+            unit_amount: 10,
+            currency: 'eur',
+            product_data: {
+            name: "Test product created with API"
+            },
+        });
+        
+        const session = await stripe.checkout.sessions.create({
+            mode: 'payment',
+            line_items: [
+            {
+                price: price.id,
+                quantity: 1,
+            },
+            ],
+            success_url: 'http://localhost:3001/api/transaction/stripereturn',
+            cancel_url: 'http://localhost:3001/api/transaction/stripecancel',
+        }, {
+            stripeAccount: "acct_1NqFs4B1Pk7ZIeT9",
+        });
+        
+        // Now you can use the session object
+        console.log("Checkout Session ID:", session.id);
+        return res.send({session: session, price: price})
+    
+    } catch (error) {
+        res.send(error)
+        console.error("Error:", error.message);
+        
+    }
+    
 }

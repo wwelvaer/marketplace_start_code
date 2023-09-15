@@ -1,0 +1,3 @@
+module.exports = {
+    STRIPE_API_KEY: 'sk_test_51NqAjgBS0WI8pkbjQrlUYq8W34snWGW8igJHoXuOt64nyhQ5Y3PTPuSa5z4jCzO19CUWLW3r4Db58JFeYc8pL17x00HI0PNxBW'
+}

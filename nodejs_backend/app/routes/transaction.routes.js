@@ -44,4 +44,26 @@ module.exports = function(app) {
       "/api/transaction",
       controller.getTransaction
     );
+
+
+
+    app.get(
+      "/api/transaction/stripetest",
+      controller.stripeTest
+    );
+
+    app.get(
+      "/api/transaction/stripereturn",
+      controller.stripeReturn
+    );
+
+    app.get(
+      "/api/transaction/stripecancel",
+      controller.stripeCancel
+    );
+
+    app.get(
+      "/api/transaction/stripecheckout",
+      controller.stripeCheckout
+    );
   };
