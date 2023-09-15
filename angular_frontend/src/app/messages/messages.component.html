@@ -1,16 +1,24 @@
 <div class="container-fluid" style="max-width: none;">
     <div class="row">
-        <div class="col" style="max-width: 300px;">
+        <div *ngIf="selected < 0 || !focus" class="col" style="max-width: 300px;">
             <h1>Messages</h1>
         </div>
 
-        <div class="col" style="text-align: center;">
-            <h1>{{ selectedUserName }}</h1>
+        <div *ngIf="selected >= 0 || !focus" class="col row">
+            <div class="col-auto" *ngIf="focus">
+                <button class="btn btn-secondary-outline" (click)="selected = -1" style="border-radius: 100%;">
+                    <mat-icon style="vertical-align: middle;">keyboard_arrow_left</mat-icon>
+                </button>
+            </div>
+            <div class="col" style="text-align: center;">
+                <h1>{{ selectedUserName }}</h1>
+            </div>
         </div>
+        
     </div>
     <div class="row" style="height:85vh">
 
-      <div class="col" style="padding-left: 0px;max-width: 300px;">
+      <div *ngIf="selected < 0 || !focus" class="col" style="padding-left: 0px;max-width: 300px;">
 
         <!-- Last Messages Window -->
         <ul class="list-group">
@@ -29,7 +37,7 @@
         </ul>
       </div>
 
-      <div class="col">
+      <div class="col" *ngIf="selected >= 0 || !focus">
 
         <!-- Chat Window -->
         <div class="card" style="height:100%">
