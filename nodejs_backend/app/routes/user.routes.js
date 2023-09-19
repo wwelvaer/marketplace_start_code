@@ -32,4 +32,15 @@ module.exports = function(app) {
     "/api/userPicture",
     controller.getProfilePicture
   );
+
+  app.get(
+    "/api/user/userrating",
+    [authJwt.verifyToken],
+    controller.getUserRating
+  )
+
+  app.get(
+    "/api/user/sellerrating",
+    controller.getSellerRating
+  )
 };

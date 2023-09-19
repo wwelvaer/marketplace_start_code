@@ -199,6 +199,16 @@
         <!-- Seller -->
         <p>
           <b>Seller: </b>{{listing.userName}}
+          <ngb-rating *ngIf="ps.properties['Review System'].includes('By Customer of Provider') && sellerScore !== 0" max=5 [(rate)]="sellerScore" readonly="true">
+            <ng-template let-fill="fill" let-index="index">
+              <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
+                <span class="rating-star-front" [style]="'width:' + fill + '%'">
+                  &#9733;
+                </span>
+                &#9733;
+              </span>
+            </ng-template>
+          </ngb-rating>
         </p>
 
         <!-- Categories -->
