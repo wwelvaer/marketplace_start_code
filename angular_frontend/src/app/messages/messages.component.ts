@@ -147,7 +147,7 @@ export class MessagesComponent {
   }
 
   simplifyDate(d: string){
-    return d.split("T").join(" ").split(".")[0]
+    return d.split("T")[0]
   }
 }
 

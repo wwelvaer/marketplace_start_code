@@ -378,6 +378,25 @@ export class DbConnectionService {
     return this.http.post(`${this.url}/api/booking`, fields, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
+  /**
+   * get average review score for seller
+   * @param userID userID
+   * @returns http response promise
+   */
+  getSellerRating(userID: number){
+    return this.http.get(`${this.url}/api/user/sellerrating?id=${userID}`).toPromise()
+  }
+
+  /**
+   * get average review score for user
+   * @param userToken web token
+   * @param userID userID
+   * @returns http response promise
+   */
+  getUserRating(userToken: string, userID: number){
+    return this.http.get(`${this.url}/api/user/userrating?id=${userID}`, {headers: this.getTokenHeader(userToken)}).toPromise()
+  }
+
 
   getTaxonomy() {
     const params = { company: this.companyService.companyName };

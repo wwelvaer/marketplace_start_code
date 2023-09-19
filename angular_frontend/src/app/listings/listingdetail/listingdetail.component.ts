@@ -30,6 +30,7 @@ export class ListingDetailComponent implements OnInit {
   transactions = [];
   reviews = [];
   avgScore: number = 0;
+  sellerScore: number = 0;
   selectedTab = ""; // ["info", "reviews", "transactions"]
   loading = 0; // #asynchronous tasks running
 
@@ -155,6 +156,12 @@ export class ListingDetailComponent implements OnInit {
             // if listing if made by logged in user show transactions
             if (this.listing['userID'] === this.user.getId())
               this.loadTransactions();
+            this.ps.properties['Review System'].push('By Customer of Provider')
+            if (this.ps.properties['Review System'].includes('By Customer of Provider')){
+              this.db.getSellerRating(this.listing['userID']).then(r => {
+                this.sellerScore = r['sellerScore']
+              })
+            }
           })
         })
         .catch(err => this.error = err.error.message);

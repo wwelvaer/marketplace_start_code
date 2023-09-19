@@ -1,4 +1,5 @@
 const db = require("../models");
+const Sequelize = require('sequelize');
 const User = db.User;
 var bcrypt = require("bcryptjs");
 
@@ -118,4 +119,34 @@ exports.getProfilePicture = (req, res) => {
             return res.status(404).send({ message: "No user matching webtoken found"});
         res.send({profilePicture: u.profilePicture})
     })
+}
+
+/**
+ * expected param in query
+ * @param id userID 
+ */
+exports.getUserRating = (req, res) => {
+    db.sequelize.query(
+        `SELECT IFNULL(AVG(score),0) AS sellerScore FROM Review INNER JOIN Transaction USING(transactionID) WHERE customerID = ${req.query.id} AND reviewtype='user';`,
+        { type: Sequelize.QueryTypes.SELECT }
+    ).then(r => {
+        res.send(r[0])
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+}
+
+/**
+ * expected param in query
+ * @param id userID 
+ */
+exports.getSellerRating = (req, res) => {
+    db.sequelize.query(
+        `SELECT IFNULL(AVG(score),0) AS sellerScore FROM Review INNER JOIN Transaction USING(transactionID) INNER JOIN Listing USING(ListingID) WHERE userID = ${req.query.id} AND reviewtype='listing';`,
+        { type: Sequelize.QueryTypes.SELECT }
+    ).then(r => {
+        res.send(r[0])
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
 }

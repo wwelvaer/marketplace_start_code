@@ -45,17 +45,17 @@
 
                 <!-- Chat -->
                 <ul #chat class="list-group overflow-auto" style="max-height: 81vh">
-                    <li *ngFor="let m of messages" class="list-group-item no-border">
+                    <li *ngFor="let m of messages; index as i" class="list-group-item no-border">
+                        <!-- Date -->
+                        <div class="row" *ngIf="i === 0 || (simplifyDate(m.createdAt) !== simplifyDate(messages[i-1].createdAt))" style="text-align: center;">
+                            <small>{{ simplifyDate(m.createdAt) }}</small>
+                        </div>
                         <div class="row">
                             <!-- Message -->
                             <div class="col d-flex" [class.flex-row-reverse]="m.senderID !== selected">
                                 <p class="message">
                                     {{ m.message }}
                                 </p>
-                            </div>
-                            <!-- Date -->
-                            <div class="col" style="max-width: 100px;">
-                                <small>{{ simplifyDate(m.createdAt) }}</small>
                             </div>
                         </div>
                     </li>
