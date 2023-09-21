@@ -21,12 +21,12 @@ export class MessagesComponent {
   locked: boolean = false;
   scrollToBottomNeeded: boolean = false;
 
-  timeToRefresh = 1000; // time in ms
+  timeToRefresh = 1000; // interval for data refreshing, time in ms
   interval;
 
   focus: boolean = false;
 
-
+  // enter focus mode when screen width is smaller than 1000 pixels
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.focus = window.innerWidth < 1000;
@@ -51,6 +51,7 @@ export class MessagesComponent {
     }        
   }
 
+  // scrolls to bottom of chat
   scrollToBottom(): void {
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
@@ -66,12 +67,14 @@ export class MessagesComponent {
       let uId = qMap['params'].id;
       if (uId){
         this.db.getUserData(uId, this.user.getLoginToken()).then(l => {
+          // enter focus mode when id is given
           this.focus = true;
           this.selected = parseInt(uId);
           this.selectedUserName = l['userName'];
           this.fetchMessages();
         })
       } else {
+        // reset variables
         this.focus = false;
         this.selected = 1;
         this.messages = [];
@@ -86,6 +89,7 @@ export class MessagesComponent {
     clearInterval(this.interval)
   }
 
+  // open chat window
   selectPerson(message: Message){
     if (this.locked)
       return;
@@ -99,12 +103,16 @@ export class MessagesComponent {
     this.message = "";
   }
 
+  // update data
   fetchMessages(){
+    // fetch last messages
     this.db.getLastMessages(this.user.getLoginToken()).then(r => this.lastMessages = r['messages']);
     if (this.selected < 0)
       return;
+    // fetch messages from open chat
     this.db.getMessages(this.user.getLoginToken(), this.selected).then(r => {
       let m = r['messages'];
+      // add message and scroll to bottom when new messages are fetched
       if (m.length > this.messages.length){
         for (let i = this.messages.length; i < m.length; i++)
           this.messages.push(m[i]);
@@ -113,6 +121,7 @@ export class MessagesComponent {
     });
   }
 
+  // sends message on "Enter" keypress
   keyPressed(event){
     if(event.key === "Enter")
       this.sendMessage();
@@ -121,8 +130,9 @@ export class MessagesComponent {
   sendMessage(){
     this.locked = true; // safety while sending message
     this.db.postMessage(this.user.getLoginToken(), this.selected, this.message).then(r => {
+      this.message = ""; // clear input field
+      // add new message locally
       let m = r['message'];
-      this.message = "";
       this.messages.push(m);
       m.sender = this.user.getUserName();
       m.receiver = this.selectedUserName;
@@ -132,6 +142,7 @@ export class MessagesComponent {
     })
   }
 
+  // move last message up when sending message
   moveLastMessageUp(m: Message){
     for (let i = 0; i < this.lastMessages.length; i++){
       if (this.lastMessages[i].receiverID === this.selected || this.lastMessages[i].senderID === this.selected){

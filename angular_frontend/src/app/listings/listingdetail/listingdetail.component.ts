@@ -31,14 +31,20 @@ export class ListingDetailComponent implements OnInit {
   reviews = [];
   avgScore: number = 0;
   sellerScore: number = 0;
+  sellerReviewAmount: number = 0;
   selectedTab = ""; // ["info", "reviews", "transactions"]
   loading = 0; // #asynchronous tasks running
+
+  rating: number = 0; // selected rating for review
+  selectedTransactionForReview: number = -1;
+  reviewForm: UntypedFormGroup;
 
   loadedBookings: number[] = [0, 0]; // [month, year]
   bookings = [];
   selectedDateRange: DateRange<Date>;
   selectedDate: Date;
 
+  // custom date selection for booking
   _onSelectedChange(date: Date): void {
     this.selectedDate = date;
     if (
@@ -56,6 +62,7 @@ export class ListingDetailComponent implements OnInit {
     }
   }
 
+  // function to handle styling of dates in booking calendar
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     // Only highlight dates inside the month view.
     if (view === 'month') {
@@ -69,6 +76,7 @@ export class ListingDetailComponent implements OnInit {
         });
         this.loadedBookings = [cellDate.getMonth() + 1, cellDate.getFullYear()];
       }
+      // when date in cell occurs in existing booking change color
       let cellDateUTC = Date.UTC(cellDate.getFullYear(), cellDate.getMonth(), cellDate.getDate());
       for (let i = 0; i < this.bookings.length; i++){
         let startDate = this.customToDate(this.bookings[i]['startDate']);
@@ -80,17 +88,20 @@ export class ListingDetailComponent implements OnInit {
     return '';
   };
 
+  // string to Date without conflicting time zones
   private customToDate(date: string){
     let d: number[] = date.split("-").map(x => parseInt(x))
     return Date.UTC(d[0], d[1]-1, d[2]);
   }
 
+  // to string fixing js tostring timezone bug
   private dateToYYYYMMDDformat(date: Date){
     const offset = date.getTimezoneOffset()
     let newDate = new Date(date.getTime() - (offset*60*1000))
     return newDate.toISOString().split('T')[0]
   }
 
+  // bookings to array of strings for readability
   logBookings(bookings=this.bookings){
     return bookings.map(x => `(${x.startDate}) ${x.startTime} - ${x.endTime} (${x.endDate})`)
   }
@@ -99,6 +110,7 @@ export class ListingDetailComponent implements OnInit {
     return parseInt(this.listing['price']) * this.getTotalServiceAssets()
   }
 
+  // calculate selected amount of assets of service
   private getTotalServiceAssets(){
     if (this.ps.properties['Time Unit'].includes('Hour'))
       return parseInt(this.form.get('amountOfHours').value)
@@ -126,14 +138,13 @@ export class ListingDetailComponent implements OnInit {
         startTime: new UntypedFormControl(),
         amountOfHours: new UntypedFormControl(1)
       });
+
+      this.reviewForm = new UntypedFormGroup({
+        comment: new UntypedFormControl('')
+      });
     }
 
   ngOnInit(): void {
-
-    /* this.db.getProperties().then (r => {
-      this.properties = r
-      }
-    ); */
     // get url query params
     this.route.params.subscribe(params => {
       this.error = "";
@@ -156,10 +167,10 @@ export class ListingDetailComponent implements OnInit {
             // if listing if made by logged in user show transactions
             if (this.listing['userID'] === this.user.getId())
               this.loadTransactions();
-            this.ps.properties['Review System'].push('By Customer of Provider')
             if (this.ps.properties['Review System'].includes('By Customer of Provider')){
               this.db.getSellerRating(this.listing['userID']).then(r => {
-                this.sellerScore = r['sellerScore']
+                this.sellerScore = r['sellerScore'];
+                this.sellerReviewAmount = r['reviewAmount'];
               })
             }
           })
@@ -193,12 +204,13 @@ export class ListingDetailComponent implements OnInit {
     this.loading += 1;
     this.db.getListingTransactions(this.listing['listingID'], this.user.getLoginToken())
       .then(b => {
+        // sort by transactionID
+        b['transactions'].sort((a, b) => b['transactionID'] - a['transactionID'])
         this.transactions = b['transactions']
-        console.log(this.transactions)
         this.transactions.forEach(t => {
-          this.db.getUserReviews(t['customerID']).then(r => {
-            t['userReviews'] = r['reviews']
-            t['userScore'] = r['score']
+          this.db.getUserRating(this.user.getLoginToken(), t['customerID']).then(r => {
+            t['userRatingCount'] = r['reviewAmount']
+            t['userRating'] = r['userRating']
           });
           
           // load bookings when applicable
@@ -234,7 +246,8 @@ export class ListingDetailComponent implements OnInit {
     // add listingID to form values
     values['listingID'] = this.listing['listingID'];
     this.db.createTransaction(this.user.getLoginToken(), values).then(r => {
-      console.log(r)
+
+      // Create Booking after transaction has been created
       if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
         let fields = {'transactionID': r['transactionID']};
         if (this.ps.properties['Time Unit'].includes('Day')){
@@ -242,10 +255,12 @@ export class ListingDetailComponent implements OnInit {
           fields['endDate'] = this.dateToYYYYMMDDformat(this.selectedDateRange.end);
         } else {
           fields['startDate'] = this.dateToYYYYMMDDformat(this.selectedDate);
+          // calculate end date
           let endDate = new Date(this.selectedDate);
           endDate.setHours(values['startTime'].split(":")[0])
           endDate.setMinutes(values['startTime'].split(":")[1])
           endDate.setTime(endDate.getTime() + (values['amountOfHours']*60*60*1000))
+
           fields['endDate'] = this.dateToYYYYMMDDformat(endDate);
           fields['startTime'] = values['startTime'];
           fields['endTime'] = `${endDate.getHours()}:${endDate.getMinutes()}`
@@ -291,7 +306,32 @@ export class ListingDetailComponent implements OnInit {
     }).catch(r => this.error = r.error.message)
   }
 
+  // open message page to owner of listing
   contactOwner(){
     this.router.navigateByUrl(`/messages?id=${this.listing['userID']}`)
+  }
+
+  // post review on selected User
+  postReview(){
+    let v = this.reviewForm.getRawValue();
+    v['score'] = this.rating;
+    this.db.postReview(this.user.getLoginToken(), this.selectedTransactionForReview, v).then(r => {
+      this.resetReviewForm();
+      this.loadTransactions();
+    })
+  }
+
+  // clears input in review form
+  resetReviewForm(){
+    this.selectedTransactionForReview = -1;
+    this.rating = 0;
+    this.reviewForm.setValue({comment: ""})
+  }
+
+  // save booking info
+  saveBookingInfo(booking){
+    this.db.addBookingInfo(this.user.getLoginToken(), {bookingID: booking['bookingID'], info: booking['info']}).then(r => {
+      console.log(r)
+    })
   }
 }

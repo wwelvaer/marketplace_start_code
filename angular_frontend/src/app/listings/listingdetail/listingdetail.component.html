@@ -15,7 +15,7 @@
       </div>
 
       <!-- Action buttons -->
-      <div class="col-auto" *ngIf="user.getId() === listing.userID && listing.status !== 'cancelled'">
+      <div class="col text-end" *ngIf="user.getId() === listing.userID && listing.status !== 'cancelled'">
         <div class="btn-group" role="group">
 
           <!-- Edit Listing -->
@@ -57,6 +57,8 @@
               [selected]="ps.properties['Time Unit'].includes('Day') ? selectedDateRange : selectedDate">
               </mat-calendar>
             </mat-card>
+
+            <!-- Shows already occupied hours -->
             <div *ngIf="ps.properties['Time Unit'].includes('Hour')">
               Scheduled bookings:
               <p *ngFor="let b of logBookings()" style="margin: 0">
@@ -199,16 +201,19 @@
         <!-- Seller -->
         <p>
           <b>Seller: </b>{{listing.userName}}
-          <ngb-rating *ngIf="ps.properties['Review System'].includes('By Customer of Provider') && sellerScore !== 0" max=5 [(rate)]="sellerScore" readonly="true">
-            <ng-template let-fill="fill" let-index="index">
-              <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
-                <span class="rating-star-front" [style]="'width:' + fill + '%'">
+          <span *ngIf="ps.properties['Review System'].includes('By Customer of Provider') && sellerReviewAmount !== 0">
+            <ngb-rating max=5 [(rate)]="sellerScore" readonly="true">
+              <ng-template let-fill="fill" let-index="index">
+                <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
+                  <span class="rating-star-front" [style]="'width:' + fill + '%'">
+                    &#9733;
+                  </span>
                   &#9733;
                 </span>
-                &#9733;
-              </span>
-            </ng-template>
-          </ngb-rating>
+              </ng-template>
+            </ngb-rating>
+            ({{ sellerReviewAmount }})
+          </span>
         </p>
 
         <!-- Categories -->
@@ -263,97 +268,184 @@
 
       <!-- Transactions Tab-->
       <div *ngIf="selectedTab === 'transactions'" id='transactions'>
-
-        <!-- Transactions-->
+        
         <div *ngIf="transactions.length > 0">
-          <table class="table">
-            <thead class="thead-light">
-              <!-- Table headers -->
-              <tr>
-                <th scope="col">Created At</th>
-                <th scope="col">Customer</th>
-                <th scope="col" *ngIf="!ps.properties['Quantity'].includes('One')">Quantity</th>
-                <th scope="col" *ngIf="ps.properties['Listing Type'].includes('Physical Good')">Address</th>
-                <th scope="col" *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">Bookings</th>
-                <th scope="col">Price</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
-              </tr>
+          <!-- Transaction Card -->
+          <div [class]="'card bg-' + t.status" *ngFor="let t of transactions" style="margin-bottom: 5px;">
+            
+            <!-- Customer (with user score ) + Status -->
+            <h5 class="card-title" style="margin-left: 5px">
+              <div class="row">
+                <div class="col">
+                  <!-- Customer -->
+                  {{t.User.userName}}
 
-            </thead>
-            <tbody>
-              <tr *ngFor="let b of transactions">
-
-                <!-- Time -->
-                <td>{{b.createdAt.split('T').join(' ').split(':').slice(0, -1).join(':')}}</td>
-
-                <!-- Customer -->
-                <th scope="row">
-                  {{b.User.userName}}
-
-                  <!-- When user has score (NOT YET IMPLEMENTED)-->
-                  <ngb-rating max=5 [(rate)]="b.userScore" readonly="true" *ngIf="b.userScore !== 0">
-                    <ng-template let-fill="fill" let-index="index">
-                      <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
-                        <span class="rating-star-front" [style]="'width:' + fill + '%'">
+                  <!-- When user has score -->
+                  <ng-container *ngIf="ps.properties['Review System'].includes('By Provider') && t.userRating !== 0">
+                    <ngb-rating max=5 [(rate)]="t.userRating" readonly="true">
+                      <ng-template let-fill="fill" let-index="index">
+                        <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
+                          <span class="rating-star-front" [style]="'width:' + fill + '%'">
+                            &#9733;
+                          </span>
                           &#9733;
                         </span>
-                        &#9733;
-                      </span>
-                    </ng-template>
-                  </ngb-rating>
-                  <span *ngIf="b.userScore && b.userScore !== 0">({{b.userReviews.length}})</span>
-
-                </th>
-
-                <!-- # Assets -->
-                <td *ngIf="!ps.properties['Quantity'].includes('One')">{{b.numberOfAssets}}</td>
-
-                <!-- Address -->
-                <td *ngIf="ps.properties['Listing Type'].includes('Physical Good')">{{b.sendAddress}}</td>
-
-                <!-- Bookings -->
-                <td *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
-                  <p *ngFor="let x of logBookings(b['bookings'])" style="margin: 0">
-                    {{ x }}
-                  </p>
-                </td>
-
-                <!-- Price -->
-                <td *ngIf="ps.properties['Price Discovery'].includes('By Quantity')">€{{b.numberOfAssets * b.price}}</td>
-                <td *ngIf="!ps.properties['Price Discovery'].includes('By Quantity')">€{{b.price}}</td>
+                      </ng-template>
+                    </ngb-rating>
+                    ({{t.userRatingCount}})
+                  </ng-container>
+                </div>
 
                 <!-- Status -->
-                <td>{{b.status}}</td>
+                <div [class]="'col text-end text-' + t.status" style="margin-right: 5px;">
+                  {{t.status.toUpperCase()}}
+                </div>
+              </div>
+            </h5>
 
-                <!-- Actions -->
-                <td>
-                  <div class="btn-group" role="group" *ngIf="b.status !== 'cancelled'">
+            <!-- Transaction Info -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <!-- Price -->
+                  <div>
+                    Price: <b>€{{t.price}}</b>
+                  </div>
+                  <!-- Created at -->
+                  <div>
+                    Created At: <b>{{t.createdAt.split('T').join(' ').split(':').slice(0, -1).join(':')}}</b>
+                  </div>
+                  <!-- Quantity -->
+                  <div *ngIf="!ps.properties['Quantity'].includes('One')">
+                    Quantity: {{b.numberOfAssets}}
+                  </div>
+                  <!-- Address -->
+                  <div *ngIf="ps.properties['Listing Type'].includes('Physical Good')">
+                    Address: {{b.sendAddress}}
+                  </div>
+                </div>
 
+                <!-- Actions on transaction -->
+                <div class="col text-end">
+                  <div class="btn-group" role="group" *ngIf="t.status !== 'cancelled'">
+  
                     <!-- Confirm Payment-->
-                    <button *ngIf="b.status !== 'payed'" class="btn btn-lg btn-success"
-                      (click)="confirmPayment(b.transactionID)">
+                    <button *ngIf="t.status !== 'payed'" class="btn btn-success"
+                      (click)="confirmPayment(t.transactionID)">
                       Confirm Payment
                     </button>
 
+                    <!-- Review User -->
+                    <button *ngIf="ps.properties['Review System'].includes('By Provider') && t.status === 'payed' && t.reviewable" class="btn btn-success"
+                      (click)="selectedTransactionForReview = t.transactionID">
+                      Review User
+                    </button>
+
                     <!-- Cancel Transaction-->
-                    <button class="btn btn-lg btn-danger" (click)="cancelTransaction(b.transactionID)">
-                      Cancel
+                    <button class="btn btn-danger" (click)="cancelTransaction(t.transactionID)">
+                      Cancel Transaction
                     </button>
 
                   </div>
-                </td>
+                </div>
+              </div>
+              
+              <!-- Bookings on transaction-->
+              <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
+                Bookings:
+                <table class="table" *ngIf="t.bookings && t.bookings.length > 0">
+                  <thead class="thead-light">
+                    <!-- Table headers -->
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th score="col" *ngIf="ps.properties['Time Unit'].includes('Hour')">Time</th>
+                      <th score="col">Info</th>
+                      <th score="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let b of t.bookings">
+                      <!-- Date -->
+                      <td>
+                        {{ b.startDate === b.endDate ? b.startDate : b.startDate + " - " + b.endDate }}
+                      </td>
+                      <!-- Time -->
+                      <td *ngIf="ps.properties['Time Unit'].includes('Hour')">
+                        {{ b.startTime }} - {{ b.endTime }}
+                      </td>
+                      <!-- Info -->
+                      <td>
+                        <textarea class="form-control" [(ngModel)]="b.info" placeholder="Enter Info" rows="3"></textarea>
+                      </td>
+                      <!-- Add Info Button -->
+                      <td>
+                        <button class="btn btn-info"
+                          (click)="saveBookingInfo(b)">
+                          Update info
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
-              </tr>
-            </tbody>
-          </table>
+                <!-- No bookings -->
+                <div *ngIf="!t.bookings || t.bookings.length === 0">
+                  <b>No Bookings On this transaction</b>
+                </div>
+              </div>
+
+              <!-- Review User Form -->
+              <div *ngIf="selectedTransactionForReview === t.transactionID">
+                <form [formGroup]="reviewForm" (ngSubmit)="postReview()">
+  
+                  <!-- Title + Rating -->
+                  <h4>
+                    Review {{ t.User.userName }}:
+                    <!-- Rating -->
+                    <ngb-rating max=5 [(rate)]="rating" (hover)="hoverRating = $event" (leave)="hoverRating = 0">
+                      <ng-template let-fill="fill" let-index="index">
+                        <span
+                          [style]="'font-size: 50px;color: ' + (index < hoverRating && index >= rating ? '#FAB81E': index < hoverRating ? 'orange' : index >= rating ? 'gray' : '#FFC300')">
+                          &#9733;
+                        </span>
+                      </ng-template>
+                    </ngb-rating>
+                  </h4>
+  
+                  <!-- Comment -->
+                  <div class="form-group">
+                    <label for="textareaComment">
+                      Comment (optional)
+                    </label>
+                    <textarea class="form-control" id="textareaComment" placeholder="Enter comment" rows="3"
+                      formControlName="comment">
+                  </textarea>
+                  </div>
+  
+                  <!-- Actions -->
+                  <div class="btn-group" role="group">
+  
+                    <!-- Cancel reviewing -->
+                    <button type="button" class="btn btn-danger" (click)="resetReviewForm()">
+                      Cancel Review
+                    </button>
+  
+                    <!-- Post review -->
+                    <button class="btn btn-success" [disabled]="rating === 0">
+                      Post Review
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
         </div>
-
+        
         <!-- No Transactions -->
         <div *ngIf="transactions.length === 0">
           No one has make a transaction yet
-        </div>
-
+        </div> 
       </div>
 
     </div>

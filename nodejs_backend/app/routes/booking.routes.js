@@ -34,6 +34,9 @@ module.exports = function(app) {
       controller.createBooking
     );
 
-    //temp
-    app.get("/api/booking/delete", controller.deleteBooking);
+    app.post(
+      "/api/booking/info",
+      [authJwt.verifyToken],
+      controller.updateBookingInfo
+    )
 }

@@ -62,15 +62,41 @@
                               <div *ngIf="!ps.properties['Price Calculation']?.includes('By Quantity')">Price: <b>€{{t.price}}</b></div>
                               <div *ngIf="ps.properties['Price Calculation']?.includes('By Quantity')"> Total Price: <b>€{{t.price * t.numberOfAssets}}</b></div>
                               <div>Status: <b>{{t.status}}</b></div>
-                              <div *ngIf="ps.properties['Listing Type']?.includes('Digital Service')"><a href="{{t.Listing.link}}">Meeting Link</a></div>
+                              <!-- div *ngIf="ps.properties['Listing Type']?.includes('Digital Service')"><a href="{{t.Listing.link}}">Meeting Link</a></div -->
                               <div *ngIf="ps.properties['Listing Type']?.includes('Physical Good')">Address: <b>{{t.sendAddress}}</b></div>
                               <div *ngIf="ps.properties['Listing Type']?.includes('Digital Good')"><a style="cursor:pointer;" [routerLink]="['/transactions', 'details', t.transactionID]">Event File</a></div>
                               <div *ngIf="ps.properties['Listing Kind'].includes('Service') && ps.properties['Frequency'].includes('Recurring')">
                                 Bookings:
-                                <div *ngIf="t['bookings']">
-                                  <p *ngFor="let b of logBookings(t['bookings'])" style="margin: 0">
-                                    <b>{{ b }}</b>
-                                  </p>
+                                <table class="table" *ngIf="t.bookings && t.bookings.length > 0">
+                                  <thead class="thead-light">
+                                    <!-- Table headers -->
+                                    <tr>
+                                      <th scope="col">Date</th>
+                                      <th score="col" *ngIf="ps.properties['Time Unit'].includes('Hour')">Time</th>
+                                      <th score="col">Info</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let b of t.bookings">
+                                      <!-- Date -->
+                                      <td>
+                                        {{ b.startDate === b.endDate ? b.startDate : b.startDate + " - " + b.endDate }}
+                                      </td>
+                                      <!-- Time -->
+                                      <td *ngIf="ps.properties['Time Unit'].includes('Hour')">
+                                        {{ b.startTime }} - {{ b.endTime }}
+                                      </td>
+                                      <!-- Info -->
+                                      <td>
+                                        {{ b.info }}
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                                <!-- No bookings -->
+                                <div *ngIf="!t.bookings || t.bookings.length === 0">
+                                  <b>No Bookings On this transaction</b>
                                 </div>
                               </div>
                             </div>
@@ -90,7 +116,7 @@
 
                             <!-- Review listing -->
                             <button
-                              *ngIf="selectedTransactionForReview !== t.transactionID && ps.properties['Review System'].includes('By Customer')"
+                              *ngIf="selectedTransactionForReview !== t.transactionID && t.reviewable && ps.properties['Review System'].includes('By Customer')"
                               class="btn btn-success"
                               (click)="selectedTransactionForReview = t.transactionID;form.reset();rating=0;hoverRating=0">
                               Review

@@ -1,11 +1,13 @@
 <div class="container-fluid" style="max-width: none;">
     <div class="row">
+
         <div *ngIf="selected < 0 || !focus" class="col" style="max-width: 300px;">
             <h1>Messages</h1>
         </div>
 
         <div *ngIf="selected >= 0 || !focus" class="col row">
             <div class="col-auto" *ngIf="focus">
+                <!-- Back button for focus mode -->
                 <button class="btn btn-secondary-outline" (click)="selected = -1" style="border-radius: 100%;">
                     <mat-icon style="vertical-align: middle;">keyboard_arrow_left</mat-icon>
                 </button>
@@ -25,7 +27,7 @@
           <li *ngFor="let m of lastMessages" class="list-group-item" style="padding:0px"
             [class.active]="m.receiverID === selected || m.senderID === selected" aria-current="true">
 
-            <!-- Last Message -->
+            <!-- Last Message (in bold when unseen) -->
             <button type="button" class="btn btn-secondary-outline d-inline-block text-truncate" 
                 [style]="'width:100%;height:100%;text-align:left;' + (m.receiverID === user.getId() && !m.viewed ? 'font-weight: bold;' : '')" (click)="selectPerson(m)">
                 <h6>
@@ -46,7 +48,7 @@
                 <!-- Chat -->
                 <ul #chat class="list-group overflow-auto" style="max-height: 81vh">
                     <li *ngFor="let m of messages; index as i" class="list-group-item no-border">
-                        <!-- Date -->
+                        <!-- Date (only show new date) -->
                         <div class="row" *ngIf="i === 0 || (simplifyDate(m.createdAt) !== simplifyDate(messages[i-1].createdAt))" style="text-align: center;">
                             <small>{{ simplifyDate(m.createdAt) }}</small>
                         </div>

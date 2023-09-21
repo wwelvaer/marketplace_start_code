@@ -24,7 +24,7 @@ exports.getUserNotifications = (req, res) => {
         res.status(200).send({notifications: n})
     }).catch(err => {
         res.status(500).send({ message: err.message });
-      });
+    });
 };
 
 /** mark notification as viewed
@@ -45,5 +45,21 @@ exports.markNotificationAsViewed = (req, res) => {
         n.save().then(_ => {
            res.send({message: "Notification marked as viewed successfully"})
         })
-    })
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+}
+
+/** Remove all notifications of logged in user
+ */
+exports.deleteNotifications = (req, res) => {
+    Notification.destroy({
+        where: {
+            userID: req.userId
+        }
+    }).then(r => {
+        res.status(200).send({message: "Notifications deleted successfully", data: r})
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
+    });
 }

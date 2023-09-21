@@ -7,6 +7,22 @@ $detail-window-type-colors: (
   transactions: #ffc107
 );
 
+$status-colors: (
+  reserved: warning,
+  payed: success,
+  cancelled: danger
+);
+
+@each $status, $color in $status-colors {
+  .text-#{$status} {
+    @extend .text-#{$color} !optional;
+  }
+  .bg-#{$status} {
+    @extend .bg-#{$color} !optional;
+    --bs-bg-opacity: 0.3;
+  }
+}
+
 .detail-tab-radio-button {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;

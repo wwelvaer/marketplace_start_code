@@ -303,6 +303,15 @@ export class DbConnectionService {
   }
 
   /**
+   * delete notifications from user
+   * @param userToken web token
+   * @returns http response promise
+   */
+  deleteNotifications(userToken: string){
+    return this.http.delete(`${this.url}/api/notification`, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
+  /**
    * post a review
    * @param transactionID transactionID
    * @param fields
@@ -376,6 +385,18 @@ export class DbConnectionService {
    */
   createBooking(userToken: string, fields: any){
     return this.http.post(`${this.url}/api/booking`, fields, {headers: this.getTokenHeader(userToken)}).toPromise();
+  }
+
+  /**
+   * Add info to booking
+   * @param userToken 
+   * @param fields
+   *   @field bookingID
+   *   @field info
+   * @returns 
+   */
+  addBookingInfo(userToken: string, fields: any){
+    return this.http.post(`${this.url}/api/booking/info`, fields, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
   /**
