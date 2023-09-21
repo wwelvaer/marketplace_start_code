@@ -103,7 +103,12 @@
         </a>
 
         <!-- Dropdown Menu -->
-        <ul class="dropdown-menu" aria-labelledby="notificationsDropdown">
+        <ul class="dropdown-menu overflow-auto" aria-labelledby="notificationsDropdown" style="max-height: 81vh">
+
+          <div *ngIf="notifications.length > 0" class="text-end">
+            <button (click)="deleteNotifications()" class="btn btn-block btn-outline-danger text-center">DELETE ALL</button>
+          </div>
+          
 
           <!-- Notifications -->
           <li *ngFor="let n of notifications">

@@ -112,4 +112,11 @@ export class AppComponent {
   getUnreadNotificationsAmount(): number{
     return this.notifications.filter(x => !x['viewed']).length;
   }
+
+  // delete all notifications
+  deleteNotifications(){
+    this.db.deleteNotifications(this.user.getLoginToken()).then(r => {
+      this.fetchNotifications();
+    })
+  }
 }

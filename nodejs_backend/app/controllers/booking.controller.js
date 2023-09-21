@@ -40,22 +40,6 @@ exports.getBooking = (req, res) => {
     });
 }
 
-// temp
-exports.deleteBooking = (req, res) => {
-    Booking.destroy({
-        where: {
-            bookingID: req.query.id
-        },
-    }).then(r => {
-        res.status(200).send({ message: "Done"})
-    }).catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while deleting booking."
-        });
-    });
-}
-
 /** get bookings on transaction
  * expected Query param:
  * @param id transactionID 
@@ -250,4 +234,41 @@ exports.createBooking = (req, res) => {
     })
 }
 
-// update info on booking (for owner of listing)
+/** update info on booking (for owner of listing)
+ * expected params in body:
+ * @param bookingID
+ * @param info string
+ */
+exports.updateBookingInfo = (req, res) => {
+    Booking.findOne({
+        where: {
+            bookingID: req.body.bookingID
+        },
+        include: {
+            model: Transaction,
+            include: {
+                model: Listing,
+                attributes: ['userID']
+            },
+        }
+    }).then(Booking => {
+        if (!Booking)
+            return res.status(404).send({ message: "Invalid bookingID" })
+        if (Booking.Transaction.Listing.userID !== req.userId)
+            return res.status(401).send({ message: "Only owner of listing can update booking info" });
+        Booking.info = req.body.info;
+        Booking.save().then(r => {
+            res.status(200).send({message: "Added info to booking"})
+        }).catch(err => {
+            res.status(500).send({
+                message:
+                err.message || "Some error occurred while adding info to booking."
+            });
+        });
+    }).catch(err => {
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while fetching booking."
+        });
+    });
+}

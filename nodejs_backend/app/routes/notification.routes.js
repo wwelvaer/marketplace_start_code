@@ -21,4 +21,10 @@ module.exports = function(app) {
       [authJwt.verifyToken],
       controller.markNotificationAsViewed
     );
+
+    app.delete(
+      "/api/notification",
+      [authJwt.verifyToken],
+      controller.deleteNotifications
+    );
   };

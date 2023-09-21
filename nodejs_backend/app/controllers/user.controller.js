@@ -126,8 +126,9 @@ exports.getProfilePicture = (req, res) => {
  * @param id userID 
  */
 exports.getUserRating = (req, res) => {
+    // get average and amount of reviews on User
     db.sequelize.query(
-        `SELECT IFNULL(AVG(score),0) AS sellerScore FROM Review INNER JOIN Transaction USING(transactionID) WHERE customerID = ${req.query.id} AND reviewtype='user';`,
+        `SELECT IFNULL(AVG(score),0) AS userRating, COUNT(score) AS reviewAmount FROM Review INNER JOIN Transaction USING(transactionID) WHERE customerID = ${req.query.id} AND reviewtype='user';`,
         { type: Sequelize.QueryTypes.SELECT }
     ).then(r => {
         res.send(r[0])
@@ -141,8 +142,9 @@ exports.getUserRating = (req, res) => {
  * @param id userID 
  */
 exports.getSellerRating = (req, res) => {
+    // get average and amount of reviews on Listings owned by User
     db.sequelize.query(
-        `SELECT IFNULL(AVG(score),0) AS sellerScore FROM Review INNER JOIN Transaction USING(transactionID) INNER JOIN Listing USING(ListingID) WHERE userID = ${req.query.id} AND reviewtype='listing';`,
+        `SELECT IFNULL(AVG(score),0) AS sellerScore, COUNT(score) AS reviewAmount FROM Review INNER JOIN Transaction USING(transactionID) INNER JOIN Listing USING(ListingID) WHERE userID = ${req.query.id} AND reviewtype='listing';`,
         { type: Sequelize.QueryTypes.SELECT }
     ).then(r => {
         res.send(r[0])

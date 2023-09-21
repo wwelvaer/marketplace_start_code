@@ -64,7 +64,6 @@ export class TransactionsComponent implements OnInit {
   }
 
   postReview() {
-    console.log(this.rating)
     let v = this.form.getRawValue();
     v['score'] = this.rating;
     this.db.postReview(this.user.getLoginToken(), this.selectedTransactionForReview, v).then(r => {
