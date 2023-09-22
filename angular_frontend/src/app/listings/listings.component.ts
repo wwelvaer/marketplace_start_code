@@ -7,6 +7,9 @@ import { UserService } from '../services/user.service';
 import { PropertyAccessChain } from 'typescript';
 import { CompanyService } from '../services/company.service';
 import { Platform } from '@angular/cdk/platform';
+import { PropertiesService } from '../services/properties.service';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 /**
  *  Component is used to display listings
@@ -26,7 +29,6 @@ export class ListingsComponent implements OnInit {
   transactions: boolean = false; // true ->  display transactionInfo; false -> display listingInfo
   // @Input() properties: any;
   // @Input() testMessage = '';
-  properties = {}
   isMobile: boolean;
   loading: boolean = true;
 
@@ -89,6 +91,8 @@ export class ListingsComponent implements OnInit {
       .sort(this.transactions ? (a, b) => 1 : this.sortCols[this.sortCol].sortFunc) // only listings need to be sorted clientside
   }
 
+  map: mapboxgl.Map | undefined;
+
   constructor(
     private db: DbConnectionService,
     private user: UserService,
@@ -96,6 +100,7 @@ export class ListingsComponent implements OnInit {
     public image: ImageService,
     public router: Router,
     private platform: Platform,
+    public ps: PropertiesService
   ) {
     this.form = new UntypedFormGroup({
       comment: new UntypedFormControl('')
@@ -106,11 +111,6 @@ export class ListingsComponent implements OnInit {
     this.loading = true;
 
     this.isMobile = this.platform.ANDROID || this.platform.IOS;
-
-    this.db.getProperties().then (r => {
-      this.properties = r
-      }
-    );
     
     // get categories
     this.db.getCategories().then(r => {
@@ -120,12 +120,53 @@ export class ListingsComponent implements OnInit {
         
       }))])
     })
+
+    
     
     this.db.getActiveListings().then(l => {
       this.listings = l['listings']
       this.hasCancelled = false;
       this.loading = false;
+
+      if (this.ps.properties['Listing Type'].includes('Offline Service'))
+        this.renderMap();
     })
+  }
+
+  async renderMap(){
+    this.map = undefined;
+    let coords = [];
+    for (const l of this.listings){
+      if (l['location']){
+        let r = await this.db.geoLocate(l['location'])
+        let c = r['features'][0]['center']
+        if (!this.map){
+          this.map = new mapboxgl.Map({
+            accessToken: environment.mapbox.accessToken,
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            zoom: 13,
+            center: c
+          });
+        }
+        coords.push(c)
+        // add markers
+        let m = new mapboxgl.Marker().setLngLat(c).addTo(this.map)
+        // add click event
+        m.getElement().addEventListener('click', () => {
+          // navigate to listing
+          this.router.navigateByUrl(`/listings/details/${l['listingID']}`)
+        });
+      }
+    }
+
+    // fit all markers on map
+    const bounds = new mapboxgl.LngLatBounds(coords[0],coords[0]);
+    for (const coord of coords)
+      bounds.extend(coord);
+    this.map.fitBounds(bounds, {
+      padding: 50
+    });
   }
 
   formatCategories(categories: string): string {

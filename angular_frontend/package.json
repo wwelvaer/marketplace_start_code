@@ -24,6 +24,7 @@
     "@angular/router": "~16.2.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",
     "jquery": "^3.7.0",
+    "mapbox-gl": "^2.15.0",
     "ngx-cookie-service": "^16.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

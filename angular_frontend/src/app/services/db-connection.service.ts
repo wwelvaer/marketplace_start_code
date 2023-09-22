@@ -483,6 +483,12 @@ export class DbConnectionService {
     });
   }
   
+
+
+  geoLocate(place){
+    return this.http.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?access_token=${environment.mapbox.accessToken}`).toPromise()
+  }
+
 }
 
 

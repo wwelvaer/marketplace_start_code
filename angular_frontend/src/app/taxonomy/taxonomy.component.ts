@@ -178,10 +178,10 @@ export class TaxonomyComponent implements OnInit {
 
   async fetchCompany() {
     this.companyName = this.companyService.companyName
-    // console.log(this.companyService.companyName)
-    this.db.createCompany({company: this.companyName})
-    await this.db.executeQuery('update Company set selected = false where selected = true')
-    await this.db.executeQuery(`update Company set selected = true where name = '${this.companyService.companyName}'`)
+    console.log(this.companyService.companyName)
+    this.db.createCompany({company: this.companyName}).then(console.log)
+    this.db.executeQuery('update Company set selected = false where selected = true').then(console.log)
+    this.db.executeQuery(`update Company set selected = true where name = '${this.companyService.companyName}'`).then(console.log)
     this.fetchTaxonomy();
   }
 

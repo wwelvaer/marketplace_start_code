@@ -8,6 +8,8 @@ import { PropertiesService } from 'src/app/services/properties.service';
 import { ListingModule } from '../listing.module';
 import { DateRange, DefaultMatCalendarRangeStrategy, MAT_DATE_RANGE_SELECTION_STRATEGY, MatCalendar, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { promise } from 'protractor';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-detail',
@@ -43,6 +45,24 @@ export class ListingDetailComponent implements OnInit {
   bookings = [];
   selectedDateRange: DateRange<Date>;
   selectedDate: Date;
+
+  map: mapboxgl.Map | undefined;
+  coords: number[] = [];
+
+  ngAfterViewChecked(){
+    if (this.listing && !this.map && this.listing['location'] && document.getElementById('map') && this.coords.length > 0){
+      this.map = new mapboxgl.Map({
+        accessToken: environment.mapbox.accessToken,
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        zoom: 13,
+        center: this.coords
+      });
+      const marker = new mapboxgl.Marker()
+        .setLngLat(this.coords)
+        .addTo(this.map);
+    }
+  }
 
   // custom date selection for booking
   _onSelectedChange(date: Date): void {
@@ -145,6 +165,7 @@ export class ListingDetailComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    console.log(this.ps.properties)
     // get url query params
     this.route.params.subscribe(params => {
       this.error = "";
@@ -171,6 +192,13 @@ export class ListingDetailComponent implements OnInit {
               this.db.getSellerRating(this.listing['userID']).then(r => {
                 this.sellerScore = r['sellerScore'];
                 this.sellerReviewAmount = r['reviewAmount'];
+              })
+            }
+
+            if (this.listing['location']){
+              this.db.geoLocate(this.listing['location']).then(r => {
+                console.log(r)
+                this.coords = r['features'][0]['center']
               })
             }
           })

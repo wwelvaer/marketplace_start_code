@@ -194,9 +194,13 @@
         </p>
 
         <!-- Location -->
-        <p *ngIf="listing.location">
+        <div *ngIf="listing.location">
           <b>Location: </b>{{listing.location}}
-        </p>
+
+          <div class="map" id="map" style="height:500px"></div>
+
+        </div>
+        
 
         <!-- Seller -->
         <p>
@@ -281,7 +285,7 @@
                   {{t.User.userName}}
 
                   <!-- When user has score -->
-                  <ng-container *ngIf="ps.properties['Review System'].includes('By Provider') && t.userRating !== 0">
+                  <ng-container *ngIf="ps.properties['Review System'].includes('By Provider') && t.userRatingCount !== 0">
                     <ngb-rating max=5 [(rate)]="t.userRating" readonly="true">
                       <ng-template let-fill="fill" let-index="index">
                         <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
@@ -316,12 +320,12 @@
                     Created At: <b>{{t.createdAt.split('T').join(' ').split(':').slice(0, -1).join(':')}}</b>
                   </div>
                   <!-- Quantity -->
-                  <div *ngIf="!ps.properties['Quantity'].includes('One')">
-                    Quantity: {{b.numberOfAssets}}
+                  <div *ngIf="ps.properties['Quantity'].includes('Many')">
+                    Quantity: <b>{{ t.numberOfAssets }}</b>
                   </div>
                   <!-- Address -->
                   <div *ngIf="ps.properties['Listing Type'].includes('Physical Good')">
-                    Address: {{b.sendAddress}}
+                    Address: <b>{{ t.sendAddress }}</b>
                   </div>
                 </div>
 

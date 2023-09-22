@@ -1,4 +1,4 @@
-<div style="margin: 10px;">
+<div style="margin: 10px;" *ngIf="ps.properties">
   <div class="row" *ngIf="filteredListings() as lst">
 
     <!-- Left column -->
@@ -7,7 +7,7 @@
         <div class="card-body">
           <h2>Filter by</h2>
           <!-- Calendar -->
-          <div *ngIf="properties['Listing Kind']?.includes('Service')">
+          <div *ngIf="ps.properties['Listing Kind'].includes('Service')">
             <mat-card style="width: 100%;padding-top: 0px">
               <mat-calendar [selected]="selected" (selectedChange)="selected = $event">
               </mat-calendar>
@@ -17,6 +17,11 @@
               Clear Date Selection
             </button>
           </div>
+
+          <div *ngIf="ps.properties['Listing Type'].includes('Offline Service')">
+            <div class="map" id="map" style="height:300px"></div>
+          </div>
+
           <!-- Category selection -->
           <div *ngFor="let category of categories">
             <!-- Category name -->
@@ -182,7 +187,7 @@
               <div class="row no-gutters">
 
                 <!-- Image -->
-                <div *ngIf="!properties['Listing Type']?.includes('Digital Good')" class="col-auto" style="cursor:pointer;" [routerLink]="['/listings', 'details', l.listingID]">
+                <div *ngIf="!ps.properties['Listing Type'].includes('Digital Good')" class="col-auto" style="cursor:pointer;" [routerLink]="['/listings', 'details', l.listingID]">
                   <img class="card-img-left" [src]="l.picture ? l.picture : image.getPlaceholderImage()"
                     style="width: 318px;height: 200;" [alt]="l.name">
                 </div>
@@ -207,7 +212,7 @@
                           <div> categories: <b>{{formatCategories(l.categories)}}</b></div>
 
                           <!-- Show average Rating -->
-                          <div *ngIf="l.avgScore && l.reviewAmount && properties['Review System']?.includes('By Customer')">
+                          <div *ngIf="l.avgScore && l.reviewAmount && ps.properties['Review System'].includes('By Customer')">
                             <ngb-rating max=5 [(rate)]="l.avgScore" readonly="true">
                               <ng-template let-fill="fill" let-index="index">
                                 <span [class]="'rating-star-back' + (fill === 100 ? '-filled' : '')">
@@ -221,7 +226,7 @@
                             ({{l.reviewAmount}})
                           </div>
 
-                          <div *ngIf="l.availableAssets && properties['Quantity']?.includes('Many')">Quantity Available: <b>{{l.availableAssets}}</b></div>
+                          <div *ngIf="l.availableAssets && ps.properties['Quantity'].includes('Many')">Quantity Available: <b>{{l.availableAssets}}</b></div>
                           <div *ngIf="l.date">Date: <b>{{l.date}}</b></div>
                           <div *ngIf="l.location">Location: <b>{{l.location}}</b></div>
                           <div *ngIf="l.organisation">Offered by: <b>{{l.organisation}}</b></div>
